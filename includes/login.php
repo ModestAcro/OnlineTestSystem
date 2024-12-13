@@ -7,11 +7,11 @@ if (isset($_POST['login'])) {
     $password = $_POST['password'];
 
     // Proste zapytanie SQL z aliasem 'role'
-    $query = "SELECT email, haslo, 'administrator' AS role FROM tAdministratorzy WHERE email = '$email' AND haslo = '$password'
+    $query = "SELECT email, haslo, imie, nazwisko, 'administrator' AS role FROM tAdministratorzy WHERE email = '$email' AND haslo = '$password'
               UNION
-              SELECT email, haslo, 'student' AS role FROM tStudenci WHERE email = '$email' AND haslo = '$password'
+              SELECT email, haslo, imie, nazwisko, 'student' AS role FROM tStudenci WHERE email = '$email' AND haslo = '$password'
               UNION
-              SELECT email, haslo, 'teacher' AS role FROM tWykladowcy WHERE email = '$email' AND haslo = '$password'";
+              SELECT email, haslo, imie, nazwisko, 'teacher' AS role FROM tWykladowcy WHERE email = '$email' AND haslo = '$password'";
 
     // Wykonanie zapytania
     $result = mysqli_query($conn, $query);
@@ -23,6 +23,9 @@ if (isset($_POST['login'])) {
         // Jeśli znaleziono użytkownika, zapisujemy dane do sesji
         $_SESSION['email'] = $user['email'];
         $_SESSION['role'] = $user['role']; // Rola użytkownika jest teraz w wyniku zapytania
+        $_SESSION['imie'] = $user['imie'];
+        $_SESSION['nazwisko'] = $user['nazwisko'];
+
 
         // Przekierowanie do odpowiedniej strony
         if ($_SESSION['role'] === 'administrator') {
