@@ -20,6 +20,10 @@ Administrator zarządza rejestracją uczniów i nauczycieli.
 - **Rozwiązywanie testów**
 - **Przeglądanie wyników testów**
 
+### Dla administratorów:
+- **Rejestracja użytkowników (nauczycieli i uczniów)**
+- **Zarządzanie użytkownikami (edycja, usuwanie kont)**
+
 ---
 
 ## Technologie
