@@ -3,7 +3,7 @@
     require_once('../../config/connect.php');
 
     // Zapytanie do bazy danych o nauczycieli
-    $teacherInfoQuery = "SELECT imie, nazwisko, email, aktywny, uwagi FROM tWykladowcy";
+    $teacherInfoQuery = "SELECT ID, imie, nazwisko, email, aktywny, uwagi FROM tWykladowcy";
     $teacherInfoResult = mysqli_query($conn, $teacherInfoQuery);
 
     // Liczenie liczby nauczycieli
@@ -41,7 +41,10 @@
         <div class="container">
             <div class="title">
                 <h1>Lista Wykładowców</h1>
-                <button class="btn-with-icon"><img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon"></button>
+                <!-- Przycisk "Dodaj nauczyciela" -->
+                <button class="btn-with-icon" onclick="addTeacher()">
+                    <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
+                </button>
 
                 <!-- Okno modalne -->
                 <div id="addTeacherModal" class="modal">
@@ -80,6 +83,7 @@
                         <th>Email</th>
                         <th>Status</th>
                         <th>Uwagi</th>
+                        <th>Działanie</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,12 +96,17 @@
                                 <?php echo $row['aktywny'] == 'T' ? 'Aktywny' : 'Nieaktywny'; ?>
                             </td>
                             <td><?php echo htmlspecialchars($row['uwagi']); ?></td>
+                            <td>
+                                <!-- Przyciski "Modyfikuj" -->
+                                <button class="edit-btn" onclick="openEditModal(<?php echo $row['ID']; ?>)">Modyfikuj</button>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
         </div>
     </main>    
+    
     <!-- Plik JavaScript --> 
     <script src="../../assets/js/admin/addTeacherModal.js"></script>  
 </body>

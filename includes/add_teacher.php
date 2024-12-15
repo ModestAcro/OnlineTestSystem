@@ -15,7 +15,7 @@
 
         // Dodanie wykładowcy do bazy danych
         $addTecherQuery = "INSERT INTO tWykladowcy (imie, nazwisko, email, haslo, uwagi, aktywny) 
-                  VALUES ('$imieWykladowcy', '$nazwiskoWykladowcy', '$emailWykladowcy', '$hashedPassword', '$uwagiWykladowcy', 'T')";
+                  VALUES ('$imieWykladowcy', '$nazwiskoWykladowcy', '$emailWykladowcy', '$hashedPassword', '$uwagiWykladowcy', 'N')";
 
         if (mysqli_query($conn, $addTecherQuery)) {
             header("Location: ../public/admin/teachers.php"); // Przekierowanie po dodaniu

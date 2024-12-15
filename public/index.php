@@ -20,14 +20,18 @@
         <input type="password" name="password" id="password" class="form-input" required>
         <br>
         <button type="submit" name="login" class="login-btn">Login</button>
+
+        <!-- php plik -->
+            <?php
+            if (isset($_SESSION['login_error'])) {
+                echo '<p class="login-alert-message">' . $_SESSION['login_error'] . '</p>';
+                unset($_SESSION['login_error']); // Usunięcie zmiennej po wyświetleniu
+            }
+            ?>
+        <!-- php plik -->
+
     </form>
 
-    <?php
-        if (isset($_SESSION['login_error'])) {
-            echo '<p style="color: red;">' . $_SESSION['login_error'] . '</p>';
-            unset($_SESSION['login_error']); // Usunięcie zmiennej po wyświetleniu
-        }
-    ?>
 
 </body>
 </html>

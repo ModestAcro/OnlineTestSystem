@@ -35,7 +35,7 @@ if (isset($_POST['login'])) {
         } elseif ($_SESSION['role'] === 'teacher') {
             header("Location: ../public/teacher/teacher_dashboard.php");
         }
-        exit();  // Dodaj exit, aby zakończyć skrypt i zapobiec dalszemu wykonaniu
+        exit(); 
     } else {
         // Błąd logowania, jeśli użytkownik nie istnieje w żadnej tabeli
         $_SESSION['login_error'] = "Nieprawidłowy e-mail lub hasło!";

@@ -208,6 +208,11 @@ header {
   outline: none;
 }
 
+.login-alert-message {
+  color: red;
+  padding-top: 20px;
+}
+
 /* Styl główny kontenera */
 .admin-main-content {
   padding: 20px 50px;
