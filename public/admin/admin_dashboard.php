@@ -1,5 +1,16 @@
 <?php
     session_start();
+    require_once('../../config/connect.php');
+
+    $studentQuery = "SELECT COUNT(*) AS studentCount FROM tStudenci";
+    $studentResult = mysqli_query($conn, $studentQuery);
+    $studentRow = mysqli_fetch_assoc($studentResult);
+    $studentCount = $studentRow['studentCount'];  // Liczba studentów
+
+    $teacherQuery = "SELECT COUNT(*) AS teacherCount FROM tWykladowcy";
+    $teacherResult = mysqli_query($conn, $teacherQuery);
+    $teacherRow = mysqli_fetch_assoc($teacherResult);
+    $teacherCount = $teacherRow['teacherCount'];  // Liczba nauczycieli
 ?>
 
 <!DOCTYPE html>
@@ -11,19 +22,37 @@
     <title>Admin dashboard</title>
 </head>
 <body>
-<header>
-    <div class="left-header">
-        <a class="nav-btn" href="teachers.php">Wykładowcy</a>
-        <a class="nav-btn" href="students.php">Studeńci</a>
-    </div>
-    <div class="right-header">
-        <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
+    <header>
+        <div class="left-header">
+            <a class="nav-btn" href="teachers.php">Wykładowcy</a>
+            <a class="nav-btn" href="students.php">Studeńci</a>
+        </div>
+        <div class="right-header">
+            <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
 
-         <!-- Formularz wylogowania -->
-        <form action="../../config/logout.php" method="POST">
-            <button type="submit" class="logout-btn">Wyloguj</button>
-        </form>
-    </div>
-</header>
+            <!-- Formularz wylogowania -->
+            <form action="../../config/logout.php" method="POST">
+                <button type="submit" class="logout-btn">Wyloguj</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="admin-main-content">
+        <div class="teachers">
+            <div class="card">
+                <img src="../../assets/images/icons/owl-avatar.svg" alt="Teacher Avatar" class="card-avatar">
+                <h3 class="card-title">Wykładowcy</h3>
+                <p class="card-count"><?php echo $teacherCount; ?></p>
+            </div>
+        </div>
+        <div class="students">
+            <div class="card">
+                <img src="../../assets/images/icons/student-avatar.svg" alt="Students Avatar" class="card-avatar">
+                <h3 class="card-title">Studeńci</h3>
+                <p class="card-count"><?php echo $studentCount; ?></p>
+            </div>
+        </div>
+    </main>
+</main>
 </body>
 </html>

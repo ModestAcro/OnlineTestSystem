@@ -1,5 +1,16 @@
 <?php
     session_start();
+    require_once('../../config/connect.php');
+
+    // Zapytanie do bazy danych o nauczycieli
+    $teacherInfoQuery = "SELECT imie, nazwisko, email, aktywny, uwagi FROM tWykladowcy";
+    $teacherInfoResult = mysqli_query($conn, $teacherInfoQuery);
+
+    // Liczenie liczby nauczycieli
+    $teacherCountQuery = "SELECT COUNT(*) AS teacherCount FROM tWykladowcy";
+    $teacherCountResult = mysqli_query($conn, $teacherCountQuery);
+    $teacherCount = mysqli_fetch_assoc($teacherCountResult)['teacherCount'];
+
 ?>
 
 <!DOCTYPE html>
@@ -25,5 +36,69 @@
             </form>
         </div>
     </header>
+
+    <main class="teachers-list">
+        <div class="container">
+            <div class="title">
+                <h1>Lista Wykładowców</h1>
+                <button class="btn-with-icon"><img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon"></button>
+
+                <!-- Okno modalne -->
+                <div id="addTeacherModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn" id="closeModalBtn">&times;</span>
+                        <h1>Dodaj wykładowcę</h1>
+                        <form action="../../includes/add_teacher.php" method="POST">
+                            <label for="imie">Imię</label>
+                            <input type="text" id="imie" name="imieWykladowcy" required>
+
+                            <label for="nazwisko">Nazwisko</label>
+                            <input type="text" id="nazwisko" name="nazwiskoWykladowcy" required>
+
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="emailWykladowcy" required>
+
+                            <label for="haslo">Hasło</label>
+                            <input type="password" id="haslo" name="hasloWykladowcy" required>
+
+                            <label for="uwagi">Uwagi</label>
+                            <textarea id="uwagi" name="uwagiWykladowcy"></textarea>
+
+                            <button type="submit" class="submit-btn">Dodaj wykładowcę</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Okno modalne -->
+            </div>
+
+                <p class="teacher-count">Ilość: <?php echo $teacherCount; ?></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Uwagi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = mysqli_fetch_assoc($teacherInfoResult)): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['imie']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nazwisko']); ?></td>
+                            <td><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td class="<?php echo $row['aktywny'] == 'T' ? 'active' : 'inactive'; ?>">
+                                <?php echo $row['aktywny'] == 'T' ? 'Aktywny' : 'Nieaktywny'; ?>
+                            </td>
+                            <td><?php echo htmlspecialchars($row['uwagi']); ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>    
+    <!-- Plik JavaScript --> 
+    <script src="../../assets/js/admin/addTeacherModal.js"></script>  
 </body>
 </html>
