@@ -10,7 +10,6 @@
     $studentCountQuery = "SELECT COUNT(*) AS teacherCount FROM tStudenci";
     $studentCountResult = mysqli_query($conn, $studentCountQuery);
     $studentCount = mysqli_fetch_assoc($studentCountResult)['teacherCount'];
-
 ?>
 
 <!DOCTYPE html>
@@ -43,37 +42,41 @@
         <div class="container">
             <div class="title">
                 <h1>Lista Studentów</h1>
-                <!-- Przycisk "Dodaj Wykładowę" -->
-                <button class="add-btn" onclick="addStudent()">
+                <!-- Przycisk "Dodaj Studenta" -->
+                <button class="add-btn" onclick="addTeacher()">
                     <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
                 </button>
 
-                <!-- Okno modalne dodaj Wykładowcę-->
-                <div id="addStudentModal" class="modal">
+                <!-- Okno modalne dodaj Studenta-->
+                <div id="addTeacherModal" class="modal">
                     <div class="modal-content">
                         <span class="close-btn" id="closeAddModalBtn">&times;</span>
                         <h1>Dodaj Studenta</h1>
-                        <form action="../../includes/admin/add_teacher.php" method="POST">
+                        <form action="../../includes/admin/add_student.php" method="POST">
+
+                            <label for="nr_albumu">Nr. albumu</label>
+                            <input type="text" id="imie" name="nrAlbumuStudenta" required>
+
                             <label for="imie">Imię</label>
-                            <input type="text" id="imie" name="imieWykladowcy" required>
+                            <input type="text" id="imie" name="imieStudenta" required>
 
                             <label for="nazwisko">Nazwisko</label>
-                            <input type="text" id="nazwisko" name="nazwiskoWykladowcy" required>
+                            <input type="text" id="nazwisko" name="nazwiskoStudenta" required>
 
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="emailWykladowcy" required>
+                            <input type="email" id="email" name="emailStudenta" required>
 
                             <label for="haslo">Hasło</label>
-                            <input type="password" id="haslo" name="hasloWykladowcy" required>
+                            <input type="password" id="haslo" name="hasloStudenta" required>
 
                             <label for="uwagi">Uwagi</label>
-                            <textarea id="uwagi" name="uwagiWykladowcy"></textarea>
+                            <textarea id="uwagi" name="uwagiStudenta"></textarea>
 
-                            <button type="submit" class="submit-btn">Dodaj wykładowcę</button>
+                            <button type="submit" class="submit-btn">Dodaj studenta</button>
                         </form>
                     </div>
                 </div>
-                <!-- Okno modalne dodaj Wykładowcę-->
+                <!-- Okno modalne dodaj Studenta-->
             </div>
 
             <p class="teacher-count">Ilość: <?php echo $studentCount; ?></p>
@@ -102,8 +105,8 @@
                             <td><?php echo htmlspecialchars($row['uwagi']); ?></td>
                             <!-- Przyciski "Modyfikuj" -->
                             <td>
-                            <button class="btn-edit" onclick="window.location.href='edit_teacher.php?id=<?php echo $row['ID']; ?>'">
-                                <img src="../../assets/images/icons/edit.svg" alt="Edit Teacher" class="edit-icon">
+                            <button class="btn-edit" onclick="window.location.href='edit_student.php?id=<?php echo $row['ID']; ?>'">
+                                <img src="../../assets/images/icons/edit.svg" alt="Edit Student" class="edit-icon">
                             </button>
                             </td>
                         </tr>
