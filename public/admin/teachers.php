@@ -41,17 +41,17 @@
         <div class="container">
             <div class="title">
                 <h1>Lista Wykładowców</h1>
-                <!-- Przycisk "Dodaj nauczyciela" -->
-                <button class="btn-with-icon" onclick="addTeacher()">
+                <!-- Przycisk "Dodaj Wykładowę" -->
+                <button class="add-btn" onclick="addTeacher()">
                     <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
                 </button>
 
-                <!-- Okno modalne -->
+                <!-- Okno modalne dodaj Wykładowcę-->
                 <div id="addTeacherModal" class="modal">
                     <div class="modal-content">
-                        <span class="close-btn" id="closeModalBtn">&times;</span>
+                        <span class="close-btn" id="closeAddModalBtn">&times;</span>
                         <h1>Dodaj wykładowcę</h1>
-                        <form action="../../includes/add_teacher.php" method="POST">
+                        <form action="../../includes/admin/add_teacher.php" method="POST">
                             <label for="imie">Imię</label>
                             <input type="text" id="imie" name="imieWykladowcy" required>
 
@@ -71,7 +71,7 @@
                         </form>
                     </div>
                 </div>
-                <!-- Okno modalne -->
+                <!-- Okno modalne dodaj Wykładowcę-->
             </div>
 
                 <p class="teacher-count">Ilość: <?php echo $teacherCount; ?></p>
@@ -83,7 +83,7 @@
                         <th>Email</th>
                         <th>Status</th>
                         <th>Uwagi</th>
-                        <th>Działanie</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,9 +96,11 @@
                                 <?php echo $row['aktywny'] == 'T' ? 'Aktywny' : 'Nieaktywny'; ?>
                             </td>
                             <td><?php echo htmlspecialchars($row['uwagi']); ?></td>
+                            <!-- Przyciski "Modyfikuj" -->
                             <td>
-                                <!-- Przyciski "Modyfikuj" -->
-                                <button class="edit-btn" onclick="openEditModal(<?php echo $row['ID']; ?>)">Modyfikuj</button>
+                            <button class="btn-edit" onclick="window.location.href='edit_teacher.php?id=<?php echo $row['ID']; ?>'">
+                                <img src="../../assets/images/icons/edit.svg" alt="Edit Teacher" class="edit-icon">
+                            </button>
                             </td>
                         </tr>
                     <?php endwhile; ?>

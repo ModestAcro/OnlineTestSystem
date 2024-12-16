@@ -1,7 +1,7 @@
 <?php
 
     session_start();
-    require_once('../config/connect.php');
+    require_once('../../config/connect.php');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imieWykladowcy = $_POST['imieWykladowcy'];
@@ -18,7 +18,7 @@
                   VALUES ('$imieWykladowcy', '$nazwiskoWykladowcy', '$emailWykladowcy', '$hashedPassword', '$uwagiWykladowcy', 'N')";
 
         if (mysqli_query($conn, $addTecherQuery)) {
-            header("Location: ../public/admin/teachers.php"); // Przekierowanie po dodaniu
+            header("Location: ../../public/admin/teachers.php"); // Przekierowanie po dodaniu
             exit();
         } else {
             echo "Błąd: " . mysqli_error($conn);

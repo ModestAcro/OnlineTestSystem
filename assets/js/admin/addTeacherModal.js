@@ -1,19 +1,41 @@
+/*=========================================
+<!-- Okno modalne dla dodania Wykładowcy-->
+==========================================*/
+
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.querySelector('.modal');
-    const closeBtn = document.querySelector('.close-btn');
+    const addTeacherModal = document.getElementById('addTeacherModal');
+    const addTeacherModalCloseBtn = document.getElementById('closeAddModalBtn');
 
     // Funkcja otwierająca modal
     window.addTeacher = function () {
-        modal.style.display = 'block';
+        addTeacherModal.style.display = 'block';
     };
 
     // Funkcja zamykająca modal
-    closeBtn.addEventListener('click', function () {
-        modal.style.display = 'none';
+    addTeacherModalCloseBtn.addEventListener('click', function () {
+        addTeacherModal.style.display = 'none';
     });
+
 });
 
+/*==========================================================
+<!-- Okno modalne dla zatwierdzenia usunięcia nauczyciela-->
+===========================================================*/
 
-/*=======================================================
-<!-- Skrypt dla edytowania i usunięcia wykładowców -->
-========================================================*/
+document.addEventListener("DOMContentLoaded", function() {
+    const deleteBtn = document.getElementById("delete-btn");
+    const modal = document.getElementById("deleteTeacherModal");
+    const closeModal = document.getElementById("closeModal");
+
+    // Otwórz modal po kliknięciu na przycisk "Usuń"
+    deleteBtn.addEventListener("click", function(event) {
+        event.preventDefault(); // Zatrzymujemy domyślne działanie formularza
+        modal.style.display = "block"; // Wyświetlamy modal
+    });
+
+    // Zamknij modal po kliknięciu na "X"
+    closeModal.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+
+});

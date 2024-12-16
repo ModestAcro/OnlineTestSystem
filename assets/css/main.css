@@ -270,7 +270,7 @@ header {
 }
 
 /* Stylowanie przycisku */
-.btn-with-icon {
+.add-btn {
   width: 60px;
   height: 30px;
   background-color: #4CAF50;
@@ -282,8 +282,13 @@ header {
   cursor: pointer;
 }
 
-.btn-with-icon:hover {
+.add-btn:hover {
   background-color: #45a049;
+}
+
+.edit-icon {
+  width: 20px;
+  height: 20px;
 }
 
 .add-icon {
@@ -338,7 +343,7 @@ tr:hover {
   background-color: #fff;
   margin: 5% auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 3px solid #888;
   width: 80%;
   max-width: 500px;
 }
@@ -378,6 +383,11 @@ textarea {
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 20px;
+}
+
+#delete-btn {
+  background-color: red;
 }
 
 .submit-btn:hover {

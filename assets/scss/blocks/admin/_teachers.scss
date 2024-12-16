@@ -15,7 +15,7 @@
 }
 
 /* Stylowanie przycisku */
-.btn-with-icon {
+.add-btn {
     width: 60px;          
     height: 30px;          
     background-color: #4CAF50;  
@@ -27,10 +27,16 @@
     cursor: pointer;     
 }
 
-.btn-with-icon:hover {
+.add-btn:hover {
     background-color: #45a049;
 }
-  
+
+.edit-icon {
+    width: 20px; 
+    height: 20px; 
+}
+
+
 .add-icon {
     width: 20px;         
     height: 20px;   
@@ -64,70 +70,5 @@ tr:hover {
 
 .inactive {
     color: red;
-}
-
-/* Okno modalne */
-
-.modal {
-    display: none; /* Ukryj modal na początku */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-}
-
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-label {
-    display: block;
-    margin: 5px 0;
-}
-
-input,
-textarea {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.submit-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.submit-btn:hover {
-    background-color: #45a049;
 }
 
