@@ -20,7 +20,7 @@
     <title>Edytuj Wykładowcę</title>
 </head>
 <body>
-    <main class="edit-teacher">
+    <main class="main">
         <div class="container">
             <h1>Edytuj Wykładowcę</h1>
             <form action="../../includes/admin/update_teacher.php" method="POST">

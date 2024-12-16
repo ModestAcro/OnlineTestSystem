@@ -1,10 +1,30 @@
 header {
+    height: 70px;
+    width: 100%;
+    background-color: #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-content {
+    width: 90%;
     display: flex;
     justify-content: space-between;
-    height: 70px;
-    padding: 5px 50px;
-    background-color: #333333;
-    color: white;
+}
+
+.right-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.left-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
 
 .nav-btn {
@@ -25,21 +45,9 @@ header {
 .name {
     font-size: 18px;
     font-weight: bold;
+    color: #fff;
 }
 
-.right-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-}
-
-.left-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-}
 
 .logout-btn {
     background-color: #f44336;

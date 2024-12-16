@@ -23,21 +23,23 @@
 </head>
 <body>
     <header>
-        <div class="left-header">
-            <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
-            <a class="nav-btn" href="students.php">Studeńci</a>
-        </div>
-        <div class="right-header">
-            <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
+        <div class="header-content">
+            <div class="left-header">
+                <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
+                <a class="nav-btn" href="students.php">Studeńci</a>
+            </div>
+            <div class="right-header">
+                <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
 
-            <!-- Formularz wylogowania -->
-            <form action="../../config/logout.php" method="POST">
-                <button type="submit" class="logout-btn">Wyloguj</button>
-            </form>
+                <!-- Formularz wylogowania -->
+                <form action="../../config/logout.php" method="POST">
+                    <button type="submit" class="logout-btn">Wyloguj</button>
+                </form>
+            </div>
         </div>
     </header>
 
-    <main class="teachers-list">
+    <main class="main">
         <div class="container">
             <div class="title">
                 <h1>Lista Wykładowców</h1>
@@ -74,7 +76,7 @@
                 <!-- Okno modalne dodaj Wykładowcę-->
             </div>
 
-                <p class="teacher-count">Ilość: <?php echo $teacherCount; ?></p>
+            <p class="teacher-count">Ilość: <?php echo $teacherCount; ?></p>
             <table>
                 <thead>
                     <tr>

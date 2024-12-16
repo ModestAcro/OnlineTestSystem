@@ -92,13 +92,47 @@ h1 {
   line-height: 1.2;
 }
 
+.container {
+  width: 90%;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.main {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 header {
+  height: 70px;
+  width: 100%;
+  background-color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-content {
+  width: 90%;
   display: flex;
   justify-content: space-between;
-  height: 70px;
-  padding: 5px 50px;
-  background-color: #333333;
-  color: white;
+}
+
+.right-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.left-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
 }
 
 .nav-btn {
@@ -119,20 +153,7 @@ header {
 .name {
   font-size: 18px;
   font-weight: bold;
-}
-
-.right-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-}
-
-.left-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
+  color: #fff;
 }
 
 .logout-btn {
@@ -213,11 +234,9 @@ header {
   padding-top: 20px;
 }
 
-/* Styl główny kontenera */
-.admin-main-content {
-  padding: 20px 50px;
+.info {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 /* Styl dla kart nauczycieli i studentów */
@@ -253,32 +272,18 @@ header {
   color: #555;
 }
 
-.container {
-  width: 80%;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
 .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
 }
 
-/* Stylowanie przycisku */
+/* Stylowanie przycisku "Dodaj wykladowce" */
 .add-btn {
   width: 60px;
   height: 30px;
   background-color: #4CAF50;
-  border: none;
   border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
 }
 
@@ -303,7 +308,7 @@ table {
 }
 
 th, td {
-  padding: 12px;
+  padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }

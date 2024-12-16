@@ -2,4 +2,18 @@ h1 {
     font-size: 1.8rem;
     font-weight: bold;
     line-height: 1.2;
-  }
+}
+
+.container {
+    width: 90%;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.main {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
