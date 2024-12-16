@@ -43,14 +43,14 @@
             <div class="title">
                 <h1>Lista Studentów</h1>
                 <!-- Przycisk "Dodaj Studenta" -->
-                <button class="add-btn" onclick="addTeacher()">
+                <button class="add-btn" onclick="addCharacter()">
                     <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
                 </button>
 
                 <!-- Okno modalne dodaj Studenta-->
-                <div id="addTeacherModal" class="modal">
+                <div id="addModal" class="modal">
                     <div class="modal-content">
-                        <span class="close-btn" id="closeAddModalBtn">&times;</span>
+                        <span class="close-btn" id="addModalClose">&times;</span>
                         <h1>Dodaj Studenta</h1>
                         <form action="../../includes/admin/add_student.php" method="POST">
 
@@ -117,6 +117,6 @@
     </main>    
     
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/addTeacherModal.js"></script>  
+    <script src="../../assets/js/admin/modalWindows.js"></script>  
 </body>
 </html>

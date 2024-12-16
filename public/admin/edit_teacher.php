@@ -46,9 +46,9 @@
             </form>
 
             <!-- Okno modalne do potwierdzenia usunięcia Wykładowcy-->
-            <div id="deleteTeacherModal" class="modal">
+            <div id="deleteCharacterModal" class="modal">
                 <div class="modal-content">
-                    <span class="close-btn" id="closeModal">&times;</span>
+                    <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
                     <h2>Czy na pewno chcesz usunąć tego wykładowcę?</h2>
                     <form action="../../includes/admin/update_teacher.php" method="POST">
                         <input type="hidden" name="id" value="<?php echo $teacher['ID']; ?>">
@@ -63,6 +63,6 @@
     </main>
 
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/addTeacherModal.js"></script>  
+    <script src="../../assets/js/admin/modalWindows.js"></script>  
 </body>
 </html>
