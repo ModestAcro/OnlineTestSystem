@@ -8,30 +8,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/main.css">
-    <title>Login form</title>
+    <title>Login</title>
 </head>
-<body>
-    <h1 class="login-heading">Login</h1>
-    <form action="../includes/login.php" method="POST" class="login-form">
-        <label for="email" class="form-label">Email</label>
-        <input type="text" name="email" id="email" class="form-input" required>
-        <br>
-        <label for="password" class="form-label">Password</label>
-        <input type="password" name="password" id="password" class="form-input" required>
-        <br>
-        <button type="submit" name="login" class="login-btn">Login</button>
-
-        <!-- php plik -->
-            <?php
+<body id="login-body">
+    <div class="login-box">
+        <h1 class="login-header">Login</h1>
+        <form action="../includes/login.php" method="POST">
+            <label>Email</label>
+            <input class="input-box" type="text" name="email" required>
+            
+            <label>Password</label>
+            <input class="input-box" type="password" name="password" required>
+            
+            <button type="submit" name="login" class="login-submit-btn">Login</button>
+        </form>
+        <?php
             if (isset($_SESSION['login_error'])) {
-                echo '<p class="login-alert-message">' . $_SESSION['login_error'] . '</p>';
+                echo '<p style="color: red;" class="error-message">' . $_SESSION['login_error'] . '</p>';
                 unset($_SESSION['login_error']); // Usunięcie zmiennej po wyświetleniu
             }
-            ?>
-        <!-- php plik -->
-
-    </form>
-
-
+        ?>
+    </div>
 </body>
 </html>

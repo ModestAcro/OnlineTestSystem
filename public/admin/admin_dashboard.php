@@ -35,6 +35,7 @@
                 <form action="../../config/logout.php" method="POST">
                     <button type="submit" class="logout-btn">Wyloguj</button>
                 </form>
+                <!-- Formularz wylogowania -->
             </div>
         </div>
     </header>
@@ -44,7 +45,7 @@
             <div class="info">
                 <div class="teachers">
                     <div class="card">
-                        <img src="../../assets/images/icons/owl-avatar.svg" alt="Teacher Avatar" class="card-avatar">
+                        <img src="../../assets/images/icons/teacher-icon.png" alt="Teacher Avatar" class="card-avatar">
                         <h3 class="card-title">Wykładowcy</h3>
                         <p class="card-count"><?php echo $teacherCount; ?></p>
                     </div>

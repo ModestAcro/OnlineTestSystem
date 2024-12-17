@@ -92,6 +92,10 @@ h1 {
   line-height: 1.2;
 }
 
+label {
+  font-weight: bold;
+}
+
 .container {
   width: 90%;
   padding: 20px;
@@ -170,68 +174,58 @@ header {
   opacity: 0.8;
 }
 
-/* Podstawowy wygląd całego formularza */
-.login-form {
-  width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+#login-body {
+  background-image: url("../images/wallpapers/login_wallpaper_HD.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-/* Nagłówek formularza */
-.login-heading {
-  text-align: center;
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
+.login-box {
+  background-color: rgba(211, 211, 211, 0.3);
+  backdrop-filter: blur(25px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 440px;
+  height: 440px;
+  padding: 30px;
+  border-radius: 15px;
 }
 
-/* Etkiety formularza */
-.form-label {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 5px;
-  display: block;
-}
-
-/* Pola tekstowe */
-.form-input {
+.input-box {
   width: 100%;
-  padding: 10px;
+  height: 40px;
+  font-size: 17px;
+  padding: 0 25px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: #fff;
-}
-
-/* Styl dla przycisku logowania */
-.login-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: #4CAF50;
-  color: white;
-  font-size: 16px;
+  border-radius: 15px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.login-btn:hover {
-  background-color: #45a049;
-}
-
-/* Stylowanie po najechaniu myszką na pole wejściowe */
-.form-input:focus {
-  border-color: #4CAF50;
+  background-color: #fff;
+  box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.05);
   outline: none;
 }
 
-.login-alert-message {
-  color: red;
-  padding-top: 20px;
+.login-header {
+  text-align: center;
+  margin: 20px 0 40px 0;
+}
+
+.login-submit-btn {
+  width: 100%;
+  height: 60px;
+  background: #222;
+  border-radius: 15px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.error-message {
+  margin-top: 10px;
 }
 
 .info {
@@ -330,9 +324,8 @@ tr:hover {
   color: red;
 }
 
-/* Okno modalne */
 .modal {
-  display: none; /* Ukryj modal na początku */
+  display: none;
   position: fixed;
   z-index: 1;
   left: 0;
