@@ -1,15 +1,10 @@
 <?php
     session_start();
     require_once('../../config/connect.php');
+    require_once('../../config/functions.php');
 
-    // Zapytanie do bazy danych o nauczycieli
-    $studentInfoQuery = "SELECT ID, nr_albumu, imie, nazwisko, email, aktywny, uwagi FROM tStudenci";
-    $studentInfoResult = mysqli_query($conn, $studentInfoQuery);
-
-    // Liczenie liczby nauczycieli
-    $studentCountQuery = "SELECT COUNT(*) AS teacherCount FROM tStudenci";
-    $studentCountResult = mysqli_query($conn, $studentCountQuery);
-    $studentCount = mysqli_fetch_assoc($studentCountResult)['teacherCount'];
+    $studentInfoResult = getEntityInfo($conn, 'tStudenci');
+    $studentCount = getEntityCount($conn, 'tStudenci');
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +46,7 @@
                 <div id="addModal" class="modal">
                     <div class="modal-content">
                         <span class="close-btn" id="addModalClose">&times;</span>
-                        <h1>Dodaj Studenta</h1>
+                        <h1 class="modal-header">Dodaj Studenta</h1>
                         <form action="../../includes/admin/add_student.php" method="POST">
 
                             <label for="nr_albumu">Nr. albumu</label>
@@ -79,7 +74,7 @@
                 <!-- Okno modalne dodaj Studenta-->
             </div>
 
-            <p class="teacher-count">Ilość: <?php echo $studentCount; ?></p>
+            <p>Ilość: <?php echo $studentCount; ?></p>
             <table>
                 <thead>
                     <tr>
@@ -109,6 +104,7 @@
                                 <img src="../../assets/images/icons/edit.svg" alt="Edit Student" class="edit-icon">
                             </button>
                             </td>
+                            <!-- Przyciski "Modyfikuj" -->
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

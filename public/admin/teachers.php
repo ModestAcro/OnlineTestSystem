@@ -1,15 +1,10 @@
 <?php
     session_start();
     require_once('../../config/connect.php');
+    require_once('../../config/functions.php');
 
-    // Zapytanie do bazy danych o nauczycieli
-    $teacherInfoQuery = "SELECT ID, imie, nazwisko, email, aktywny, uwagi FROM tWykladowcy";
-    $teacherInfoResult = mysqli_query($conn, $teacherInfoQuery);
-
-    // Liczenie liczby nauczycieli
-    $teacherCountQuery = "SELECT COUNT(*) AS teacherCount FROM tWykladowcy";
-    $teacherCountResult = mysqli_query($conn, $teacherCountQuery);
-    $teacherCount = mysqli_fetch_assoc($teacherCountResult)['teacherCount'];
+    $teacherInfoResult = getEntityInfo($conn, 'tWykladowcy');
+    $teacherCount = getEntityCount($conn, 'tWykladowcy');
 
 ?>
 
@@ -52,7 +47,7 @@
                 <div id="addModal" class="modal">
                     <div class="modal-content">
                         <span class="close-btn" id="addModalClose">&times;</span>
-                        <h1>Dodaj wykładowcę</h1>
+                        <h1 class="modal-header">Dodaj wykładowcę</h1>
                         <form action="../../includes/admin/add_teacher.php" method="POST">
                             <label for="imie">Imię</label>
                             <input type="text" id="imie" name="imieWykladowcy" required>
@@ -76,7 +71,7 @@
                 <!-- Okno modalne dodaj Wykładowcę-->
             </div>
 
-            <p class="teacher-count">Ilość: <?php echo $teacherCount; ?></p>
+            <p>Ilość: <?php echo $teacherCount; ?></p>
             <table>
                 <thead>
                     <tr>

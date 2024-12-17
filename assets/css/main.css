@@ -272,7 +272,6 @@ header {
   align-items: center;
 }
 
-/* Stylowanie przycisku "Dodaj" */
 .add-btn {
   width: 60px;
   height: 30px;
@@ -335,6 +334,10 @@ tr:hover {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
   padding-top: 60px;
+}
+
+.modal-header {
+  margin-bottom: 40px;
 }
 
 .modal-content {

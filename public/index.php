@@ -12,15 +12,15 @@
 </head>
 <body id="login-body">
     <div class="login-box">
-        <h1 class="login-header">Login</h1>
+        <h1 class="login-header">Zaloguj się</h1>
         <form action="../includes/login.php" method="POST">
             <label>Email</label>
             <input class="input-box" type="text" name="email" required>
             
-            <label>Password</label>
+            <label>Hasło</label>
             <input class="input-box" type="password" name="password" required>
             
-            <button type="submit" name="login" class="login-submit-btn">Login</button>
+            <button type="submit" name="login" class="login-submit-btn">Zaloguj</button>
         </form>
         <?php
             if (isset($_SESSION['login_error'])) {
