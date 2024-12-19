@@ -22,6 +22,7 @@
             <div class="left-header">
                 <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
                 <a class="nav-btn" href="students.php">Studeńci</a>
+                <a class="nav-btn" href="subjects.php">Przedmioty</a>
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>

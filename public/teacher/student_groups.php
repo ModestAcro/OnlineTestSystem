@@ -3,8 +3,14 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $studentGroupInfoResult = getEntityInfo($conn, 'tGrupyStudentow');
-    $studentGroupCount = getEntityCount($conn, 'tGrupyStudentow');
+    $characterId = $_SESSION['ID'];
+
+    // Zapytanie SQL, które filtruje grupy według ID wykładowcy
+    $studentGroupInfoResult = getEntityInfoByCharacter($conn, 'tGrupy', $characterId);
+    $studentGroupCount = getEntityCountByCharacter($conn, 'tGrupy', $characterId); // Liczba grup
+
+    $studentList = getEntityInfo($conn, 'tStudenci'); 
+    $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
 
 ?>
 
@@ -44,7 +50,7 @@
                 </button>
                 <!-- Przycisk "Dodaj Grupę" -->
 
-                <!-- Okno modalne dodaj Studenta-->
+                <!-- Okno modalne dodaj gupę studentów-->
                 <div id="addModal" class="modal">
                     <div class="modal-content">
                         <span class="close-btn" id="addModalClose">&times;</span>
@@ -57,8 +63,33 @@
                             <label for="miasto">Miasto</label>
                             <input type="text" id="miasto" name="miasto" required>
 
+                            <!-- Lista przedmiotów do przypisania -->
                             <label for="przedmiot">Przedmiot</label>
-                            <input type="text" id="przedmiot" name="przedmiot" required>
+                            <select id="przedmiot" name="przedmiot" required>
+                                <option value="" disabled selected>Wybierz przedmiot</option>
+                                <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
+                                    <option value="<?php echo $subject['nazwa']; ?>">
+                                        <?php echo htmlspecialchars($subject['nazwa']); ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                            <!-- Lista przedmiotów do przypisania -->
+
+
+
+                            <!-- Lista studentów do przypisania -->
+                            <label for="studenci">Wybierz studentów</label>
+                            <select id="studenci" name="studenci[]" multiple required>
+                                <option value="" disabled selected>Wybierz studentów</option>
+                                <?php 
+                                // Przechodzimy przez listę studentów
+                                while ($student = mysqli_fetch_assoc($studentList)): ?>
+                                    <option value="<?php echo $student['nr_albumu']; ?>">
+                                        <?php echo htmlspecialchars($student['nr_albumu'] . ' ' . $student['imie'] . ' ' . $student['nazwisko']); ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                            <!-- Lista studentów do przypisania -->
 
                             <label for="nazwa">Nazwa</label>
                             <input type="text" id="nazwa" name="nazwa" required>

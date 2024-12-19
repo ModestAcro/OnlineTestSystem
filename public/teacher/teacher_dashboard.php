@@ -16,7 +16,6 @@
             <div class="left-header">
                 <a class="nav-btn" href="">Testy</a>
                 <a class="nav-btn" href="student_groups.php">Grupy studentów</a>
-
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>

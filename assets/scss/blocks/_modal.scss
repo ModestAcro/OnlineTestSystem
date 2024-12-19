@@ -44,13 +44,15 @@ label {
 }
 
 input,
-textarea {
+textarea, select {
     width: 100%;
     padding: 8px;
     margin: 5px 0 15px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+
 
 .submit-btn {
     background-color: #4CAF50;

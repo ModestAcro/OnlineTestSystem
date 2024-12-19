@@ -1,13 +1,16 @@
 <?php
+    session_start();
+
     require_once('../../config/connect.php');
+    require_once('../../config/functions.php');
+
+  // Pobranie ID grupy z parametrów GET
     $GroupId = $_GET['id'];
-    $query = "SELECT * FROM tGrupyStudentow WHERE ID = $GroupId";
-    $result = mysqli_query($conn, $query);
-    $group = mysqli_fetch_assoc($result);
-    if (!$group) {
-        echo "Nie znaleziono wykładowcy.";
-        exit;
-    }
+
+    // Wywołanie funkcji z functions.php, aby pobrać dane grupy
+    $group = getGroupById($conn, $GroupId);
+
+    $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
 ?>
 
 
@@ -32,8 +35,16 @@
                 <label for="miasto">Miasto</label>
                 <input type="text" id="miasto" name="miasto" value="<?php echo htmlspecialchars($group['miasto']); ?>">
 
+            
+                <!-- Dropdown dla przedmiotów -->
                 <label for="przedmiot">Przedmiot</label>
-                <input type="text" id="przedmiot" name="przedmiot" value="<?php echo htmlspecialchars($group['przedmiot']); ?>">
+                    <select id="przedmiot" name="przedmiot" required>
+                        <option value="" disabled selected>Wybierz przedmiot</option>
+                            <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
+                                <option value="<?php echo $subject['nazwa']; ?>">
+                                    <?php echo htmlspecialchars($subject['nazwa']); ?>                                    </option>
+                            <?php endwhile; ?>
+                    </select>
 
                 <label for="nazwa">Nazwa</label>
                 <input type="text" id="nazwa" name="nazwa" value="<?php echo htmlspecialchars($group['nazwa']); ?>">

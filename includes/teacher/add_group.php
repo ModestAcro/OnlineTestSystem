@@ -8,10 +8,12 @@
         $miastoGrupy = $_POST['miasto'];
         $przedmiotGrupy = $_POST['przedmiot'];
         $nazwaGrupy = $_POST['nazwa'];
+        $idWykladowcy = $_SESSION['ID']; 
+
 
         // Dodanie grupy do bazy danych
-        $addGroupQuery = "INSERT INTO tGrupyStudentow (rok, miasto, przedmiot, nazwa) 
-                  VALUES ('$rokGrupy', '$miastoGrupy', '$przedmiotGrupy', '$nazwaGrupy')";
+        $addGroupQuery = "INSERT INTO tGrupy (rok, miasto, przedmiot, nazwa, id_wykladowcy) 
+                  VALUES ('$rokGrupy', '$miastoGrupy', '$przedmiotGrupy', '$nazwaGrupy', '$idWykladowcy')";
 
         if (mysqli_query($conn, $addGroupQuery)) {
             header("Location: ../../public/teacher/student_groups.php"); // Przekierowanie po dodaniu

@@ -1,16 +1,12 @@
 <?php
     session_start();
     require_once('../../config/connect.php');
+    require_once('../../config/functions.php');
 
-    $studentQuery = "SELECT COUNT(*) AS studentCount FROM tStudenci";
-    $studentResult = mysqli_query($conn, $studentQuery);
-    $studentRow = mysqli_fetch_assoc($studentResult);
-    $studentCount = $studentRow['studentCount'];  // Liczba studentów
+    $studentCount = getEntityCount($conn, 'tStudenci');  // Liczba studentów
+    $teacherCount = getEntityCount($conn, 'tWykladowcy');  // Liczba nauczycieli
+    $subjectCount = getEntityCount($conn, 'tPrzedmioty');
 
-    $teacherQuery = "SELECT COUNT(*) AS teacherCount FROM tWykladowcy";
-    $teacherResult = mysqli_query($conn, $teacherQuery);
-    $teacherRow = mysqli_fetch_assoc($teacherResult);
-    $teacherCount = $teacherRow['teacherCount'];  // Liczba nauczycieli
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +23,7 @@
             <div class="left-header">
                 <a class="nav-btn" href="teachers.php">Wykładowcy</a>
                 <a class="nav-btn" href="students.php">Studeńci</a>
+                <a class="nav-btn" href="subjects.php">Przedmioty</a>
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
@@ -55,6 +52,13 @@
                         <img src="../../assets/images/icons/student-avatar.svg" alt="Students Avatar" class="card-avatar">
                         <h3 class="card-title">Studeńci</h3>
                         <p class="card-count"><?php echo $studentCount; ?></p>
+                    </div>
+                </div>
+                <div class="subjects">
+                    <div class="card">
+                        <img src="../../assets/images/icons/book.svg" alt="Book" class="card-avatar">
+                        <h3 class="card-title">Przedmioty</h3>
+                        <p class="card-count"><?php echo $subjectCount; ?></p>
                     </div>
                 </div>
             </div>  
