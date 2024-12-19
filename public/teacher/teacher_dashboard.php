@@ -15,8 +15,7 @@
         <div class="header-content">
             <div class="left-header">
                 <a class="nav-btn" href="">Testy</a>
-                <a class="nav-btn" href="">Przedmioty</a>
-                <a class="nav-btn" href="">Grupy studentów</a>
+                <a class="nav-btn" href="student_groups.php">Grupy studentów</a>
 
             </div>
             <div class="right-header">
