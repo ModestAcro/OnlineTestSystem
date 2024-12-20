@@ -12,6 +12,9 @@
     $studentList = getEntityInfo($conn, 'tStudenci'); 
     $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
 
+    // Wywołanie funkcji do zliczania studentów w grupach
+    $studentCountData = getStudentCountByGroup($conn, $characterId);
+
 ?>
 
 <!DOCTYPE html>
@@ -21,12 +24,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../assets/css/main.css">
     <title>Grupy studentów</title>
+   
 </head>
 <body>
     <header>
         <div class="header-content">
             <div class="left-header">
                 <a class="nav-btn" href="teacher_dashboard.php">Strona główna</a>
+                <a class="nav-btn" href="test.php">Select2</a>
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
@@ -79,13 +84,12 @@
 
                             <!-- Lista studentów do przypisania -->
                             <label for="studenci">Wybierz studentów</label>
-                            <select id="studenci" name="studenci[]" multiple required>
-                                <option value="" disabled selected>Wybierz studentów</option>
+                            <select id="studenci" name="studenci[]" multiple>
                                 <?php 
                                 // Przechodzimy przez listę studentów
                                 while ($student = mysqli_fetch_assoc($studentList)): ?>
                                     <option value="<?php echo $student['nr_albumu']; ?>">
-                                        <?php echo htmlspecialchars($student['nr_albumu'] . ' ' . $student['imie'] . ' ' . $student['nazwisko']); ?>
+                                        <?php echo htmlspecialchars($student['nr_albumu']); ?>
                                     </option>
                                 <?php endwhile; ?>
                             </select>
@@ -120,7 +124,13 @@
                             <td><?php echo htmlspecialchars($row['miasto']); ?></td>
                             <td><?php echo htmlspecialchars($row['przedmiot']); ?></td>
                             <td><?php echo htmlspecialchars($row['nazwa']); ?></td>
-                            <td></td>
+                            <td>
+                            <?php 
+                                // Wyświetlanie liczby studentów przypisanych do danej grupy
+                                $groupId = $row['ID'];
+                                echo isset($studentCountData[$groupId]) ? $studentCountData[$groupId] : 0;
+                            ?>
+                            </td>
                             <!-- Przyciski "Modyfikuj" -->
                             <td>
                             <button class="btn-edit" onclick="window.location.href='edit_group.php?id=<?php echo $row['ID']; ?>'">
@@ -134,8 +144,16 @@
             </table>
         </div>
     </main>    
+
     
-    <!-- Plik JavaScript --> 
     <script src="../../assets/js/admin/modalWindows.js"></script>  
+    <script src="../../assets/js/multi_select.js"></script>  
+
+    <!-- multi_select.js --> 
+    <script>
+        new MultiSelectTag('studenci')  // id
+    </script>
+    <!-- multi_select.js --> 
+
 </body>
 </html>

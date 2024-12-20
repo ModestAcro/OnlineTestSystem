@@ -11,6 +11,10 @@
     $group = getGroupById($conn, $GroupId);
 
     $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
+    $studentList = getEntityInfo($conn, 'tStudenci'); 
+
+    // Wywołanie funkcji do zliczania studentów w grupach
+    $studentCountData = getStudentCountByGroup($conn, $characterId);
 ?>
 
 
@@ -36,7 +40,7 @@
                 <input type="text" id="miasto" name="miasto" value="<?php echo htmlspecialchars($group['miasto']); ?>">
 
             
-                <!-- Dropdown dla przedmiotów -->
+                <!-- Lista przedmiotów -->
                 <label for="przedmiot">Przedmiot</label>
                     <select id="przedmiot" name="przedmiot" required>
                         <option value="" disabled selected>Wybierz przedmiot</option>
@@ -45,6 +49,22 @@
                                     <?php echo htmlspecialchars($subject['nazwa']); ?>                                    </option>
                             <?php endwhile; ?>
                     </select>
+                <!-- Lista przedmiotów -->
+
+
+                <!-- Lista studentów -->
+                <label for="studenci">Wybierz studentów</label>
+                            <select id="studenci" name="studenci[]" multiple>
+                                <?php 
+                                // Przechodzimy przez listę studentów
+                                while ($student = mysqli_fetch_assoc($studentList)): ?>
+                                    <option value="<?php echo $student['nr_albumu']; ?>">
+                                        <?php echo htmlspecialchars($student['nr_albumu']); ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                <!-- Lista studentów -->
+
 
                 <label for="nazwa">Nazwa</label>
                 <input type="text" id="nazwa" name="nazwa" value="<?php echo htmlspecialchars($group['nazwa']); ?>">
@@ -72,7 +92,15 @@
         </div>
     </main>
 
-    <!-- Plik JavaScript --> 
+    <!-- Pliki JavaScript --> 
+    <script src="../../assets/js/multi_select.js"></script>  
     <script src="../../assets/js/admin/modalWindows.js"></script>  
+
+
+    <!-- multi_select.js --> 
+    <script>
+        new MultiSelectTag('studenci')  // id
+    </script>
+    <!-- multi_select.js --> 
 </body>
 </html>
