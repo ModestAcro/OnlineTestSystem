@@ -2,32 +2,33 @@
 require_once('../../config/connect.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $universitiId = $_POST['id'];
+    $universityId = $_POST['idUczelni'];
 
     if ($_POST['action'] === 'delete') {
-        // Zapytanie SQL do usunięcia nauczyciela
-        $deleteQuery = "DELETE FROM tUczelnie WHERE ID = $universitiId";
+        // Zapytanie SQL do usunięcia uczelni
+        $deleteUniversityQuery = "DELETE FROM tUczelnie WHERE ID = $universityId";
 
         // Wykonanie zapytania
-        if (mysqli_query($conn, $deleteQuery)) {
+        if (mysqli_query($conn, $deleteUniversityQuery)) {
             // Przekierowanie po sukcesie
-            header("Location: ../../public/admin/universities.php?delete_success=1");
+            header("Location: ../../public/admin/universities.php");
             exit;
         } else {
             echo "Błąd podczas usuwania: " . mysqli_error($conn);
         }
+
     } elseif ($_POST['action'] === 'update') {
         // Logika do aktualizacji danych (jak poprzednio)
-        $nazwaUczelni = $_POST['nazwa_uczelni'];
-        $miasto = $_POST['miasto'];
-        $kraj = $_POST['kraj'];
-        $kontynent = $_POST['kontynent'];
-        $adres = $_POST['adres_uczelni'];
-        $uwagi = $_POST['uwagi'];
+        $nazwa = $_POST['nazwaUczelni'];
+        $miasto = $_POST['miastoUczelni'];
+        $kraj = $_POST['krajUczelni'];
+        $kontynent = $_POST['kontynentUczelni'];
+        $adres = $_POST['adresUczelni'];
+        $uwagi = $_POST['uwagiUczelni'];
 
-        $updateQuery = "UPDATE tUczelnie SET nazwa_uczelni = '$nazwaUczelni', miasto = '$miasto', kraj = '$kraj', kontynent = '$kontynent', adres_uczelni = '$adres', uwagi = '$uwagi' WHERE ID = $universitiId";
-        if (mysqli_query($conn, $updateQuery)) {
-            header("Location: ../../public/admin/universities.php?update_success=1");
+        $updateUniversityQuery = "UPDATE tUczelnie SET nazwa = '$nazwa', miasto = '$miasto', kraj = '$kraj', kontynent = '$kontynent', adres = '$adres', uwagi = '$uwagi' WHERE ID = $universityId";
+        if (mysqli_query($conn, $updateUniversityQuery)) {
+            header("Location: ../../public/admin/universities.php");
             exit;
         } else {
             echo "Błąd podczas aktualizacji: " . mysqli_error($conn);

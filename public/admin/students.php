@@ -1,10 +1,12 @@
 <?php
+
     session_start();
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $studentInfoResult = getEntityInfo($conn, 'tStudenci');
+    $studentInfo = getEntityInfo($conn, 'tStudenci');
     $studentCount = getEntityCount($conn, 'tStudenci');
+
 ?>
 
 <!DOCTYPE html>
@@ -22,14 +24,16 @@
                 <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
                 <a class="nav-btn" href="teachers.php">Wykładowcy</a>
                 <a class="nav-btn" href="subjects.php">Przedmioty</a>
+                <a class="nav-btn" href="universities.php">Uczelnie</a>
             </div>
             <div class="right-header">
-                <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
+                <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
 
                 <!-- Formularz wylogowania -->
                 <form action="../../config/logout.php" method="POST">
                     <button type="submit" class="logout-btn">Wyloguj</button>
                 </form>
+                <!-- Formularz wylogowania -->
             </div>
         </div>
     </header>
@@ -38,35 +42,37 @@
         <div class="container">
             <div class="title">
                 <h1>Lista Studentów</h1>
+
                 <!-- Przycisk "Dodaj Studenta" -->
-                <button class="add-btn" onclick="addCharacter()">
-                    <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
+                <button class="add-btn" onclick="addEntity()">
+                    <img src="../../assets/images/icons/plus.svg" class="add-icon">
                 </button>
+                <!-- Przycisk "Dodaj Studenta" -->
 
                 <!-- Okno modalne dodaj Studenta-->
-                <div id="addModal" class="modal">
+                <div id="openModal" class="modal">
                     <div class="modal-content">
-                        <span class="close-btn" id="addModalClose">&times;</span>
+                        <span class="close-btn" id="closeModal">&times;</span>
                         <h1 class="modal-header">Dodaj Studenta</h1>
                         <form action="../../includes/admin/add_student.php" method="POST">
 
-                            <label for="nr_albumu">Nr. albumu</label>
-                            <input type="text" id="imie" name="nrAlbumuStudenta" required>
+                            <label>Nr. albumu</label>
+                            <input type="text" name="nrAlbumuStudenta" required>
 
-                            <label for="imie">Imię</label>
-                            <input type="text" id="imie" name="imieStudenta" required>
+                            <label>Imię</label>
+                            <input type="text" name="imieStudenta" required>
 
-                            <label for="nazwisko">Nazwisko</label>
-                            <input type="text" id="nazwisko" name="nazwiskoStudenta" required>
+                            <label>Nazwisko</label>
+                            <input type="text" name="nazwiskoStudenta" required>
 
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="emailStudenta" required>
+                            <label>Email</label>
+                            <input type="email" name="emailStudenta" required>
 
-                            <label for="haslo">Hasło</label>
-                            <input type="password" id="haslo" name="hasloStudenta" required>
+                            <label>Hasło</label>
+                            <input type="password" name="hasloStudenta" required>
 
-                            <label for="uwagi">Uwagi</label>
-                            <textarea id="uwagi" name="uwagiStudenta"></textarea>
+                            <label>Uwagi</label>
+                            <textarea name="uwagiStudenta"></textarea>
 
                             <button type="submit" class="submit-btn">Dodaj studenta</button>
                         </form>
@@ -89,23 +95,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($studentInfoResult)): ?>
+                    <?php while ($studentData = mysqli_fetch_assoc($studentInfo)): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['nr_albumu']); ?></td>
-                            <td><?php echo htmlspecialchars($row['imie']); ?></td>
-                            <td><?php echo htmlspecialchars($row['nazwisko']); ?></td>
-                            <td><?php echo htmlspecialchars($row['email']); ?></td>
-                            <td class="<?php echo $row['aktywny'] == 'T' ? 'active' : 'inactive'; ?>">
-                                <?php echo $row['aktywny'] == 'T' ? 'Aktywny' : 'Nieaktywny'; ?>
+                            <td><?php echo $studentData['nr_albumu']; ?></td>
+                            <td><?php echo $studentData['imie']; ?></td>
+                            <td><?php echo $studentData['nazwisko']; ?></td>
+                            <td><?php echo $studentData['email']; ?></td>
+                            <td class="<?php echo $studentData['aktywny'] == 'T' ? 'active' : 'inactive'; ?>">
+                                <?php echo $studentData['aktywny'] == 'T' ? 'Aktywny' : 'Nieaktywny'; ?>
                             </td>
-                            <td><?php echo htmlspecialchars($row['uwagi']); ?></td>
+                            <td><?php echo $studentData['uwagi']; ?></td>
+
                             <!-- Przyciski "Modyfikuj" -->
                             <td>
-                            <button class="btn-edit" onclick="window.location.href='edit_student.php?id=<?php echo $row['ID']; ?>'">
-                                <img src="../../assets/images/icons/edit.svg" alt="Edit Student" class="edit-icon">
-                            </button>
+                                <a href="edit_student.php?student_id=<?php echo $studentData['ID']; ?>" class="btn-edit">
+                                    <img src="../../assets/images/icons/edit.svg" class="edit-icon">
+                                </a>
                             </td>
                             <!-- Przyciski "Modyfikuj" -->
+
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -114,6 +122,6 @@
     </main>    
     
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/modalWindows.js"></script>  
+    <script src="../../assets/js/modalWindows.js"></script>  
 </body>
 </html>

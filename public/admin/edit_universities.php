@@ -1,14 +1,13 @@
 <?php
-    require_once('../../config/connect.php');
 
-    $universityId = $_GET['id'];
-    $query = "SELECT * FROM tUczelnie WHERE ID = $universityId";
-    $result = mysqli_query($conn, $query);
-    $university = mysqli_fetch_assoc($result);
-    if (!$university) {
-        echo "Nie znaleziono uczelni.";
-        exit;
-    }
+    session_start();
+
+    require_once('../../config/connect.php');
+    require_once('../../config/functions.php');
+    
+    $universityId = $_GET['university_id'];
+    $university = getRecordById($conn, 'tUczelnie', $universityId);
+
 ?>
 
 
@@ -25,25 +24,25 @@
         <div class="container">
             <h1>Edytuj uczelnię</h1>
             <form action="../../includes/admin/update_universities.php" method="POST">
-                <input type="hidden" name="id" value="<?php echo $university['ID']; ?>">
+                <input type="hidden" name="idUczelni" value="<?php echo $university['ID']; ?>">
 
-                <label for="nazwa">Nazwa</label>
-                <input type="text" id="nazwa" name="nazwa_uczelni" value="<?php echo htmlspecialchars($university['nazwa_uczelni']); ?>" required>
+                <label>Nazwa</label>
+                <input type="text" name="nazwaUczelni" value="<?php echo $university['nazwa']; ?>" required>
 
-                <label for="miasto">Miasto</label>
-                <input type="text" id="miasto" name="miasto" value="<?php echo htmlspecialchars($university['miasto']); ?>" required>
+                <label>Miasto</label>
+                <input type="text" name="miastoUczelni" value="<?php echo $university['miasto']; ?>" required>
 
-                <label for="kraj">Kraj</label>
-                <input type="text" id="kraj" name="kraj" value="<?php echo htmlspecialchars($university['kraj']); ?>" required>
+                <label>Kraj</label>
+                <input type="text" name="krajUczelni" value="<?php echo $university['kraj']; ?>" required>
 
-                <label for="kontynent">Kontynent</label>
-                <input type="text" id="kontynent" name="kontynent" value="<?php echo htmlspecialchars($university['kontynent']); ?>" required>
+                <label>Kontynent</label>
+                <input type="text" name="kontynentUczelni" value="<?php echo $university['kontynent']; ?>" required>
 
-                <label for="adres">Adres</label>
-                <input type="text" id="adres" name="adres_uczelni" value="<?php echo htmlspecialchars($university['adres_uczelni']); ?>" required>
+                <label>Adres</label>
+                <input type="text" name="adresUczelni" value="<?php echo $university['adres']; ?>" required>
 
-                <label for="uwagi">Uwagi</label>
-                <textarea id="uwagi" name="uwagi"><?php echo htmlspecialchars($university['uwagi']); ?></textarea>
+                <label>Uwagi</label>
+                <textarea name="uwagiUczelni"><?php echo $university['uwagi']; ?></textarea>
 
                 <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
                 <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
@@ -55,7 +54,7 @@
                     <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
                     <h2>Czy na pewno chcesz usunąć tę uczelnię?</h2>
                     <form action="../../includes/admin/update_universities.php" method="POST">
-                        <input type="hidden" name="id" value="<?php echo $university['ID']; ?>">
+                        <input type="hidden" name="idUczelni" value="<?php echo $university['ID']; ?>">
                         <input type="hidden" name="action" value="delete">
                         <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
                     </form>
@@ -67,6 +66,6 @@
     </main>
 
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/modalWindows.js"></script>  
+    <script src="../../assets/js/modalWindows.js"></script>  
 </body>
 </html>

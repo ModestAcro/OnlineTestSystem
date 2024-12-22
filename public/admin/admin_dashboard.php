@@ -3,10 +3,10 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $studentCount = getEntityCount($conn, 'tStudenci');  // Liczba studentów
-    $teacherCount = getEntityCount($conn, 'tWykladowcy');  // Liczba nauczycieli
-    $subjectCount = getEntityCount($conn, 'tPrzedmioty');
-    $universityCount = getEntityCount($conn, 'tUczelnie');
+    $studentCount = getEntityCount($conn, 'tStudenci');     // Liczba studentów
+    $teacherCount = getEntityCount($conn, 'tWykladowcy');   // Liczba nauczycieli
+    $subjectCount = getEntityCount($conn, 'tPrzedmioty');   // Liczba przedmiotów
+    $universityCount = getEntityCount($conn, 'tUczelnie');  // Liczba uczelni
 
 ?>
 
@@ -28,7 +28,7 @@
                 <a class="nav-btn" href="universities.php">Uczelnie</a>
             </div>
             <div class="right-header">
-                <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
+                <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
 
                 <!-- Formularz wylogowania -->
                 <form action="../../config/logout.php" method="POST">
@@ -42,6 +42,7 @@
     <main class="main">
         <div class="container">
             <div class="info">
+                <!-- Informacja o wykładowcach -->
                 <div class="teachers">
                     <div class="card">
                         <img src="../../assets/images/icons/teacher-icon.png" alt="Teacher Avatar" class="card-avatar">
@@ -49,6 +50,9 @@
                         <p class="card-count"><?php echo $teacherCount; ?></p>
                     </div>
                 </div>
+                <!-- Informacja o wykładowcach -->
+
+                <!-- Informacja o studentach -->
                 <div class="students">
                     <div class="card">
                         <img src="../../assets/images/icons/student-avatar.svg" alt="Students Avatar" class="card-avatar">
@@ -56,6 +60,9 @@
                         <p class="card-count"><?php echo $studentCount; ?></p>
                     </div>
                 </div>
+                <!-- Informacja o studentach -->
+
+                <!-- Informacja o przedmiotach -->
                 <div class="subjects">
                     <div class="card">
                         <img src="../../assets/images/icons/book.svg" alt="Book" class="card-avatar">
@@ -63,6 +70,9 @@
                         <p class="card-count"><?php echo $subjectCount; ?></p>
                     </div>
                 </div>
+                <!-- Informacja o przedmiotach -->
+
+                <!-- Informacja o uczelniach -->
                 <div class="subjects">
                     <div class="card">
                         <img src="../../assets/images/icons/building.svg" alt="Book" class="card-avatar">
@@ -70,6 +80,7 @@
                         <p class="card-count"><?php echo $universityCount; ?></p>
                     </div>
                 </div>
+                <!-- Informacja o uczelniach -->
             </div>  
         </div>
     </main>

@@ -25,7 +25,7 @@
         <?php
             if (isset($_SESSION['login_error'])) {
                 echo '<p style="color: red;" class="error-message">' . $_SESSION['login_error'] . '</p>';
-                unset($_SESSION['login_error']); // Usunięcie zmiennej po wyświetleniu
+                unset($_SESSION['login_error']);
             }
         ?>
     </div>

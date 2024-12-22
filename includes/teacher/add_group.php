@@ -4,15 +4,15 @@ require_once('../../config/connect.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rok = $_POST['rok'];
-    $uczelnia = $_POST['uczelnia'];
-    $przedmiot = $_POST['przedmiot'];
+    $idUczelni = $_POST['uczelnia'];
+    $idPrzedmiotu = $_POST['przedmiot'];
     $nazwa = $_POST['nazwa'];
     $idWykladowcy = $_SESSION['ID']; 
     $studenci = $_POST['studenci'];  // Tablica wybranych studentów
     
     // Dodanie grupy do bazy danych
-    $addGroupQuery = "INSERT INTO tGrupy (rok, uczelnia, przedmiot, nazwa, id_wykladowcy) 
-                      VALUES ('$rok', '$uczelnia', '$przedmiot', '$nazwa', '$idWykladowcy')";
+    $addGroupQuery = "INSERT INTO tGrupy (rok, nazwa, id_przedmiotu, id_uczelni, id_wykladowcy) 
+                      VALUES ('$rok', '$nazwa', '$idPrzedmiotu', '$idUczelni', '$idWykladowcy')";
     
     if (mysqli_query($conn, $addGroupQuery)) {
         // Pobranie ID ostatnio dodanej grupy

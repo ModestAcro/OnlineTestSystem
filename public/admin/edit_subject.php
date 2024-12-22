@@ -1,13 +1,14 @@
 <?php
+
+    session_start();
+
     require_once('../../config/connect.php');
-    $subjectId = $_GET['id'];
-    $query = "SELECT * FROM tPrzedmioty WHERE ID = $subjectId";
-    $result = mysqli_query($conn, $query);
-    $subject = mysqli_fetch_assoc($result);
-    if (!$subject) {
-        echo "Nie znaleziono wykładowcy.";
-        exit;
-    }
+    require_once('../../config/functions.php');
+
+
+    $subjectId = $_GET['subject_id'];
+    $subject = getRecordById($conn, 'tPrzedmioty', $subjectId);
+
 ?>
 
 
@@ -24,13 +25,13 @@
         <div class="container">
             <h1>Edytuj przedmiot</h1>
             <form action="../../includes/admin/update_subject.php" method="POST">
-                <input type="hidden" name="id" value="<?php echo $subject['ID']; ?>">
+                <input type="hidden" name="idPrzedmiotu" value="<?php echo $subject['ID']; ?>">
 
-                <label for="nazwa">Nazwa</label>
-                <input type="text" id="nazwa" name="nazwa" value="<?php echo htmlspecialchars($subject['nazwa']); ?>">
+                <label>Nazwa</label>
+                <input type="text" name="nazwaPrzedmiotu" value="<?php echo $subject['nazwa']; ?>">
 
-                <label for="uwagi">Uwagi</label>
-                <input type="text" id="uwagi" name="uwagi" value="<?php echo htmlspecialchars($subject['uwagi']); ?>">
+                <label>Uwagi</label>
+                <input type="text" name="uwagiPrzedmiotu" value="<?php echo $subject['uwagi']; ?>">
 
                 <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
                 <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
@@ -42,7 +43,7 @@
                     <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
                     <h2>Czy na pewno chcesz usunąć ten przedmiot?</h2>
                     <form action="../../includes/admin/update_subject.php" method="POST">
-                        <input type="hidden" name="id" value="<?php echo $subject['ID']; ?>">
+                        <input type="hidden" name="idPrzedmiotu" value="<?php echo $subject['ID']; ?>">
                         <input type="hidden" name="action" value="delete">
                         <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
                     </form>
@@ -54,6 +55,6 @@
     </main>
 
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/modalWindows.js"></script>  
+    <script src="../../assets/js/modalWindows.js"></script>  
 </body>
 </html>

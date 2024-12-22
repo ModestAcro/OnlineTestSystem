@@ -16,6 +16,17 @@
     // Wywołanie funkcji do zliczania studentów w grupach
     $studentCountData = getStudentCountByGroup($conn, $characterId);
 
+    $studentGroupInfoQuery = "
+    SELECT g.ID, g.rok, g.nazwa, u.nazwa, p.nazwa AS przedmiot 
+    FROM tGrupy g
+    JOIN tUczelnie u ON g.id_uczelni = u.ID
+    JOIN tPrzedmioty p ON g.id_przedmiotu = p.ID
+    WHERE g.id_wykladowcy = '$characterId'
+    ";
+
+    $studentGroupInfoResult = mysqli_query($conn, $studentGroupInfoQuery);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -70,8 +81,8 @@
                             <select id="uczelnia" name="uczelnia" required>
                                 <option value="" disabled selected>Wybierz uczelnię</option>
                                 <?php while ($university = mysqli_fetch_assoc($universityInfo)): ?>
-                                    <option value="<?php echo $university['nazwa_uczelni']; ?>">
-                                        <?php echo htmlspecialchars($university['nazwa_uczelni']); ?>
+                                    <option value="<?php echo $university['ID']; ?>">
+                                        <?php echo htmlspecialchars($university['nazwa']); ?>
                                     </option>
                                 <?php endwhile; ?>
                             </select>
@@ -83,7 +94,7 @@
                             <select id="przedmiot" name="przedmiot" required>
                                 <option value="" disabled selected>Wybierz przedmiot</option>
                                 <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
-                                    <option value="<?php echo $subject['nazwa']; ?>">
+                                    <option value="<?php echo $subject['ID']; ?>">
                                         <?php echo htmlspecialchars($subject['nazwa']); ?>
                                     </option>
                                 <?php endwhile; ?>
@@ -131,7 +142,7 @@
                     <?php while ($row = mysqli_fetch_assoc($studentGroupInfoResult)): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['rok']); ?></td>
-                            <td><?php echo htmlspecialchars($row['uczelnia']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nazwa']); ?></td>
                             <td><?php echo htmlspecialchars($row['przedmiot']); ?></td>
                             <td><?php echo htmlspecialchars($row['nazwa']); ?></td>
                             <td>

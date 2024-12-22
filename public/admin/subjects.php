@@ -1,9 +1,10 @@
 <?php
+
     session_start();
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $subjectInfoResult = getEntityInfo($conn, 'tPrzedmioty');
+    $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
     $subjectCount = getEntityCount($conn, 'tPrzedmioty');
 
 ?>
@@ -23,9 +24,10 @@
                 <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
                 <a class="nav-btn" href="teachers.php">Wykładowcy</a>
                 <a class="nav-btn" href="students.php">Studeńci</a>
+                <a class="nav-btn" href="universities.php">Uczelnie</a>
             </div>
             <div class="right-header">
-                <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
+                <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
 
                 <!-- Formularz wylogowania -->
                 <form action="../../config/logout.php" method="POST">
@@ -40,16 +42,17 @@
         <div class="container">
             <div class="title">
                 <h1>Lista przedmiotów</h1>
+
                 <!-- Przycisk "Dodaj Przedmiot" -->
-                <button class="add-btn" onclick="addCharacter()">
-                    <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
+                <button class="add-btn" onclick="addEntity()">
+                    <img src="../../assets/images/icons/plus.svg" class="add-icon">
                 </button>
                 <!-- Przycisk "Dodaj Przedmiot" -->
 
                 <!-- Okno modalne dodaj Przedmiot-->
-                <div id="addModal" class="modal">
+                <div id="openModal" class="modal">
                     <div class="modal-content">
-                        <span class="close-btn" id="addModalClose">&times;</span>
+                        <span class="close-btn" id="closeModal">&times;</span>
                         <h1 class="modal-header">Dodaj przedmiot</h1>
                         <form action="../../includes/admin/add_subject.php" method="POST">
 
@@ -76,16 +79,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($subjectInfoResult)): ?>
+                    <?php while ($subjectData = mysqli_fetch_assoc($subjectInfo)): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['nazwa']); ?></td>
-                            <td><?php echo htmlspecialchars($row['uwagi'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo $subjectData['nazwa']; ?></td>
+                            <td><?php echo $subjectData['uwagi']; ?></td>
                   
                             <!-- Przyciski "Modyfikuj" -->
                             <td>
-                            <button class="btn-edit" onclick="window.location.href='edit_subject.php?id=<?php echo $row['ID']; ?>'">
-                                <img src="../../assets/images/icons/edit.svg" alt="Edit Student" class="edit-icon">
-                            </button>
+                                <a href="edit_subject.php?subject_id=<?php echo $subjectData['ID']; ?>" class="btn-edit">
+                                    <img src="../../assets/images/icons/edit.svg" class="edit-icon">
+                                </a>
                             </td>
                             <!-- Przyciski "Modyfikuj" -->
                         </tr>
@@ -96,6 +99,6 @@
     </main>    
     
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/modalWindows.js"></script>  
+    <script src="../../assets/js/modalWindows.js"></script>  
 </body>
 </html>

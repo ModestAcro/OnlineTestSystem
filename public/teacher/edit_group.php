@@ -21,8 +21,18 @@
     // Wywołanie wynkcji do zliczania studentów do 
     $assignedStudents = getStudentsByGroupId($conn, $GroupId);
 
-    $assignedUniversityName = $group['uczelnia']; // Uczelnia przypisana do grupy
-    $assignedSubjectName = $group['przedmiot']; // lub inne odpowiednie pole z bazy danych
+    // Pobranie nazwy uczelni na podstawie ID
+    $assignedUniversityName = getEntityNameById($conn, 'tUczelnie', $group['id_uczelni']);
+    $assignedUniversityID = $group['id_uczelni'];  // Dodaj tę linię
+
+    // Pobranie nazwy przedmiotu na podstawie ID
+    $assignedSubjectName = getEntityNameById($conn, 'tPrzedmioty', $group['id_przedmiotu']);
+
+    $assignedSubjectID = $group['id_przedmiotu'];
+    $group = getGroupById($conn, $GroupId);
+    $assignedSubjectID = $group['id_przedmiotu']; // Dodaj tę linię, aby zdefiniować zmienną
+    
+
 
 ?>
 
@@ -46,33 +56,31 @@
                 <input type="text" id="rok" name="rok" value="<?php echo htmlspecialchars($group['rok']); ?>">
 
                 
-                <!-- Lista uczelni -->
-                <label for="uczelnia">Uczelnia</label>
+               <!-- Lista uczelni -->
                 <select id="uczelnia" name="uczelnia" required>
-                    <option value="<?php echo htmlspecialchars($assignedUniversityName); ?>" selected>
+                    <option value="<?php echo htmlspecialchars($assignedUniversityID); ?>" selected>
                         <?php echo htmlspecialchars($assignedUniversityName); ?>
                     </option>
                     <?php while ($university = mysqli_fetch_assoc($universityInfo)): ?>
-                        <option value="<?php echo $university['nazwa_uczelni']; ?>">
-                            <?php echo htmlspecialchars($university['nazwa_uczelni']); ?>
+                        <option value="<?php echo $university['ID']; ?>">
+                            <?php echo htmlspecialchars($university['nazwa']); ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
-                <!-- Lista uczelni -->
-            
+
                 <!-- Lista przedmiotów -->
-                <label for="przedmiot">Przedmiot</label>
                 <select id="przedmiot" name="przedmiot" required>
-                    <option value="<?php echo htmlspecialchars($assignedSubjectName); ?>" selected>
+                    <option value="<?php echo htmlspecialchars($assignedSubjectID); ?>" selected>
                         <?php echo htmlspecialchars($assignedSubjectName); ?>
                     </option>
                     <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
-                        <option value="<?php echo $subject['nazwa']; ?>">
+                        <option value="<?php echo $subject['ID']; ?>">
                             <?php echo htmlspecialchars($subject['nazwa']); ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
-                <!-- Lista przedmiotów -->
+
+
 
 
                <!-- Lista studentów -->

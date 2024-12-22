@@ -1,10 +1,11 @@
 <?php
+
     session_start();
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $universitiesInfoResult = getEntityInfo($conn, 'tUczelnie');
-    $universitiesCount = getEntityCount($conn, 'tUczelnie');
+    $universityInfo = getEntityInfo($conn, 'tUczelnie');
+    $universityCount = getEntityCount($conn, 'tUczelnie');
 
 ?>
 
@@ -22,17 +23,18 @@
             <div class="left-header">
                 <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
                 <a class="nav-btn" href="teachers.php">Wykładowcy</a>
-                <a class="nav-btn" href="subjects.php">Przedmioty</a>
                 <a class="nav-btn" href="students.php">Studeńci</a>
+                <a class="nav-btn" href="subjects.php">Przedmioty</a>
             </div>
             <div class="right-header">
-                <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
+                <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
 
                 <!-- Formularz wylogowania -->
                 <form action="../../config/logout.php" method="POST">
                     <button type="submit" class="logout-btn">Wyloguj</button>
                 </form>
                 <!-- Formularz wylogowania -->
+                 
             </div>
         </div>
     </header>
@@ -41,45 +43,46 @@
         <div class="container">
             <div class="title">
                 <h1>Lista uczelni</h1>
-                <!-- Przycisk "Dodaj Przedmiot" -->
-                <button class="add-btn" onclick="addCharacter()">
-                    <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
-                </button>
-                <!-- Przycisk "Dodaj Przedmiot" -->
 
-                <!-- Okno modalne dodaj Przedmiot-->
-                <div id="addModal" class="modal">
+                <!-- Przycisk "Dodaj Uczelnię" -->
+                <button class="add-btn" onclick="addEntity()">
+                    <img src="../../assets/images/icons/plus.svg" class="add-icon">
+                </button>
+                <!-- Przycisk "Dodaj Uczelnię" -->
+
+                <!-- Okno modalne dodaj Uczelnię-->
+                <div id="openModal" class="modal">
                     <div class="modal-content">
-                        <span class="close-btn" id="addModalClose">&times;</span>
+                        <span class="close-btn" id="closeModal">&times;</span>
                         <h1 class="modal-header">Dodaj uczelnię</h1>
                         <form action="../../includes/admin/add_universities.php" method="POST">
 
-                            <label for="nazwa">Nazwa</label>
-                            <input type="text" id="nazwa" name="nazwa_uczelni" required>
+                            <label>Nazwa</label>
+                            <input type="text" name="nazwaUczelni" required>
 
-                            <label for="miasto">Miasto</label>
-                            <input type="text" id="miasto" name="miasto" required>
+                            <label>Miasto</label>
+                            <input type="text" name="miastouczelni" required>
 
-                            <label for="kraj">Kraj</label>
-                            <input type="text" id="kraj" name="kraj" required>
+                            <label>Kraj</label>
+                            <input type="text" name="krajUczelni" required>
 
-                            <label for="kontynent">Kontynent</label>
-                            <input type="text" id="kontynent" name="kontynent" required>
+                            <label>Kontynent</label>
+                            <input type="text" name="kontynentUczelni" required>
 
-                            <label for="adres">Adres</label>
-                            <input type="text" id="adres" name="adres_uczelni" required>
+                            <label>Adres</label>
+                            <input type="text" name="adresuczelni" required>
 
-                            <label for="uwagi">Uwagi</label>
-                            <input type="text" id="uwagi" name="uwagi" required>
+                            <label>Uwagi</label>
+                            <input type="text" name="uwagiUczelni" required>
 
                             <button type="submit" class="submit-btn">Dodaj uczelnię</button>
                         </form>
                     </div>
                 </div>
-                <!-- Okno modalne dodaj Studenta-->
+                <!-- Okno modalne dodaj Uczelnię-->
             </div>
 
-            <p>Ilość: <?php echo $universitiesCount; ?></p>
+            <p>Ilość: <?php echo $universityCount; ?></p>
             <table>
                 <thead>
                     <tr>
@@ -93,22 +96,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($universitiesInfoResult)): ?>
+                    <?php while ($universityData = mysqli_fetch_assoc($universityInfo)): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['nazwa_uczelni']); ?></td>
-                            <td><?php echo htmlspecialchars($row['miasto']); ?></td>
-                            <td><?php echo htmlspecialchars($row['kraj']); ?></td>
-                            <td><?php echo htmlspecialchars($row['kontynent']); ?></td>
-                            <td><?php echo htmlspecialchars($row['adres_uczelni']); ?></td>
-                            <td><?php echo htmlspecialchars($row['uwagi'] ?? '', ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo $universityData['nazwa']; ?></td>
+                            <td><?php echo $universityData['miasto']; ?></td>
+                            <td><?php echo $universityData['kraj']; ?></td>
+                            <td><?php echo $universityData['kontynent']; ?></td>
+                            <td><?php echo $universityData['adres']; ?></td>
+                            <td><?php echo $universityData['uwagi']; ?></td>
                   
                             <!-- Przyciski "Modyfikuj" -->
                             <td>
-                            <button class="btn-edit" onclick="window.location.href='edit_universities.php?id=<?php echo $row['ID']; ?>'">
-                                <img src="../../assets/images/icons/edit.svg" alt="Edit City" class="edit-icon">
+                            <button class="btn-edit" onclick="window.location.href='edit_universities.php?university_id=<?php echo $universityData['ID']; ?>'">
+                                <img src="../../assets/images/icons/edit.svg" alt="Edit University" class="edit-icon">
                             </button>
                             </td>
                             <!-- Przyciski "Modyfikuj" -->
+
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -117,6 +121,6 @@
     </main>    
     
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/modalWindows.js"></script>  
+    <script src="../../assets/js/modalWindows.js"></script>  
 </body>
 </html>

@@ -2,22 +2,23 @@
 require_once('../../config/connect.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $studentId = $_POST['id'];
+    $studentId = $_POST['idStudenta'];
 
     if ($_POST['action'] === 'delete') {
         // Zapytanie SQL do usunięcia studenta
-        $deleteQuery = "DELETE FROM tStudenci WHERE ID = $studentId";
+        $deleteStudentQuery = "DELETE FROM tStudenci WHERE ID = $studentId";
 
         // Wykonanie zapytania
-        if (mysqli_query($conn, $deleteQuery)) {
+        if (mysqli_query($conn, $deleteStudentQuery)) {
             // Przekierowanie po sukcesie
             header("Location: ../../public/admin/students.php?delete_success=1");
             exit;
         } else {
             echo "Błąd podczas usuwania: " . mysqli_error($conn);
         }
+
     } elseif ($_POST['action'] === 'update') {
-        // Logika do aktualizacji danych (jak poprzednio)
+        // Logika do aktualizacji danych 
         $nr_albumu = $_POST['nrAlbumuStudenta'];
         $imie = $_POST['imieStudenta'];
         $nazwisko = $_POST['nazwiskoStudenta'];
@@ -25,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $haslo = $_POST['hasloStudenta'];
         $uwagi = $_POST['uwagiStudenta'];
 
-        $updateQuery = "UPDATE tStudenci SET nr_albumu = '$nr_albumu', imie = '$imie', nazwisko = '$nazwisko', email = '$email', haslo = '$haslo', uwagi = '$uwagi' WHERE ID = $studentId";
-        if (mysqli_query($conn, $updateQuery)) {
+        $updateStudentQuery = "UPDATE tStudenci SET nr_albumu = '$nr_albumu', imie = '$imie', nazwisko = '$nazwisko', email = '$email', haslo = '$haslo', uwagi = '$uwagi' WHERE ID = $studentId";
+        if (mysqli_query($conn, $updateStudentQuery)) {
             header("Location: ../../public/admin/students.php?update_success=1");
             exit;
         } else {

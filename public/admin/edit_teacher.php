@@ -1,13 +1,12 @@
 <?php
+    session_start();
+
     require_once('../../config/connect.php');
-    $teacherId = $_GET['id'];
-    $query = "SELECT * FROM tWykladowcy WHERE ID = $teacherId";
-    $result = mysqli_query($conn, $query);
-    $teacher = mysqli_fetch_assoc($result);
-    if (!$teacher) {
-        echo "Nie znaleziono wykładowcy.";
-        exit;
-    }
+    require_once('../../config/functions.php');
+    
+    $teacherId = $_GET['teacher_id'];
+    $teacher = getRecordById($conn, 'tWykladowcy', $teacherId);
+    
 ?>
 
 
@@ -24,45 +23,45 @@
         <div class="container">
             <h1>Edytuj Wykładowcę</h1>
             <form action="../../includes/admin/update_teacher.php" method="POST">
-                <input type="hidden" name="id" value="<?php echo $teacher['ID']; ?>">
+                <input type="hidden" name="idWykladowcy" value="<?php echo $teacher['ID']; ?>">
 
-                <label for="imie">Imię</label>
-                <input type="text" id="imie" name="imieWykladowcy" value="<?php echo htmlspecialchars($teacher['imie']); ?>" required>
+                <label>Imię</label>
+                <input type="text" name="imieWykladowcy" value="<?php echo $teacher['imie']; ?>" required>
 
-                <label for="nazwisko">Nazwisko</label>
-                <input type="text" id="nazwisko" name="nazwiskoWykladowcy" value="<?php echo htmlspecialchars($teacher['nazwisko']); ?>" required>
+                <label>Nazwisko</label>
+                <input type="text" name="nazwiskoWykladowcy" value="<?php echo $teacher['nazwisko']; ?>" required>
 
-                <label for="email">Email</label>
-                <input type="email" id="email" name="emailWykladowcy" value="<?php echo htmlspecialchars($teacher['email']); ?>" required>
+                <label>Email</label>
+                <input type="email" name="emailWykladowcy" value="<?php echo $teacher['email']; ?>" required>
 
-                <label for="haslo">Hasło</label>
-                <input type="password" id="haslo" name="hasloWykladowcy" value="<?php echo htmlspecialchars($teacher['haslo']); ?>" required>
+                <label>Hasło</label>
+                <input type="password" name="hasloWykladowcy" value="<?php echo $teacher['haslo']; ?>" required>
 
-                <label for="uwagi">Uwagi</label>
-                <textarea id="uwagi" name="uwagiWykladowcy"><?php echo htmlspecialchars($teacher['uwagi']); ?></textarea>
+                <label>Uwagi</label>
+                <textarea name="uwagiWykladowcy"><?php echo $teacher['uwagi']; ?></textarea>
 
                 <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
                 <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
             </form>
 
-            <!-- Okno modalne do potwierdzenia usunięcia Wykładowcy-->
+            <!-- Okno modalne do potwierdzenia usunięcia wykładowcy -->
             <div id="deleteCharacterModal" class="modal">
                 <div class="modal-content">
                     <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
                     <h2>Czy na pewno chcesz usunąć tego wykładowcę?</h2>
                     <form action="../../includes/admin/update_teacher.php" method="POST">
-                        <input type="hidden" name="id" value="<?php echo $teacher['ID']; ?>">
+                        <input type="hidden" name="idWykladowcy" value="<?php echo $teacher['ID']; ?>">
                         <input type="hidden" name="action" value="delete">
                         <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
                     </form>
                 </div>
             </div>
-            <!-- Okno modalne do potwierdzenia usunięcia -->
+            <!-- Okno modalne do potwierdzenia usunięcia wykładowcy -->
 
         </div>
     </main>
 
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/modalWindows.js"></script>  
+    <script src="../../assets/js/modalWindows.js"></script>  
 </body>
 </html>

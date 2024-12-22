@@ -1,9 +1,10 @@
 <?php
+
     session_start();
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $teacherInfoResult = getEntityInfo($conn, 'tWykladowcy');
+    $teacherInfo = getEntityInfo($conn, 'tWykladowcy'); 
     $teacherCount = getEntityCount($conn, 'tWykladowcy');
 
 ?>
@@ -23,14 +24,16 @@
                 <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
                 <a class="nav-btn" href="students.php">Studeńci</a>
                 <a class="nav-btn" href="subjects.php">Przedmioty</a>
+                <a class="nav-btn" href="universities.php">Uczelnie</a>
             </div>
             <div class="right-header">
-                <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
+                <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
 
                 <!-- Formularz wylogowania -->
                 <form action="../../config/logout.php" method="POST">
                     <button type="submit" class="logout-btn">Wyloguj</button>
                 </form>
+                <!-- Formularz wylogowania -->
             </div>
         </div>
     </header>
@@ -38,32 +41,35 @@
     <main class="main">
         <div class="container">
             <div class="title">
-                <h1>Lista Wykładowców</h1>
-                <!-- Przycisk "Dodaj Wykładowę" -->
-                <button class="add-btn" onclick="addCharacter()">
-                    <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
-                </button>
+                <h1>Lista wykładowców</h1>
 
-                <!-- Okno modalne dodaj Wykładowcę-->
-                <div id="addModal" class="modal">
+                <!-- Przycisk "Dodaj Wykładowę" -->
+                <button class="add-btn" onclick="addEntity()">
+                    <img src="../../assets/images/icons/plus.svg" class="add-icon">
+                </button>
+                <!-- Przycisk "Dodaj Wykładowę" -->
+
+                <!-- Okno modalne dodaj Wykładowcę -->
+                <div id="openModal" class="modal">
                     <div class="modal-content">
-                        <span class="close-btn" id="addModalClose">&times;</span>
+                        <span class="close-btn" id="closeModal">&times;</span>
                         <h1 class="modal-header">Dodaj wykładowcę</h1>
                         <form action="../../includes/admin/add_teacher.php" method="POST">
-                            <label for="imie">Imię</label>
-                            <input type="text" id="imie" name="imieWykladowcy" required>
 
-                            <label for="nazwisko">Nazwisko</label>
-                            <input type="text" id="nazwisko" name="nazwiskoWykladowcy" required>
+                            <label>Imię</label>
+                            <input type="text" name="imieWykladowcy" required>
 
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="emailWykladowcy" required>
+                            <label>Nazwisko</label>
+                            <input type="text" name="nazwiskoWykladowcy" required>
 
-                            <label for="haslo">Hasło</label>
-                            <input type="password" id="haslo" name="hasloWykladowcy" required>
+                            <label>Email</label>
+                            <input type="email" name="emailWykladowcy" required>
 
-                            <label for="uwagi">Uwagi</label>
-                            <textarea id="uwagi" name="uwagiWykladowcy"></textarea>
+                            <label>Hasło</label>
+                            <input type="password" name="hasloWykladowcy" required>
+
+                            <label>Uwagi</label>
+                            <textarea name="uwagiWykladowcy"></textarea>
 
                             <button type="submit" class="submit-btn">Dodaj wykładowcę</button>
                         </form>
@@ -85,21 +91,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($teacherInfoResult)): ?>
+                    <?php while ($teacherData = mysqli_fetch_assoc($teacherInfo)): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['imie']); ?></td>
-                            <td><?php echo htmlspecialchars($row['nazwisko']); ?></td>
-                            <td><?php echo htmlspecialchars($row['email']); ?></td>
-                            <td class="<?php echo $row['aktywny'] == 'T' ? 'active' : 'inactive'; ?>">
-                                <?php echo $row['aktywny'] == 'T' ? 'Aktywny' : 'Nieaktywny'; ?>
+                            <td><?php echo ($teacherData['imie']); ?></td>
+                            <td><?php echo ($teacherData['nazwisko']); ?></td>
+                            <td><?php echo ($teacherData['email']); ?></td>
+                            <td class="<?php echo $teacherData['aktywny'] == 'T' ? 'active' : 'inactive'; ?>"> <!-- Ustawiamy klasę dla styli CSS -->
+                                <?php echo $teacherData['aktywny'] == 'T' ? 'Aktywny' : 'Nieaktywny'; ?> <!-- Wyświetlamy do tabeli -->
                             </td>
-                            <td><?php echo htmlspecialchars($row['uwagi']); ?></td>
+                            <td><?php echo ($teacherData['uwagi']); ?></td>
+
                             <!-- Przyciski "Modyfikuj" -->
                             <td>
-                            <button class="btn-edit" onclick="window.location.href='edit_teacher.php?id=<?php echo $row['ID']; ?>'">
-                                <img src="../../assets/images/icons/edit.svg" alt="Edit Teacher" class="edit-icon">
-                            </button>
+                                <a href="edit_teacher.php?teacher_id=<?php echo $teacherData['ID']; ?>" class="btn-edit">
+                                    <img src="../../assets/images/icons/edit.svg" class="edit-icon">
+                                </a>
                             </td>
+                            <!-- Przyciski "Modyfikuj" -->
+
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -108,6 +117,6 @@
     </main>    
     
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/admin/modalWindows.js" defer></script>  
+    <script src="../../assets/js/modalWindows.js"></script>  
 </body>
 </html>

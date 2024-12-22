@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const modalWindow = document.getElementById('addModal');
-    const closeBtn = document.getElementById('addModalClose');
+    const modalWindow = document.getElementById('openModal');
+    const closeBtn = document.getElementById('closeModal');
 
     // Funkcja otwierająca modal
-    window.addCharacter = function () {
+    window.addEntity = function () {
         modalWindow.style.display = 'block';
     };
 
