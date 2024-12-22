@@ -19,12 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($_POST['action'] === 'update') {
         // Logika do aktualizacji danych
         $rok = $_POST['rok'];
-        $miasto = $_POST['miasto'];
+        $uczelnia = $_POST['uczelnia'];
         $przedmiot = $_POST['przedmiot'];
         $nazwa = $_POST['nazwa'];
 
         // Aktualizacja tabeli tGrupy
-        $updateQuery = "UPDATE tGrupy SET rok = '$rok', miasto = '$miasto', przedmiot = '$przedmiot', nazwa = '$nazwa' WHERE ID = $groupId";
+        $updateQuery = "UPDATE tGrupy SET rok = '$rok', uczelnia = '$uczelnia', przedmiot = '$przedmiot', nazwa = '$nazwa' WHERE ID = $groupId";
         
         if (mysqli_query($conn, $updateQuery)) {
             // Sprawdzenie, czy studenci są przypisani do grupy

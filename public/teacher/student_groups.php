@@ -11,6 +11,7 @@
 
     $studentList = getEntityInfo($conn, 'tStudenci'); 
     $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
+    $universityInfo = getEntityInfo($conn, 'tUczelnie');
 
     // Wywołanie funkcji do zliczania studentów w grupach
     $studentCountData = getStudentCountByGroup($conn, $characterId);
@@ -64,8 +65,18 @@
                             <label for="nr_albumu">Rok</label>
                             <input type="text" pattern="\d{4}" id="rok" name="rok" required>
 
-                            <label for="miasto">Miasto</label>
-                            <input type="text" id="miasto" name="miasto" required>
+                             <!-- Lista uczleni do przypisania -->
+                            <label for="uczelnia">Uczelnia</label>
+                            <select id="uczelnia" name="uczelnia" required>
+                                <option value="" disabled selected>Wybierz uczelnię</option>
+                                <?php while ($university = mysqli_fetch_assoc($universityInfo)): ?>
+                                    <option value="<?php echo $university['nazwa_uczelni']; ?>">
+                                        <?php echo htmlspecialchars($university['nazwa_uczelni']); ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                            <!-- Lista uczelni do przypisania -->
+
 
                             <!-- Lista przedmiotów do przypisania -->
                             <label for="przedmiot">Przedmiot</label>
@@ -109,7 +120,7 @@
                 <thead>
                     <tr>
                         <th>Rok</th>
-                        <th>Miasto</th>
+                        <th>Uczelnia</th>
                         <th>Przedmiot</th>
                         <th>Nazwa</th>
                         <th>Liczba studentów</th>
@@ -120,7 +131,7 @@
                     <?php while ($row = mysqli_fetch_assoc($studentGroupInfoResult)): ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['rok']); ?></td>
-                            <td><?php echo htmlspecialchars($row['miasto']); ?></td>
+                            <td><?php echo htmlspecialchars($row['uczelnia']); ?></td>
                             <td><?php echo htmlspecialchars($row['przedmiot']); ?></td>
                             <td><?php echo htmlspecialchars($row['nazwa']); ?></td>
                             <td>

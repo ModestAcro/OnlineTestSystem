@@ -10,6 +10,8 @@
     // Wywołanie funkcji z functions.php, aby pobrać dane grupy
     $group = getGroupById($conn, $GroupId);
 
+    // Pobranie danych uczelni
+    $universityInfo = getEntityInfo($conn, 'tUczelnie');
     $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
     $studentList = getEntityInfo($conn, 'tStudenci'); 
 
@@ -19,6 +21,7 @@
     // Wywołanie wynkcji do zliczania studentów do 
     $assignedStudents = getStudentsByGroupId($conn, $GroupId);
 
+    $assignedUniversityName = $group['uczelnia']; // Uczelnia przypisana do grupy
     $assignedSubjectName = $group['przedmiot']; // lub inne odpowiednie pole z bazy danych
 
 ?>
@@ -42,9 +45,20 @@
                 <label for="rok">Rok</label>
                 <input type="text" id="rok" name="rok" value="<?php echo htmlspecialchars($group['rok']); ?>">
 
-                <label for="miasto">Miasto</label>
-                <input type="text" id="miasto" name="miasto" value="<?php echo htmlspecialchars($group['miasto']); ?>">
-
+                
+                <!-- Lista uczelni -->
+                <label for="uczelnia">Uczelnia</label>
+                <select id="uczelnia" name="uczelnia" required>
+                    <option value="<?php echo htmlspecialchars($assignedUniversityName); ?>" selected>
+                        <?php echo htmlspecialchars($assignedUniversityName); ?>
+                    </option>
+                    <?php while ($university = mysqli_fetch_assoc($universityInfo)): ?>
+                        <option value="<?php echo $university['nazwa_uczelni']; ?>">
+                            <?php echo htmlspecialchars($university['nazwa_uczelni']); ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+                <!-- Lista uczelni -->
             
                 <!-- Lista przedmiotów -->
                 <label for="przedmiot">Przedmiot</label>
