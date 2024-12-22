@@ -33,18 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $deleteStudentsQuery = "DELETE FROM tGrupyStudenci WHERE id_grupy = $groupId";
                 mysqli_query($conn, $deleteStudentsQuery);
 
-                // Dodanie nowych studentów do grupy
+                // Dodanie nowych studentów do grupy (po ID)
                 $studenci = $_POST['studenci'];
-                foreach ($studenci as $nr_albumu) {
-                    $insertQuery = "INSERT INTO tGrupyStudenci (id_grupy, id_studenta) VALUES ($groupId, '$nr_albumu')";
+                foreach ($studenci as $id_studenta) { // Przypisanie ID studenta
+                    $insertQuery = "INSERT INTO tGrupyStudenci (id_grupy, id_studenta) VALUES ($groupId, '$id_studenta')";
                     mysqli_query($conn, $insertQuery);
                 }
             }
-
-            // Jeśli chcesz zaktualizować przedmiot, upewnij się, że jest to związane z grupą
-            // Możesz to zrobić poprzez dodanie odpowiedniego zapytania do tabeli tGrupyPrzedmioty (jeśli istnieje)
-            $updateSubjectQuery = "UPDATE tGrupyPrzedmioty SET przedmiot = '$przedmiot' WHERE id_grupy = $groupId";
-            mysqli_query($conn, $updateSubjectQuery);
 
             // Przekierowanie po sukcesie
             header("Location: ../../public/teacher/student_groups.php?update_success=1");

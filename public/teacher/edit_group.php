@@ -15,6 +15,9 @@
 
     // Wywołanie funkcji do zliczania studentów w grupach
     $studentCountData = getStudentCountByGroup($conn, $characterId);
+
+    // Wywołanie wynkcji do zliczania studentów do 
+    $assignedStudents = getStudentsByGroupId($conn, $GroupId);
 ?>
 
 
@@ -52,18 +55,23 @@
                 <!-- Lista przedmiotów -->
 
 
+               <!-- Lista studentów -->
+               <label for="studenci">Wybierz studentów</label>
+               <select id="studenci" name="studenci[]" multiple>
+                    <?php 
+                    // Przechodzimy przez wszystkich studentów
+                    while ($student = mysqli_fetch_assoc($studentList)): 
+                        // Sprawdzamy, czy student jest już przypisany do grupy
+                        $isSelected = in_array($student['ID'], array_column($assignedStudents, 'id_studenta')) ? 'selected' : '';
+                    ?>
+                        <option value="<?php echo $student['ID']; ?>" <?php echo $isSelected; ?>>
+                            <?php echo htmlspecialchars($student['nr_albumu'] . ' - ' . $student['imie'] . ' ' . $student['nazwisko']); ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+
                 <!-- Lista studentów -->
-                <label for="studenci">Wybierz studentów</label>
-                            <select id="studenci" name="studenci[]" multiple>
-                                <?php 
-                                // Przechodzimy przez listę studentów
-                                while ($student = mysqli_fetch_assoc($studentList)): ?>
-                                    <option value="<?php echo $student['nr_albumu']; ?>">
-                                        <?php echo htmlspecialchars($student['nr_albumu']); ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                <!-- Lista studentów -->
+
 
 
                 <label for="nazwa">Nazwa</label>

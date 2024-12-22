@@ -53,9 +53,35 @@
         $studentCountData[$row['ID']] = $row['student_count'];
     }
     
-    return $studentCountData;
-}
+        return $studentCountData;
+    }
 
+
+    function getStudentsByGroupId($conn, $groupId) {
+        $sql = "
+            SELECT s.ID, s.nr_albumu, s.imie, s.nazwisko 
+            FROM tGrupyStudenci gs
+            JOIN tStudenci s ON gs.id_studenta = s.ID
+            WHERE gs.id_grupy = ?
+        ";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $groupId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $students = [];
+        while ($row = $result->fetch_assoc()) {
+            // Przechowujemy dane studenta, a nie tylko ID
+            $students[] = [
+                'id_studenta' => $row['ID'],
+                'nr_albumu' => $row['nr_albumu'],
+                'imie' => $row['imie'],
+                'nazwisko' => $row['nazwisko']
+            ];
+        }
+        
+        return $students;
+    }    
     
     
 ?>
