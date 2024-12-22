@@ -6,6 +6,7 @@
     $studentCount = getEntityCount($conn, 'tStudenci');  // Liczba studentów
     $teacherCount = getEntityCount($conn, 'tWykladowcy');  // Liczba nauczycieli
     $subjectCount = getEntityCount($conn, 'tPrzedmioty');
+    $universityCount = getEntityCount($conn, 'tUczelnie');
 
 ?>
 
@@ -24,6 +25,7 @@
                 <a class="nav-btn" href="teachers.php">Wykładowcy</a>
                 <a class="nav-btn" href="students.php">Studeńci</a>
                 <a class="nav-btn" href="subjects.php">Przedmioty</a>
+                <a class="nav-btn" href="universities.php">Uczelnie</a>
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
@@ -59,6 +61,13 @@
                         <img src="../../assets/images/icons/book.svg" alt="Book" class="card-avatar">
                         <h3 class="card-title">Przedmioty</h3>
                         <p class="card-count"><?php echo $subjectCount; ?></p>
+                    </div>
+                </div>
+                <div class="subjects">
+                    <div class="card">
+                        <img src="../../assets/images/icons/building.svg" alt="Book" class="card-avatar">
+                        <h3 class="card-title">Uczelnie</h3>
+                        <p class="card-count"><?php echo $universityCount; ?></p>
                     </div>
                 </div>
             </div>  

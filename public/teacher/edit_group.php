@@ -18,6 +18,9 @@
 
     // Wywołanie wynkcji do zliczania studentów do 
     $assignedStudents = getStudentsByGroupId($conn, $GroupId);
+
+    $assignedSubjectName = $group['przedmiot']; // lub inne odpowiednie pole z bazy danych
+
 ?>
 
 
@@ -45,13 +48,16 @@
             
                 <!-- Lista przedmiotów -->
                 <label for="przedmiot">Przedmiot</label>
-                    <select id="przedmiot" name="przedmiot" required>
-                        <option value="" disabled selected>Wybierz przedmiot</option>
-                            <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
-                                <option value="<?php echo $subject['nazwa']; ?>">
-                                    <?php echo htmlspecialchars($subject['nazwa']); ?>                                    </option>
-                            <?php endwhile; ?>
-                    </select>
+                <select id="przedmiot" name="przedmiot" required>
+                    <option value="<?php echo htmlspecialchars($assignedSubjectName); ?>" selected>
+                        <?php echo htmlspecialchars($assignedSubjectName); ?>
+                    </option>
+                    <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
+                        <option value="<?php echo $subject['nazwa']; ?>">
+                            <?php echo htmlspecialchars($subject['nazwa']); ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
                 <!-- Lista przedmiotów -->
 
 
