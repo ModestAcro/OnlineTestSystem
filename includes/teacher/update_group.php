@@ -2,22 +2,21 @@
 require_once('../../config/connect.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $groupId = $_POST['id'];
+    $groupId = $_POST['group_id'];
 
     if ($_POST['action'] === 'delete') {
-        // Zapytanie SQL do usunięcia grupy
-        $deleteQuery = "DELETE FROM tGrupy WHERE ID = $groupId";
 
-        // Wykonanie zapytania
+        $deleteQuery = "DELETE FROM tGrupy WHERE ID = $groupId";
         if (mysqli_query($conn, $deleteQuery)) {
-            // Przekierowanie po sukcesie
             header("Location: ../../public/teacher/student_groups.php?delete_success=1");
             exit;
+
         } else {
             echo "Błąd podczas usuwania: " . mysqli_error($conn);
         }
+
     } elseif ($_POST['action'] === 'update') {
-        // Logika do aktualizacji danych
+
         $rok = $_POST['rok'];
         $idUczelni = $_POST['uczelnia'];
         $idPrzedmiotu = $_POST['przedmiot'];
@@ -44,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Przekierowanie po sukcesie
             header("Location: ../../public/teacher/student_groups.php?update_success=1");
             exit;
+            
         } else {
             echo "Błąd podczas aktualizacji: " . mysqli_error($conn);
         }

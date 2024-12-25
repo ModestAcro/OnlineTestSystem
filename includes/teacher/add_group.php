@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $idUczelni = $_POST['uczelnia'];
     $idPrzedmiotu = $_POST['przedmiot'];
     $nazwa = $_POST['nazwa'];
-    $idWykladowcy = $_SESSION['ID']; 
+    $idWykladowcy = $_SESSION['user_id']; 
     $studenci = $_POST['studenci'];  // Tablica wybranych studentów
     
     // Dodanie grupy do bazy danych

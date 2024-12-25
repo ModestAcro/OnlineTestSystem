@@ -1,4 +1,5 @@
 <?php
+
     session_start();
 ?>
 
@@ -15,10 +16,10 @@
         <div class="header-content">
             <div class="left-header">
                 <a class="nav-btn" href="">Testy</a>
-                <a class="nav-btn" href="student_groups.php">Grupy studentów</a>
+                <a class="nav-btn" href="student_groups.php">Grupy</a>
             </div>
             <div class="right-header">
-                <span class="name"><?php echo $_SESSION['imie'] . ' ' . $_SESSION['nazwisko']; ?></span>
+                <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
 
                 <!-- Formularz wylogowania -->
                 <form action="../../config/logout.php" method="POST">

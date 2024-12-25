@@ -1,8 +1,5 @@
 <?php
 
-    $userId = $_SESSION['user_id'];
-
-
     // Funkcja zwraca liczbę rekordów w tabeli
     function getEntityCount($conn, $table) {
         $query = "SELECT COUNT(*) AS entityCount FROM $table";
@@ -30,71 +27,64 @@
         
         return $record;  
     }
-    
 
-
-
-
-
-    function getEntityCountByCharacter($conn, $table, $userId) {
-        $query = "SELECT COUNT(*) AS entityCount FROM $table WHERE id_wykladowcy = '$userId'";
+    // Funkcja zwraca liczbę grup w tabeli przywiazanych do konkretnego nauczyciela
+    function getGroupCountByTeacherId($conn, $table, $userId) {
+        $query = "SELECT COUNT(*) AS entityCountById FROM $table WHERE id_wykladowcy = '$userId'";
         $result = mysqli_query($conn, $query);
-        return mysqli_fetch_assoc($result)['entityCount'];
-    }
-    
-    function getEntityInfoByCharacter($conn, $table, $userId) {
-        $query = "SELECT * FROM $table WHERE id_wykladowcy = '$userId'";
-        return mysqli_query($conn, $query);
+        return mysqli_fetch_assoc($result)['entityCountById'];
     }
 
-    // Funkcja do pobrania grup na podstawie ID wykładowcy
-    function getGroupById($conn, $groupId) {
-    $query = "SELECT * FROM tGrupy WHERE ID = '$groupId'"; 
-    $result = mysqli_query($conn, $query);
-    
-    if (!$result) {
-        return false; 
-    }
-    
-        return mysqli_fetch_assoc($result); 
-    }
-
-    // Funkcja zliczająca liczbę studentów przypisanych do grupy
+    // Funkcja zliczająca liczbę studentów przypisanych do kazdej grupy  
     function getStudentCountByGroup($conn, $userId) {
-    $studentCountQuery = "
-        SELECT g.ID, COUNT(gs.id_studenta) AS student_count
-        FROM tGrupy g
-        LEFT JOIN tGrupyStudenci gs ON g.ID = gs.id_grupy
-        WHERE g.id_wykladowcy = '$userId'
-        GROUP BY g.ID
-    ";
-    
-    $studentCountResult = mysqli_query($conn, $studentCountQuery);
-    $studentCountData = [];
-
-    while ($row = mysqli_fetch_assoc($studentCountResult)) {
-        $studentCountData[$row['ID']] = $row['student_count'];
-    }
-    
-        return $studentCountData;
-    }
-
-
-    function getStudentsByGroupId($conn, $groupId) {
-        $sql = "
-            SELECT s.ID, s.nr_albumu, s.imie, s.nazwisko 
-            FROM tGrupyStudenci gs
-            JOIN tStudenci s ON gs.id_studenta = s.ID
-            WHERE gs.id_grupy = ?
+        $query = "
+            SELECT g.ID, COUNT(gs.id_studenta) AS student_count
+            FROM tGrupy g
+            LEFT JOIN tGrupyStudenci gs ON g.ID = gs.id_grupy
+            WHERE g.id_wykladowcy = '$userId'
+            GROUP BY g.ID
         ";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $groupId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    
+        $result = mysqli_query($conn, $query);
+        $data = [];
+    
+        foreach (mysqli_fetch_all($result, MYSQLI_ASSOC) as $row) {
+            $data[$row['ID']] = $row['student_count'];
+        }
+    
+        return $data;
+    }
+
+    // Funkcja pobierająca listę grup studentów do konkretnego wykładowcy
+    function getStudentGroups($conn, $userId) {
+        $query = "
+            SELECT g.ID, g.rok, g.nazwa AS nazwa_grupy, u.nazwa AS nazwa_uczelni, p.nazwa AS przedmiot, g.id_wykladowcy
+            FROM tGrupy g
+            JOIN tUczelnie u ON g.id_uczelni = u.ID
+            JOIN tPrzedmioty p ON g.id_przedmiotu = p.ID
+            WHERE g.id_wykladowcy = '$userId'
+        ";
+
+        $result = mysqli_query($conn, $query);
         
+        if (!$result) {
+            die("Błąd zapytania: " . mysqli_error($conn));
+        }
+
+        return $result;
+    }
+
+    // Funkcja pobierająca studentów w konkretnej grupie
+    function getStudentsByGroupId($conn, $groupId) {
+        $sql = "SELECT s.ID, s.nr_albumu, s.imie, s.nazwisko 
+                FROM tGrupyStudenci gs
+                JOIN tStudenci s ON gs.id_studenta = s.ID
+                WHERE gs.id_grupy = $groupId";
+        
+        $result = mysqli_query($conn, $sql);
         $students = [];
-        while ($row = $result->fetch_assoc()) {
-            // Przechowujemy dane studenta, a nie tylko ID
+        
+        while ($row = mysqli_fetch_assoc($result)) {
             $students[] = [
                 'id_studenta' => $row['ID'],
                 'nr_albumu' => $row['nr_albumu'],
@@ -104,17 +94,15 @@
         }
         
         return $students;
-    }    
-    
-    function getEntityNameById($conn, $table, $id) {
-        $query = "SELECT nazwa FROM $table WHERE id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $stmt->bind_result($name);
-        $stmt->fetch();
-        $stmt->close();
-        return $name;
     }
+
+    
+
+    function getEntityNameById($conn, $table, $id) {
+        $result = mysqli_query($conn, "SELECT nazwa FROM $table WHERE id = $id");
+        $row = mysqli_fetch_assoc($result);
+        return $row ? $row['nazwa'] : null;
+    }
+    
     
 ?>
