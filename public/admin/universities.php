@@ -4,8 +4,8 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $universityInfo = getEntityInfo($conn, 'tUczelnie');
-    $universityCount = getEntityCount($conn, 'tUczelnie');
+    $universityInfo = getTableInfo($conn, 'tUczelnie');
+    $universityCount = getTableCount($conn, 'tUczelnie');
 
 ?>
 

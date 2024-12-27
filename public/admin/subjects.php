@@ -4,8 +4,8 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
-    $subjectCount = getEntityCount($conn, 'tPrzedmioty');
+    $subjectInfo = getTableInfo($conn, 'tPrzedmioty');
+    $subjectCount = getTableCount($conn, 'tPrzedmioty');
 
 ?>
 

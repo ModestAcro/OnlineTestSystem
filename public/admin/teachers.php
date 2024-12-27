@@ -4,8 +4,8 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $teacherInfo = getEntityInfo($conn, 'tWykladowcy'); 
-    $teacherCount = getEntityCount($conn, 'tWykladowcy');
+    $teacherInfo = getTableInfo($conn, 'tWykladowcy'); 
+    $teacherCount = getTableCount($conn, 'tWykladowcy');
 
 ?>
 

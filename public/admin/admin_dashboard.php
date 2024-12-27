@@ -4,10 +4,10 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $studentCount = getEntityCount($conn, 'tStudenci');     // Liczba studentów
-    $teacherCount = getEntityCount($conn, 'tWykladowcy');   // Liczba nauczycieli
-    $subjectCount = getEntityCount($conn, 'tPrzedmioty');   // Liczba przedmiotów
-    $universityCount = getEntityCount($conn, 'tUczelnie');  // Liczba uczelni
+    $studentCount = getTableCount($conn, 'tStudenci');     // Liczba studentów
+    $teacherCount = getTableCount($conn, 'tWykladowcy');   // Liczba nauczycieli
+    $subjectCount = getTableCount($conn, 'tPrzedmioty');   // Liczba przedmiotów
+    $universityCount = getTableCount($conn, 'tUczelnie');  // Liczba uczelni
 
 ?>
 

@@ -6,19 +6,13 @@
 
     $userId = $_SESSION['user_id'];
 
-    // Pobiera liczbę grup związanych z nauczycielem
-    $studentGroupCount = getGroupCountByTeacherId($conn, 'tGrupy', $userId); 
+    // Pobranie grup związanych z nauczycielem
+    $groups = getGroupsByTeacher($conn, $userId);
 
-    // Pobiera dane dla tabel tStudenci, tPrzedmioty, tUczelnie
-    $studentInfo = getTableInfo($conn, 'tStudenci'); 
-    $subjectInfo = getTableInfo($conn, 'tPrzedmioty');
-    $universityInfo = getTableInfo($conn, 'tUczelnie');
-
-    // Wywołanie funkcji do zliczania studentów w konkretnej grupie
-    $studentCountAtGroup = getStudentCountByGroup($conn, $userId);
+    // Pobiera liczbę testów związanych z nauczycielem
+    $testCount = getTestCountForTeacher($conn, $userId); 
 
 
-    $studentGroupInfo = getStudentGroups($conn, $userId);
 
 
 ?>
@@ -29,7 +23,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../assets/css/main.css">
-    <title>Grupy studentów</title>
+    <title>Lista testów</title>
 </head>
 <body>
     <header>
@@ -53,74 +47,65 @@
     <main class="main">
         <div class="container">
             <div class="title">
-                <h1>Lista grup</h1>
+                <h1>Lista testów</h1>
 
-                <!-- Przycisk "Dodaj Grupę" -->
+                <!-- Przycisk "Dodaj Test" -->
                 <button class="add-btn" onclick="addEntity()">
                     <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
                 </button>
-                <!-- Przycisk "Dodaj Grupę" -->
+                <!-- Przycisk "Dodaj Test" -->
 
-                <!-- Okno modalne dodaj gupę -->
+                <!-- Okno modalne dodaj test-->
                 <div id="openModal" class="modal">
                     <div class="modal-content">
                         <span class="close-btn" id="closeModal">&times;</span>
-                        <h1 class="modal-header">Dodaj Grupę</h1>
+                        <h1 class="modal-header">Dodaj Test</h1>
                         <form action="../../includes/teacher/add_group.php" method="POST">
 
-                            <label>Rok</label>
-                            <input type="text" pattern="\d{4}" id="rok" name="rok" required>
 
-                            <!-- Lista uczelni do przypisania -->
-                            <label>Uczelnia</label>
-                            <select name="uczelnia" required>
-                                <option disabled selected>Wybierz uczelnię</option>
-                                <?php while ($university = mysqli_fetch_assoc($universityInfo)): ?>
-                                    <option value="<?php echo $university['ID']; ?>">
-                                        <?php echo $university['nazwa']; ?>
+                           <!-- Lista grup do przypisania -->
+                        <?php if (!empty($groups)): ?>
+                            <label>Wybierz grupę</label>
+                            <select name="grupa" required>
+                                <option disabled selected>Wybierz grupę</option>
+                                <?php foreach ($groups as $group): ?>
+                                    <option value="<?php echo $group['grupa_id']; ?>">
+
+                                    <?php
+                                        // Liczba studentów
+                                        $studentCount = $group['liczba_studentow'];
+
+                                        // Określenie końcówki
+                                        if ($studentCount == 1) {
+                                            $studentText = "student";
+                                        } else {
+                                            $studentText = "studentów";
+                                        }
+
+                                        // Wyświetlanie tekstu z odpowiednią końcówką
+                                        echo $group['rok'] . " - " . $group['uczelnia'] . " - " . $group['przedmiot'] . " - " . $group['grupa_nazwa'] . " (" . $studentCount . " " . $studentText . ")";
+                                    ?>
+
                                     </option>
-                                <?php endwhile; ?>
+                                <?php endforeach; ?>
                             </select>
-                            <!-- Lista uczelni do przypisania -->
+                        <?php else: ?>
+                            <p>Brak dostępnych grup</p>
+                        <?php endif; ?>
+                        <!-- Lista grup do przypisania -->
 
-
-                            <!-- Lista przedmiotów do przypisania -->
-                            <label>Przedmiot</label>
-                            <select name="przedmiot" required>
-                                <option disabled selected>Wybierz przedmiot</option>
-                                <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
-                                    <option value="<?php echo $subject['ID']; ?>">
-                                        <?php echo $subject['nazwa']; ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                            <!-- Lista przedmiotów do przypisania -->
-
-
-                            <!-- Lista studentów do przypisania -->
-                            <label>Wybierz studentów</label>
-                            <select id="studenci" name="studenci[]" multiple>
-                                <?php 
-                                // Przechodzimy przez listę studentów
-                                while ($student = mysqli_fetch_assoc($studentInfo)): ?>
-                                    <option value="<?php echo $student['nr_albumu']; ?>">
-                                        <?php echo htmlspecialchars($student['nr_albumu']); ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                            <!-- Lista studentów do przypisania -->
 
                             <label>Nazwa</label>
                             <input type="text" name="nazwa" required>
 
-                            <button type="submit" class="submit-btn">Dodaj grupę</button>
+                            <button type="submit" class="submit-btn">Dodaj test</button>
                         </form>
                     </div>
                 </div>
-                <!-- Okno modalne dodaj grupę-->
+                <!-- Okno modalne dodaj test-->
             </div>
 
-            <p>Ilość: <?php echo $studentGroupCount; ?></p>
+            <p>Ilość: <?php echo $testCount; ?></p>
             <table>
                 <thead>
                     <tr>
@@ -128,7 +113,7 @@
                         <th>Uczelnia</th>
                         <th>Przedmiot</th>
                         <th>Nazwa</th>
-                        <th>Liczba studentów</th>
+                        <th>Grupa</th>
                         <th></th>
                     </tr>
                 </thead>

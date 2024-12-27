@@ -15,7 +15,7 @@
     <header>
         <div class="header-content">
             <div class="left-header">
-                <a class="nav-btn" href="">Testy</a>
+                <a class="nav-btn" href="tests.php">Testy</a>
                 <a class="nav-btn" href="student_groups.php">Grupy</a>
             </div>
             <div class="right-header">

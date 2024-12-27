@@ -1,15 +1,15 @@
 <?php
 
     // Funkcja zwraca liczbę rekordów w tabeli
-    function getEntityCount($conn, $table) {
-        $query = "SELECT COUNT(*) AS entityCount FROM $table";
+    function getTableCount($conn, $table) {
+        $query = "SELECT COUNT(*) AS tableCount FROM $table";
         $result = mysqli_query($conn, $query);
 
-        return mysqli_fetch_assoc($result)['entityCount'];
+        return mysqli_fetch_assoc($result)['tableCount'];
     }
 
-    // Funkcja zwraca wszystkie rekordy z podanej tabeli
-    function getEntityInfo($conn, $table) {
+    // Funkcja zwraca wszystkie rekordy z tabeli
+    function getTableInfo($conn, $table) {
         $query = "SELECT * FROM $table";
 
         return mysqli_query($conn, $query);
@@ -102,6 +102,64 @@
         $result = mysqli_query($conn, "SELECT nazwa FROM $table WHERE id = $id");
         $row = mysqli_fetch_assoc($result);
         return $row ? $row['nazwa'] : null;
+    }
+
+
+   // Lista grup przypisanych do konkretnego nauczyciela
+    function getGroupsByTeacher($conn, $teacher_id) {
+        $sql = "
+            SELECT 
+                tGrupy.ID AS grupa_id, 
+                tGrupy.rok AS rok,
+                tUczelnie.nazwa AS uczelnia,
+                tPrzedmioty.nazwa AS przedmiot,
+                tGrupy.nazwa AS grupa_nazwa,
+                COUNT(tGrupyStudenci.id_studenta) AS liczba_studentow
+            FROM tGrupy
+            LEFT JOIN tUczelnie ON tGrupy.id_uczelni = tUczelnie.ID
+            LEFT JOIN tPrzedmioty ON tGrupy.id_przedmiotu = tPrzedmioty.ID
+            LEFT JOIN tGrupyStudenci ON tGrupy.ID = tGrupyStudenci.id_grupy
+            WHERE tGrupy.id_wykladowcy = $teacher_id  -- Warunek dla nauczyciela
+            GROUP BY tGrupy.ID, tGrupy.rok, tUczelnie.nazwa, tPrzedmioty.nazwa, tGrupy.nazwa;
+        ";
+
+        // Wykonanie zapytania
+        $result = $conn->query($sql);
+
+        // Jeśli zapytanie się powiodło, przygotuj dane
+        if ($result && $result->num_rows > 0) {
+            $groups = [];
+            while ($row = $result->fetch_assoc()) {
+                $groups[] = $row;
+            }
+            return $groups;
+        }
+
+        // Jeśli nie ma wyników lub zapytanie się nie powiodło, zwróć pustą tablicę
+        return [];
+    }
+
+    
+    function getTestCountForTeacher($conn, $teacher_id) {
+        // Zapytanie SQL, które liczy liczbę testów dla nauczyciela
+        $sql = "
+            SELECT COUNT(tTesty.ID) AS liczba_testow
+            FROM tTesty
+            INNER JOIN tGrupy ON tTesty.id_grupy = tGrupy.ID
+            WHERE tGrupy.id_wykladowcy = $teacher_id
+        ";
+    
+        // Wykonanie zapytania
+        $result = $conn->query($sql);
+    
+        // Sprawdzenie, czy zapytanie się powiodło
+        if ($result) {
+            // Pobranie wyniku
+            $row = $result->fetch_assoc();
+            return $row['liczba_testow'];
+        } else {
+            return 0; // Jeśli zapytanie nie powiodło się
+        }
     }
     
     

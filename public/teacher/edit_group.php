@@ -13,9 +13,9 @@
     $group = getRecordById($conn, 'tGrupy', $groupId);
 
     // Pobranie danych uczelni
-    $universityInfo = getEntityInfo($conn, 'tUczelnie');
-    $subjectInfo = getEntityInfo($conn, 'tPrzedmioty');
-    $studentInfo = getEntityInfo($conn, 'tStudenci'); 
+    $universityInfo = getTableInfo($conn, 'tUczelnie');
+    $subjectInfo = getTableInfo($conn, 'tPrzedmioty');
+    $studentInfo = getTableInfo($conn, 'tStudenci'); 
 
     // Pobietranie studentów w konkretnej grupi
     $assignedStudents = getStudentsByGroupId($conn, $groupId);
@@ -49,7 +49,8 @@
                 <label>Rok</label>
                 <input type="text" name="rok" value="<?php echo $group['rok']; ?>">
 
-               <!-- Lista uczelni -->
+                <!-- Lista uczelni -->
+                <label>Uczelnia</label>
                 <select name="uczelnia" required>
                     <option value="<?php echo $assignedUniversityID; ?>" selected>
                         <?php echo $assignedUniversityName; ?>
@@ -63,6 +64,7 @@
                 <!-- Lista uczelni -->
 
                 <!-- Lista przedmiotów -->
+                <label>Przedmiot</label>
                 <select name="przedmiot" required>
                     <option value="<?php echo $assignedSubjectID; ?>" selected>
                         <?php echo $assignedSubjectName; ?>
