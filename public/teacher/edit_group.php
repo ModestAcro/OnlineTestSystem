@@ -119,7 +119,7 @@
 
     <!-- Pliki JavaScript --> 
     <script src="../../assets/js/multi_select.js"></script>  
-    <script src="../../assets/js/modalWindows.js"></script>  
+    <script src="../../assets/js/modal_windows.js"></script>  
 
 
     <!-- multi_select.js --> 

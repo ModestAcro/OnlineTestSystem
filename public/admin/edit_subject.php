@@ -55,6 +55,6 @@
     </main>
 
     <!-- Plik JavaScript --> 
-    <script src="../../assets/js/modalWindows.js"></script>  
+    <script src="../../assets/js/modal_windows.js"></script>  
 </body>
 </html>

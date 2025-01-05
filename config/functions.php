@@ -139,28 +139,33 @@
         return [];
     }
 
-    
-    function getTestCountForTeacher($conn, $teacher_id) {
-        // Zapytanie SQL, które liczy liczbę testów dla nauczyciela
-        $sql = "
-            SELECT COUNT(tTesty.ID) AS liczba_testow
-            FROM tTesty
-            INNER JOIN tGrupy ON tTesty.id_grupy = tGrupy.ID
-            WHERE tGrupy.id_wykladowcy = $teacher_id
-        ";
-    
-        // Wykonanie zapytania
-        $result = $conn->query($sql);
-    
-        // Sprawdzenie, czy zapytanie się powiodło
-        if ($result) {
-            // Pobranie wyniku
-            $row = $result->fetch_assoc();
-            return $row['liczba_testow'];
-        } else {
-            return 0; // Jeśli zapytanie nie powiodło się
-        }
+    // <!-- tTesty -->
+
+    // Funkcja zwraca liczbę testów w tabeli przywiazanych do konkretnego nauczyciela
+    function getTestCountByTeacherId($conn, $table, $userId) {
+        $query = "SELECT COUNT(*) AS entityCountById FROM $table WHERE id_wykladowcy = '$userId'";
+        $result = mysqli_query($conn, $query);
+        return mysqli_fetch_assoc($result)['entityCountById'];
     }
+
+
+    // Funkcja pobierająca listę testów dla konkretnego wykładowcy
+    function getTestsByTeacherId($conn, $userId) {
+        $query = "
+            SELECT * 
+            FROM tTesty 
+            WHERE id_wykladowcy = '$userId'
+        ";
+
+        $result = mysqli_query($conn, $query);
+
+        if (!$result) {
+            die("Błąd zapytania: " . mysqli_error($conn));
+        }
+
+        return $result;
+    }
+
     
     
 ?>

@@ -6,14 +6,10 @@
 
     $userId = $_SESSION['user_id'];
 
-    // Pobranie grup związanych z nauczycielem
-    $groups = getGroupsByTeacher($conn, $userId);
-
     // Pobiera liczbę testów związanych z nauczycielem
-    $testCount = getTestCountForTeacher($conn, $userId); 
+    $testCount = getTestCountByTeacherId($conn, 'tTesty', $userId); 
 
-
-
+    $tTestyInfo = getTestsByTeacherId($conn, $userId);
 
 ?>
 
@@ -35,9 +31,9 @@
                 <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
 
                 <!-- Formularz wylogowania -->
-                <form action="../../config/logout.php" method="POST">
-                    <button type="submit" class="logout-btn">Wyloguj</button>
-                </form>
+                <?php
+                    include('../../includes/logout_modal.php');
+                ?>
                 <!-- Formularz wylogowania -->
 
             </div>
@@ -60,43 +56,22 @@
                     <div class="modal-content">
                         <span class="close-btn" id="closeModal">&times;</span>
                         <h1 class="modal-header">Dodaj Test</h1>
-                        <form action="../../includes/teacher/add_group.php" method="POST">
-
-
-                           <!-- Lista grup do przypisania -->
-                        <?php if (!empty($groups)): ?>
-                            <label>Wybierz grupę</label>
-                            <select name="grupa" required>
-                                <option disabled selected>Wybierz grupę</option>
-                                <?php foreach ($groups as $group): ?>
-                                    <option value="<?php echo $group['grupa_id']; ?>">
-
-                                    <?php
-                                        // Liczba studentów
-                                        $studentCount = $group['liczba_studentow'];
-
-                                        // Określenie końcówki
-                                        if ($studentCount == 1) {
-                                            $studentText = "student";
-                                        } else {
-                                            $studentText = "studentów";
-                                        }
-
-                                        // Wyświetlanie tekstu z odpowiednią końcówką
-                                        echo $group['rok'] . " - " . $group['uczelnia'] . " - " . $group['przedmiot'] . " - " . $group['grupa_nazwa'] . " (" . $studentCount . " " . $studentText . ")";
-                                    ?>
-
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        <?php else: ?>
-                            <p>Brak dostępnych grup</p>
-                        <?php endif; ?>
-                        <!-- Lista grup do przypisania -->
-
+                        <form action="../../includes/teacher/add_test.php" method="POST">
 
                             <label>Nazwa</label>
-                            <input type="text" name="nazwa" required>
+                            <input type="text" name="nazwaTestu" required>
+
+                            <label>Data rozpoczęcia</label>
+                            <input type="date" name="dataRozpoczeciaTestu" required>
+
+                            <label>Data zakończenia</label>
+                            <input type="date" name="dataZakonczeniaTestu" required>
+
+                            <label>Czas trwania (min.)</label>
+                            <input type="number" name="czasTrwaniaTestu" required>
+
+                            <label>Ilość prób</label>
+                            <input type="text" name="iloscProbTestu" required>
 
                             <button type="submit" class="submit-btn">Dodaj test</button>
                         </form>
@@ -109,39 +84,35 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Rok</th>
-                        <th>Uczelnia</th>
-                        <th>Przedmiot</th>
                         <th>Nazwa</th>
-                        <th>Grupa</th>
+                        <th>Data utworzenia</th>
+                        <th>Data rozpoczęcia</th>
+                        <th>Data zakończenia</th>
+                        <th>Czas trwania (min.)</th>
+                        <th>Ilość prób</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($groupData = mysqli_fetch_assoc($studentGroupInfo)): ?>
+                    <?php while ($testData = mysqli_fetch_assoc($tTestyInfo)): ?>
                         <tr>
-                            <td><?php echo $groupData['rok']; ?></td>
-                            <td><?php echo $groupData['nazwa_uczelni']; ?></td>
-                            <td><?php echo $groupData['przedmiot']; ?></td>
-                            <td><?php echo $groupData['nazwa_grupy']; ?></td>
-                            <td>
-                            <?php 
-                                // Wyświetlanie liczby studentów przypisanych do danej grupy
-                                $groupId = $groupData['ID'];
-                                echo isset($studentCountAtGroup[$groupId]) ? $studentCountAtGroup[$groupId] : 0;
-                            ?>
-                            </td>
-
+                            <td><?php echo $testData['nazwa']; ?></td>
+                            <td><?php echo date('Y-m-d', strtotime($testData['data_utworzenia'])); ?></td>
+                            <td><?php echo date('Y-m-d', strtotime($testData['data_rozpoczecia'])); ?></td>
+                            <td><?php echo date('Y-m-d', strtotime($testData['data_zakonczenia'])); ?></td>
+                            <td><?php echo $testData['czas_trwania']; ?></td>
+                            <td><?php echo $testData['ilosc_prob']; ?></td>
+                    
                             <!-- Przyciski "Modyfikuj" -->
                             <td>
-                                <a href="edit_group.php?group_id=<?php echo $groupData['ID']; ?>" class="btn-edit">
+                                <a href="edit_test.php?test_id=<?php echo $testData['ID']; ?>" class="btn-edit">
                                     <img src="../../assets/images/icons/edit.svg" class="edit-icon">
                                 </a>
                             </td>
                             <!-- Przyciski "Modyfikuj" -->
                              
                         </tr>
-                    <?php endwhile; ?>
+                    <?php endwhile; ?> 
                 </tbody>
             </table>
         </div>
@@ -149,13 +120,6 @@
 
     
     <script src="../../assets/js/modal_windows.js"></script>  
-    <script src="../../assets/js/multi_select.js"></script>  
-
-    <!-- multi_select.js --> 
-    <script>
-        new MultiSelectTag('studenci')  // id
-    </script>
-    <!-- multi_select.js --> 
 
 </body>
 </html>

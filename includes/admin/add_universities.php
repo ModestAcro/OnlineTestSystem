@@ -4,15 +4,15 @@
     require_once('../../config/connect.php');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nazwaUczelni = $_POST['nazwa_uczelni'];
-        $miasto = $_POST['miasto'];
-        $kraj = $_POST['kraj'];
-        $kontynent = $_POST['kontynent'];
-        $adres = $_POST['adres_uczelni'];
-        $uwagi = $_POST['uwagi'];
+        $nazwaUczelni = $_POST['nazwaUczelni'];
+        $miasto = $_POST['miastouczelni'];
+        $kraj = $_POST['krajUczelni'];
+        $kontynent = $_POST['kontynentUczelni'];
+        $adres = $_POST['adresuczelni'];
+        $uwagi = $_POST['uwagiUczelni'];
 
         // Dodanie grupy do bazy danych
-        $addUniversitiQuery = "INSERT INTO tUczelnie (nazwa_uczelni, miasto, kraj, kontynent, adres_uczelni, uwagi)  
+        $addUniversitiQuery = "INSERT INTO tUczelnie (nazwa, miasto, kraj, kontynent, adres, uwagi)  
                   VALUES ('$nazwaUczelni', '$miasto', '$kraj', '$kontynent', '$adres', '$uwagi')";
 
         if (mysqli_query($conn, $addUniversitiQuery)) {

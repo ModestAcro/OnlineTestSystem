@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalWindow = document.getElementById('openModal');
     const closeBtn = document.getElementById('closeModal');
 
+
     // Funkcja otwierająca modal
     window.addEntity = function () {
         modalWindow.style.display = 'block';
@@ -10,6 +11,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // Funkcja zamykająca modal
     closeBtn.addEventListener('click', function () {
         modalWindow.style.display = 'none';
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutModalWindow = document.getElementById('openLogoutModal');
+    const closeLogoutModal = document.getElementById('closeLogoutModal');
+
+    // Funkcja otwierająca modal wylogowania
+    window.LogoutModal = function () {
+        logoutModalWindow.style.display = 'block';
+    };
+
+    closeLogoutModal.addEventListener('click', function() {
+        logoutModalWindow.style.display = 'none';
     });
 });
 

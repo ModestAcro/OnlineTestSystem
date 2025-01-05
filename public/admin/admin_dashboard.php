@@ -32,10 +32,11 @@
                 <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
 
                 <!-- Formularz wylogowania -->
-                <form action="../../config/logout.php" method="POST">
-                    <button type="submit" class="logout-btn">Wyloguj</button>
-                </form>
+                <?php
+                    include('../../includes/logout_modal.php');
+                ?>
                 <!-- Formularz wylogowania -->
+
             </div>
         </div>
     </header>
@@ -86,5 +87,9 @@
         </div>
     </main>
 </main>
+
+
+    <!-- Plik JavaScript --> 
+    <script src="../../assets/js/modal_windows.js"></script>  
 </body>
 </html>
