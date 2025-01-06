@@ -45,11 +45,12 @@
             <div class="title">
                 <h1>Lista testów</h1>
 
-                <!-- Przycisk "Dodaj Test" -->
-                <button class="add-btn" onclick="addEntity()">
+               <!-- Przycisk "Dodaj Test" -->
+                <button class="add-btn" onclick="location.href='add_test.php'">
                     <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
                 </button>
                 <!-- Przycisk "Dodaj Test" -->
+
 
                 <!-- Okno modalne dodaj test-->
                 <div id="openModal" class="modal">
@@ -73,7 +74,7 @@
                             <label>Ilość prób</label>
                             <input type="text" name="iloscProbTestu" required>
 
-                            <button type="submit" class="submit-btn">Dodaj test</button>
+                            <button type="submit" class="submit-btn">Dodaj</button>
                         </form>
                     </div>
                 </div>
