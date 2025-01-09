@@ -157,11 +157,11 @@
                 </div>
             </div>
 
-             <!-- Przycisk "Dodaj Grupę" -->
+             <!-- Przycisk "Dodaj test" -->
              <button style="margin-top: 30px;"class="add-btn" onclick="addEntity()">
                     <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
                 </button>
-            <!-- Przycisk "Dodaj Grupę" -->
+            <!-- Przycisk "Dodaj test" -->
 
             <!-- Question card -->
 
@@ -207,6 +207,7 @@
     </main>    
 
 
+    <!-- Plik javascript -->
     <script src="../../assets/js/modal_windows.js"></script>  
 
 </body>

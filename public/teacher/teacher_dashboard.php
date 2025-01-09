@@ -16,7 +16,8 @@
         <div class="header-content">
             <div class="left-header">
                 <a class="nav-btn" href="tests.php">Testy</a>
-                <a class="nav-btn" href="student_groups.php">Grupy</a>
+                <a class="nav-btn" href="questions.php">Pytania</a>
+                <a class="nav-btn" href="student_groups.php">Grupy studentów</a>
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>

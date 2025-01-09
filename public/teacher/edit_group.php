@@ -9,24 +9,26 @@
     // Pobranie ID grupy z parametrów GET
     $groupId = $_GET['group_id'];
 
-    // Funkcja zwraca pojedynczy rekord na podstawie ID
+    // Funkcja wyszukuje rekord w tabeli po ID i pobiera wszystkie dane z tego rekordu
     $group = getRecordById($conn, 'tGrupy', $groupId);
+
+    // Pobieranie ID uniwersytetu oraz przedmiotu którą wybrał nauczyciel gdy tworzył grupę
+    $assignedUniversityID = $group['id_uczelni'];
+    $assignedSubjectID = $group['id_przedmiotu'];
 
     // Pobranie danych uczelni
     $universityInfo = getTableInfo($conn, 'tUczelnie');
     $subjectInfo = getTableInfo($conn, 'tPrzedmioty');
     $studentInfo = getTableInfo($conn, 'tStudenci'); 
 
-    // Pobietranie studentów w konkretnej grupi
+    // Pobietranie studentów w konkretnej grupie
     $assignedStudents = getStudentsByGroupId($conn, $groupId);
 
     // Pobranie nazwy uczelni którą wybrał nauczyciel gdy tworzył grupę
-    $assignedUniversityName = getEntityNameById($conn, 'tUczelnie', $group['id_uczelni']);
-    $assignedUniversityID = $group['id_uczelni'];  // Dodaj tę linię
+    $assignedUniversityName = getRecordNameById($conn, 'tUczelnie', $assignedUniversityID);
 
     // Pobranie nazwy przedmiotu którą wybrał nauczyciel gdy tworzył grupę
-    $assignedSubjectName = getEntityNameById($conn, 'tPrzedmioty', $group['id_przedmiotu']);
-    $assignedSubjectID = $group['id_przedmiotu'];
+    $assignedSubjectName = getRecordNameById($conn, 'tPrzedmioty', $assignedSubjectID);
 
 ?>
 
@@ -77,21 +79,25 @@
                 </select>
                 <!-- Lista przedmiotów -->
 
-               <!-- Lista studentów -->
-               <label>Wybierz studentów</label>
-               <select id="studenci" name="studenci[]" multiple>
+                <!-- Lista studentów -->
+                <label>Wybierz studentów</label>
+                <select id="studenci" name="studenci[]" multiple>
                     <?php 
                     // Przechodzimy przez wszystkich studentów
                     while ($student = mysqli_fetch_assoc($studentInfo)): 
-                        // Sprawdzamy, czy student jest już przypisany do grupy
-                        $isSelected = in_array($student['ID'], array_column($assignedStudents, 'id_studenta')) ? 'selected' : '';
+                        // Pobranie listy ID przypisanych studentów
+                        $assignedStudentIds = array_column($assignedStudents, 'id_studenta');
+                        
+                        // Sprawdzenie, czy student jest już przypisany do grupy
+                        $czyZaznaczony = in_array($student['ID'], $assignedStudentIds) ? 'selected' : '';
                     ?>
-                        <option value="<?php echo $student['ID']; ?>" <?php echo $isSelected; ?>>
+                        <option value="<?php echo $student['ID']; ?>" <?php echo $czyZaznaczony; ?>>
                             <?php echo $student['nr_albumu'] . ' - ' . $student['imie'] . ' ' . $student['nazwisko']; ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
                 <!-- Lista studentów -->
+
 
                 <label>Nazwa</label>
                 <input type="text" name="nazwa" value="<?php echo htmlspecialchars($group['nazwa']); ?>">

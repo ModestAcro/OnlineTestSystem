@@ -53,7 +53,7 @@
     <main class="main">
         <div class="container">
             <div class="title">
-                <h1>Lista grup</h1>
+                <h1>Grupy studentów</h1>
 
                 <!-- Przycisk "Dodaj Grupę" -->
                 <button class="add-btn" onclick="addEntity()">
@@ -104,7 +104,7 @@
                                 // Przechodzimy przez listę studentów
                                 while ($student = mysqli_fetch_assoc($studentInfo)): ?>
                                     <option value="<?php echo $student['nr_albumu']; ?>">
-                                        <?php echo htmlspecialchars($student['nr_albumu']); ?>
+                                        <?php echo $student['nr_albumu'] . ' - ' . $student['imie'] . ' ' . $student['nazwisko']; ?>
                                     </option>
                                 <?php endwhile; ?>
                             </select>
@@ -143,7 +143,7 @@
                             <?php 
                                 // Wyświetlanie liczby studentów przypisanych do danej grupy
                                 $groupId = $groupData['ID'];
-                                echo isset($studentCountAtGroup[$groupId]) ? $studentCountAtGroup[$groupId] : 0;
+                                echo $studentCountAtGroup[$groupId] ?? 0;
                             ?>
                             </td>
 
