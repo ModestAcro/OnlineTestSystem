@@ -70,10 +70,10 @@
 
                 <!-- Przycisk "Dodaj pytanie" -->
                 <div class="questions">
-                    <a class="nav-btn" href="add_multichoice.php">Dodaj pytanie wielokrotnego wyboru</a>
-                    <a class="nav-btn" href="add_true_false.php">Dodaj pytanie prawda falsz</a>
+                    <a class="" style="background: #45a049; color: white; padding: 10px; border-radius: 10px;" href="add_multichoice.php">Dodaj pytanie</a>
                 </div>
                 <!-- Przycisk "Dodaj pytanie" -->
+
             </div>
 
             <p>Ilość: <?php echo $QuestionCount; ?></p>

@@ -8,34 +8,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $question_text = $_POST['question_text'];
     $typ = $_POST['type'];
     $subject_id = $_POST['subject'];
-    $user_id = $_SESSION['user_id'];  // Pobieramy id użytkownika
+    $user_id = $_SESSION['user_id'];  
 
-    // Obsługa pliku obrazu
-    $obrazek = null;
-    if (isset($_FILES['attachment']) && $_FILES['attachment']['error'][0] == UPLOAD_ERR_OK) {
-        $upload_dir = "../../uploads/";
-        $obrazek = $upload_dir . basename($_FILES['attachment']['name'][0]);
-        move_uploaded_file($_FILES['attachment']['tmp_name'][0], $obrazek);
+    // Tworzenie folderu dla nauczyciela, jeśli jeszcze nie istnieje
+    $upload_dir = "../../uploads/" . $user_id . "/";
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true);  // Tworzy folder dla nauczyciela, jeśli nie istnieje
     }
 
     // Zapis pytania do bazy
-    $query = "INSERT INTO tPytania (id_przedmiotu, id_wykladowcy, tresc, typ, data_stworzenia, data_aktualizacji, obrazek) 
-              VALUES ('$subject_id', '$user_id', '$question_text', '$typ', NOW(), NOW(), '$obrazek')";
+    $query = "INSERT INTO tPytania (id_przedmiotu, id_wykladowcy, tresc, typ, data_stworzenia, data_aktualizacji) 
+              VALUES ('$subject_id', '$user_id', '$question_text', '$typ', NOW(), NOW())";
     mysqli_query($conn, $query);
     $question_id = mysqli_insert_id($conn);  // Pobieramy ID ostatnio dodanego pytania
 
     // Pobranie odpowiedzi
     $answers = $_POST['answers'];
     $points = $_POST['points'];
-    $correct = isset($_POST['correct']) ? $_POST['correct'] : []; // Upewniamy się, że 'correct' zawsze istnieje
+    $correct = $_POST['correct'];
+
+    // Mapowanie poprawnych odpowiedzi
+    $correct_indices = [];
+    foreach ($correct as $correct_option) {
+        // Wydobycie indeksu z nazwy opcji (np. "Option 1" -> 0)
+        if (preg_match('/Option (\d+)/', $correct_option, $matches)) {
+            $correct_indices[] = $matches[1] - 1; // Indeksy zaczynają się od 0
+        }
+    }
 
     // Zapis odpowiedzi do bazy
     foreach ($answers as $key => $answer) {
         // Sprawdzamy, czy odpowiedź jest poprawna
-        $is_correct = in_array($key, $correct) ? 1 : 0;
+        $is_correct = in_array($key, $correct_indices) ? 1 : 0;
 
         $query = "INSERT INTO tOdpowiedzi (id_pytania, tresc, data_stworzenia, data_aktualizacji, correct, punkty) 
-                  VALUES ('$question_id', '$answer', NOW(), NOW(), '$is_correct', '$points[$key]')";
+                  VALUES ('$question_id', '$answer', NOW(), NOW(), '$is_correct', '{$points[$key]}')";
         mysqli_query($conn, $query);
     }
 
@@ -45,14 +52,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $file_tmp_names = $_FILES['attachment']['tmp_name'];
         $file_errors = $_FILES['attachment']['error'];
 
+        // Iterujemy po wszystkich załącznikach
         foreach ($file_names as $index => $file_name) {
             if ($file_errors[$index] === UPLOAD_ERR_OK) {
-                // Ścieżka do folderu z załącznikami
-                $target_dir = "../../uploads/";
-                $target_file = $target_dir . basename($file_name);
+                // Generujemy ścieżkę do folderu nauczyciela
+                $target_file = $upload_dir . basename($file_name);
+
+                // Przenosimy plik i zapisujemy ścieżkę w bazie
                 if (move_uploaded_file($file_tmp_names[$index], $target_file)) {
-                    // Zapisujemy ścieżkę pliku w bazie
-                    $query = "INSERT INTO tZałączniki (question_id, file_path) VALUES ('$question_id', '$target_file')";
+                    // Zapisujemy ścieżkę pliku w tabeli tZalaczniki
+                    $query = "INSERT INTO tZalaczniki (id_pytania, file_path, data_stworzenia, data_aktualizacji) 
+                              VALUES ('$question_id', '$target_file', NOW(), NOW())";
                     mysqli_query($conn, $query);
                 }
             }
