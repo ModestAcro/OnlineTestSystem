@@ -80,13 +80,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Przedmiot</th>
-                        <th>Pytanie</th>
-                        <th>Typ</th>
-                        <th>Odpowiedzi</th>
-                        <th>Całkowita liczba punktów</th>
-                        <th></th>
+                        <th style="width: 20%;">Przedmiot</th> <!-- Najwięcej miejsca dla dłuższego tekstu -->
+                        <th style="width: 25%;">Pytanie</th>   <!-- Średnio dużo miejsca -->
+                        <th style="width: 10%;">Typ</th>       <!-- Krótki tekst -->
+                        <th style="width: 30%;">Odpowiedzi</th> <!-- Dłuższy tekst -->
+                        <th style="width: 10%;">Całkowita liczba punktów</th> <!-- Liczby -->
+                        <th style="width: 5%;"></th> <!-- Pusta kolumna -->
                     </tr>
+
                 </thead>
                 <tbody>
                     <?php while ($QuestionData = mysqli_fetch_assoc($QuestionInfo)): ?>
@@ -105,18 +106,22 @@
                                     // Pobierz odpowiedzi dla pytania
                                     $answers = getAnswersByQuestionId($conn, $QuestionData['ID']);
                                     $totalPoints = 0; // Zmienna do sumowania punktów
+                                    $questionNumber = 1; // Numer pytania
 
                                     while ($answer = $answers->fetch_assoc()): 
                                         $totalPoints += $answer['punkty']; // Dodaj punkty z bieżącej odpowiedzi
                                     ?>
                                         <li>
-                                            <?php echo $answer['tresc']; ?>
-                                            (Punkty: <?php echo $answer['punkty']; ?>)
+                                            Odpowiedź <?php echo $questionNumber; ?> 
+                                            (Punkty: <?php echo number_format($answer['punkty'], 2); ?>)
                                             <?php if ($answer['correct'] == 1): ?>
                                                 <strong>(Poprawna)</strong>
                                             <?php endif; ?>
                                         </li>
-                                    <?php endwhile; ?>
+                                    <?php 
+                                        $questionNumber++; // Zwiększ numer pytania
+                                    endwhile; 
+                                    ?>
                                 </ul>
                             </td>
                             <!-- Kolumna z całkowitą liczbą punktów -->
@@ -125,7 +130,7 @@
                             </td>
                             <!-- Przyciski "Modyfikuj" -->
                             <td>
-                                <a href="edit_group.php?question_id=<?php echo $QuestionData['ID']; ?>" class="btn-edit">
+                                <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>" class="btn-edit">
                                     <img src="../../assets/images/icons/edit.svg" class="edit-icon">
                                 </a>
                             </td>
