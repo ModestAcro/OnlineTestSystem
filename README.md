@@ -1,28 +1,28 @@
 # System do torzenia i przeprowadzania testów wyboru
 
-Webowa aplikacja do zarządzania testami, która umożliwia nauczycielom tworzenie testów, śledzenie wyników uczniów oraz generowanie raportów.  
-Uczniowie mogą rozwiązywać testy w prosty i wygodny sposób.  
-Administrator zarządza rejestracją uczniów i nauczycieli.
+## Opis projektu
+Ten system to aplikacja webowa przeznaczona dla administratorów, nauczycieli i uczniów, umożliwiająca tworzenie oraz przeprowadzanie testów online. System został zaprojektowany w celu usprawnienia zarządzania użytkownikami, tworzenia testów i analizowania wyników.
 
 ---
 
 ## Funkcjonalności
 
+### Administrator systemu:
+- **Rejestrowania i edytowania nauczycieli oraz uczniów.**
+- **Zarządzanie przedmiotami (dodawanie, edytowanie, usuwanie).**
+- **Zarządzanie kierunkami (dodawanie, edytowanie, usuwanie).**
+
 ### Dla nauczycieli:
 - **Logowanie**
-- **Tworzenie przedmiotów i grup uczniów**
-- **Tworzenie, edytowanie i usuwanie testów**
-- **Zarządzanie terminami testów**
-- **Przeglądanie wyników uczniów i generowanie raportów w formacie xlsx**
+- **Tworzyć grupy studentów.**
+- **Dodawać pytania do bazy pytań.**
+- **Tworzyć testy z wykorzystaniem wcześniej utworzonych pytań.**
+- **Sprawdzać odpowiedzi i wyniki studentów na przeprowadzonych testach.**
 
 ### Dla uczniów:
 - **Logowanie**
-- **Rozwiązywanie testów**
-- **Przeglądanie wyników testów**
-
-### Dla administratorów:
-- **Rejestracja użytkowników (nauczycieli i uczniów)**
-- **Zarządzanie użytkownikami (edycja, usuwanie kont)**
+- **Rozwiązywanie testów.**
+- **Przeglądania wyników swoich testów po ich zakończeniu.**
 
 ---
 
@@ -48,13 +48,14 @@ Administrator zarządza rejestracją uczniów i nauczycieli.
    - XAMPP: [https://www.apachefriends.org/](https://www.apachefriends.org/)
   
 3. **Konfiguracja bazy danych**:  
-   Importuj plik SQL z folderu projektu.
+   Zaimportuj plik SQL (online_test_system.sql) z folderu projektu do swojej bazy danych.
 
-4. **Edytuj plik**:  
-   `OnlineTestSystem/config/connect.php`
+4. **Edycja pliku konfiguracyjnego**:  
+   Otwórz i edytuj plik konfiguracyjny:
+   `OnlineTestSystem/config/connect.php`, wprowadzając odpowiednie dane dostępowe do bazy danych.
 
 5. **Uruchomienie serwera**:  
-   `localhost`
+   Uruchom lokalny serwer na adresie `localhost`, aby rozpocząć korzystanie z aplikacji.
 
 ---
 
