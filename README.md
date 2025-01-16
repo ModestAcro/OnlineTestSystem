@@ -1,4 +1,4 @@
-# System do Ttorzenia i przeprowadzania testów wyboru
+# System do torzenia i przeprowadzania testów wyboru
 
 Webowa aplikacja do zarządzania testami, która umożliwia nauczycielom tworzenie testów, śledzenie wyników uczniów oraz generowanie raportów.  
 Uczniowie mogą rozwiązywać testy w prosty i wygodny sposób.  
