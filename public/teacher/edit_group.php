@@ -13,11 +13,11 @@
     $group = getRecordById($conn, 'tGrupy', $groupId);
 
     // Pobieranie ID uniwersytetu oraz przedmiotu którą wybrał nauczyciel gdy tworzył grupę
-    $assignedUniversityID = $group['id_uczelni'];
+    $assignedUniversityID = $group['id_kierunku'];
     $assignedSubjectID = $group['id_przedmiotu'];
 
     // Pobranie danych uczelni
-    $universityInfo = getTableInfo($conn, 'tUczelnie');
+    $universityInfo = getTableInfo($conn, 'tKierunki');
     $subjectInfo = getTableInfo($conn, 'tPrzedmioty');
     $studentInfo = getTableInfo($conn, 'tStudenci'); 
 
@@ -25,7 +25,7 @@
     $assignedStudents = getStudentsByGroupId($conn, $groupId);
 
     // Pobranie nazwy uczelni którą wybrał nauczyciel gdy tworzył grupę
-    $assignedUniversityName = getRecordNameById($conn, 'tUczelnie', $assignedUniversityID);
+    $assignedUniversityName = getRecordNameById($conn, 'tKierunki', $assignedUniversityID);
 
     // Pobranie nazwy przedmiotu którą wybrał nauczyciel gdy tworzył grupę
     $assignedSubjectName = getRecordNameById($conn, 'tPrzedmioty', $assignedSubjectID);

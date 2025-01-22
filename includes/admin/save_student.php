@@ -10,13 +10,16 @@
         $emailStudenta = $_POST['emailStudenta'];
         $hasloStudenta = $_POST['hasloStudenta'];
         $uwagiStudenta = $_POST['uwagiStudenta'];
+        $id_kierunku = $_POST['kierunekStudenta'];
+        $rok = $_POST['rokStudenta'];
+
 
         // Przekształcenie hasła na bezpieczną formę
         $hashedPassword = password_hash($hasloStudenta, PASSWORD_DEFAULT);
 
         // Dodanie wykładowcy do bazy danych
-        $addStudentQuery = "INSERT INTO tStudenci (nr_albumu, imie, nazwisko, email, haslo, uwagi, aktywny) 
-                  VALUES ('$nr_albumu', '$imieStudenta', '$nazwiskoStudenta', '$emailStudenta', '$hashedPassword', '$uwagiStudenta', 'N')";
+        $addStudentQuery = "INSERT INTO tStudenci (nr_albumu, imie, nazwisko, email, haslo, uwagi, aktywny, id_kierunku, rok) 
+                  VALUES ('$nr_albumu', '$imieStudenta', '$nazwiskoStudenta', '$emailStudenta', '$hashedPassword', '$uwagiStudenta', 'N', '$id_kierunku', '$rok')";
 
         if (mysqli_query($conn, $addStudentQuery)) {
             header("Location: ../../public/admin/students.php"); // Przekierowanie po dodaniu

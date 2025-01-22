@@ -5,9 +5,10 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-
     $studentId = $_GET['student_id'];
     $student = getRecordById($conn, 'tStudenci', $studentId);
+
+    $courseInfo = getTableInfo($conn, 'tKierunki');
 
 ?>
 
@@ -29,6 +30,22 @@
 
                 <label for="nrAlbumu">Nr. albumu</label>
                 <input type="text" name="nrAlbumuStudenta" value="<?php echo $student['nr_albumu']; ?>" required>
+
+                <!-- Lista kierunków do przypisania -->
+                <label>Kierunek</label>
+                <select name="kierunekStudenta" required>
+                    <option value="" disabled>Wybierz kierunek</option>
+                    <?php while ($course = mysqli_fetch_assoc($courseInfo)): ?>
+                        <option value="<?php echo $course['ID']; ?>" 
+                            <?php echo $course['ID'] == $student['id_kierunku'] ? 'selected' : ''; ?>>
+                            <?php echo $course['nazwa']; ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+                <!-- Lista kierunków do przypisania -->
+
+                <label for="rok">Rok</label>
+                <input type="number" name="rokStudenta" value="<?php echo $student['rok']; ?>" required>
 
                 <label for="imie">Imię</label>
                 <input type="text" name="imieStudenta" value="<?php echo $student['imie']; ?>" required>

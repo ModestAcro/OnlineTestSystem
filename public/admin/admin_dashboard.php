@@ -7,7 +7,7 @@
     $studentCount = getTableCount($conn, 'tStudenci');     // Liczba studentów
     $teacherCount = getTableCount($conn, 'tWykladowcy');   // Liczba nauczycieli
     $subjectCount = getTableCount($conn, 'tPrzedmioty');   // Liczba przedmiotów
-    $universityCount = getTableCount($conn, 'tUczelnie');  // Liczba uczelni
+    $coursesCount = getTableCount($conn, 'tKierunki');  // Liczba uczelni
 
 ?>
 
@@ -26,7 +26,7 @@
                 <a class="nav-btn" href="teachers.php">Wykładowcy</a>
                 <a class="nav-btn" href="students.php">Studeńci</a>
                 <a class="nav-btn" href="subjects.php">Przedmioty</a>
-                <a class="nav-btn" href="universities.php">Uczelnie</a>
+                <a class="nav-btn" href="courses.php">Kierunki</a>
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
@@ -46,43 +46,51 @@
             <div class="info">
                 <!-- Informacja o wykładowcach -->
                 <div class="teachers">
-                    <div class="card">
-                        <img src="../../assets/images/icons/teacher-icon.png" alt="Teacher Avatar" class="card-avatar">
-                        <h3 class="card-title">Wykładowcy</h3>
-                        <p class="card-count"><?php echo $teacherCount; ?></p>
-                    </div>
+                    <a href="teachers.php" style="color: black;">
+                        <div class="card">
+                            <img src="../../assets/images/icons/teacher-icon.png" alt="Teacher Avatar" class="card-avatar">
+                            <h3 class="card-title">Wykładowcy</h3>
+                            <p class="card-count"><?php echo $teacherCount; ?></p>
+                        </div>
+                    </a>
                 </div>
                 <!-- Informacja o wykładowcach -->
 
                 <!-- Informacja o studentach -->
                 <div class="students">
-                    <div class="card">
-                        <img src="../../assets/images/icons/student-avatar.svg" alt="Students Avatar" class="card-avatar">
-                        <h3 class="card-title">Studeńci</h3>
-                        <p class="card-count"><?php echo $studentCount; ?></p>
-                    </div>
+                    <a href="students.php" style="color: black;">
+                        <div class="card">
+                            <img src="../../assets/images/icons/student-avatar.svg" alt="Students Avatar" class="card-avatar">
+                            <h3 class="card-title">Studeńci</h3>
+                            <p class="card-count"><?php echo $studentCount; ?></p>
+                        </div>
+                    </a>
                 </div>
                 <!-- Informacja o studentach -->
 
                 <!-- Informacja o przedmiotach -->
                 <div class="subjects">
-                    <div class="card">
-                        <img src="../../assets/images/icons/book.svg" alt="Book" class="card-avatar">
-                        <h3 class="card-title">Przedmioty</h3>
-                        <p class="card-count"><?php echo $subjectCount; ?></p>
-                    </div>
+                    <a href="subjects.php" style="color: black;">
+                        <div class="card">
+                            <img src="../../assets/images/icons/book.svg" alt="Book" class="card-avatar">
+                            <h3 class="card-title">Przedmioty</h3>
+                            <p class="card-count"><?php echo $subjectCount; ?></p>
+                        </div>
+                    </a>
                 </div>
                 <!-- Informacja o przedmiotach -->
 
-                <!-- Informacja o uczelniach -->
+                <!-- Informacja o kierunkach -->
                 <div class="subjects">
-                    <div class="card">
-                        <img src="../../assets/images/icons/building.svg" alt="Book" class="card-avatar">
-                        <h3 class="card-title">Uczelnie</h3>
-                        <p class="card-count"><?php echo $universityCount; ?></p>
-                    </div>
+                    <a href="courses.php" style="color: black;">
+                        <div class="card">
+                            <img src="../../assets/images/icons/building.svg" alt="Book" class="card-avatar">
+                            <h3 class="card-title">Kierunki</h3>
+                            <p class="card-count"><?php echo $coursesCount; ?></p>
+                        </div>
+                    </a>
                 </div>
-                <!-- Informacja o uczelniach -->
+                <!-- Informacja o kierunkach -->
             </div>  
         </div>
     </main>

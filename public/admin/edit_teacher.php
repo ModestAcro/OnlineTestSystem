@@ -6,6 +6,9 @@
     
     $teacherId = $_GET['teacher_id'];
     $teacher = getRecordById($conn, 'tWykladowcy', $teacherId);
+
+    $CoursesInfo = getTableInfo($conn, 'tKierunki'); 
+    $assignetCourses = getCoursesByTeacher($conn, $teacherId);
     
 ?>
 
@@ -31,11 +34,33 @@
                 <label>Nazwisko</label>
                 <input type="text" name="nazwiskoWykladowcy" value="<?php echo $teacher['nazwisko']; ?>" required>
 
+                <label>Stopień</label>
+                <input type="text" name="stopienWykladowcy" value="<?php echo $teacher['stopien']; ?>" required>
+
                 <label>Email</label>
                 <input type="email" name="emailWykladowcy" value="<?php echo $teacher['email']; ?>" required>
 
                 <label>Hasło</label>
                 <input type="password" name="hasloWykladowcy" value="<?php echo $teacher['haslo']; ?>" required>
+
+                <!-- Lista kierunków -->
+                <label>Wybierz kierunki</label>
+                <select id="kierunki" name="kierunki[]" multiple>
+                    <?php
+                    // Przechodzimy przez wszystkie kierunki
+                    while ($courses = mysqli_fetch_assoc($CoursesInfo)): 
+                        // Pobranie listy ID przypisanych kierunków
+                        $assignetCoursesIds = array_column($assignetCourses, 'id_kierunku');
+                        
+                        // Sprawdzenie, czy kierunek jest już przypisany do wykładowcy
+                        $czyZaznaczony = in_array($courses['ID'], $assignetCoursesIds) ? 'selected' : '';
+                    ?>
+                        <option value="<?php echo $courses['ID']; ?>" <?php echo $czyZaznaczony; ?>>
+                            <?php echo $courses['nazwa']; ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+                <!-- Lista kierunków -->
 
                 <label>Uwagi</label>
                 <textarea name="uwagiWykladowcy"><?php echo $teacher['uwagi']; ?></textarea>
@@ -61,7 +86,15 @@
         </div>
     </main>
 
-    <!-- Plik JavaScript --> 
+    <!-- Pliki JavaScript --> 
+    <script src="../../assets/js/multi_select.js"></script>  
     <script src="../../assets/js/modal_windows.js"></script>  
+
+
+    <!-- multi_select.js --> 
+    <script>
+        new MultiSelectTag('kierunki')  // id
+    </script>
+    <!-- multi_select.js --> 
 </body>
 </html>

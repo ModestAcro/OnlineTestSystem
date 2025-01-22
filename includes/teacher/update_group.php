@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['action'] === 'delete') {
 
         $deleteQuery = "DELETE FROM tGrupy WHERE ID = $groupId";
+        
         if (mysqli_query($conn, $deleteQuery)) {
             header("Location: ../../public/teacher/student_groups.php?delete_success=1");
             exit;
@@ -23,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nazwa = $_POST['nazwa'];
 
         // Aktualizacja tabeli tGrupy
-        $updateQuery = "UPDATE tGrupy SET rok = '$rok', nazwa = '$nazwa', id_przedmiotu = '$idPrzedmiotu', id_uczelni = '$idUczelni'WHERE ID = $groupId";
+        $updateQuery = "UPDATE tGrupy SET rok = '$rok', nazwa = '$nazwa', id_przedmiotu = '$idPrzedmiotu', id_kierunku = '$idUczelni'WHERE ID = $groupId";
         
         if (mysqli_query($conn, $updateQuery)) {
             // Sprawdzenie, czy studenci są przypisani do grupy

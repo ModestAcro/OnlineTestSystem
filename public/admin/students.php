@@ -4,8 +4,11 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $studentInfo = getTableInfo($conn, 'tStudenci');
+
     $studentCount = getTableCount($conn, 'tStudenci');
+    $courseInfo = getTableInfo($conn, 'tKierunki');
+
+    $studentInfo = getStudentsWithCourses($conn);
 
 ?>
 
@@ -22,9 +25,9 @@
         <div class="header-content">
             <div class="left-header">
                 <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
-                <a class="nav-btn" href="teachers.php">Wykładowcy</a>
+               <!--  <a class="nav-btn" href="teachers.php">Wykładowcy</a>
                 <a class="nav-btn" href="subjects.php">Przedmioty</a>
-                <a class="nav-btn" href="universities.php">Uczelnie</a>
+                <a class="nav-btn" href="courses.php">Kierunki</a> -->
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
@@ -54,10 +57,25 @@
                     <div class="modal-content">
                         <span class="close-btn" id="closeModal">&times;</span>
                         <h1 class="modal-header">Dodaj Studenta</h1>
-                        <form action="../../includes/admin/add_student.php" method="POST">
+                        <form action="../../includes/admin/save_student.php" method="POST">
 
                             <label>Nr. albumu</label>
                             <input type="text" name="nrAlbumuStudenta" required>
+
+                            <!-- Lista kierunków do przypisania -->
+                            <label>Kierunek</label>
+                                <select name="kierunekStudenta" required>
+                                    <option value="" disabled selected>Wybierz kierunek</option>
+                                        <?php while ($course = mysqli_fetch_assoc($courseInfo)): ?>
+                                            <option value="<?php echo $course['ID']; ?>">
+                                                <?php echo $course['nazwa']; ?>
+                                            </option>
+                                        <?php endwhile; ?>
+                                </select>
+                            <!-- Lista kierunków do przypisania -->
+
+                            <label>Rok</label>
+                            <input type="number" name="rokStudenta" required>
 
                             <label>Imię</label>
                             <input type="text" name="imieStudenta" required>
@@ -86,6 +104,8 @@
                 <thead>
                     <tr>
                         <th>Nr. albumu</th>
+                        <th>Kierunek</th>
+                        <th>Rok</th>
                         <th>Imię</th>
                         <th>Nazwisko</th>
                         <th>Email</th>
@@ -98,12 +118,15 @@
                     <?php while ($studentData = mysqli_fetch_assoc($studentInfo)): ?>
                         <tr>
                             <td><?php echo $studentData['nr_albumu']; ?></td>
+                            <td><?php echo $studentData['kierunek_nazwa']; ?></td>
+                            <td><?php echo $studentData['rok']; ?></td>
                             <td><?php echo $studentData['imie']; ?></td>
                             <td><?php echo $studentData['nazwisko']; ?></td>
                             <td><?php echo $studentData['email']; ?></td>
                             <td class="<?php echo $studentData['aktywny'] == 'T' ? 'active' : 'inactive'; ?>">
                                 <?php echo $studentData['aktywny'] == 'T' ? 'Aktywny' : 'Nieaktywny'; ?>
                             </td>
+        
                             <td><?php echo $studentData['uwagi']; ?></td>
 
                             <!-- Przyciski "Modyfikuj" -->
@@ -121,7 +144,14 @@
         </div>
     </main>    
     
-    <!-- Plik JavaScript --> 
-    <script src="../../assets/js/modal_windows.js"></script>  
+    <!-- Pliki JavaScript --> 
+    <script src="../../assets/js/modal_windows.js"></script>   
+    <script src="../../assets/js/multi_select.js"></script>  
+
+    <!-- multi_select.js --> 
+    <script>
+        new MultiSelectTag('kierunek')  // id
+    </script>
+    <!-- multi_select.js --> 
 </body>
 </html>

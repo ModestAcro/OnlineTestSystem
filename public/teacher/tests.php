@@ -57,7 +57,7 @@
                     <div class="modal-content">
                         <span class="close-btn" id="closeModal">&times;</span>
                         <h1 class="modal-header">Dodaj Test</h1>
-                        <form action="../../includes/teacher/add_test.php" method="POST">
+                        <form action="../../includes/teacher/save_test.php" method="POST">
 
                             <label>Nazwa</label>
                             <input type="text" name="nazwaTestu" required>

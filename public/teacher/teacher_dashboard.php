@@ -1,6 +1,28 @@
 <?php
 
     session_start();
+
+    require_once('../../config/connect.php');
+
+    // Funkcja zwraca liczbę pytan konkretnego nauczyciela              
+    function getTableCountByTeacherId($conn, $table, $id) {
+    $query = "SELECT COUNT(*) AS liczba FROM $table WHERE id_wykladowcy = '$id'";
+    $result = mysqli_query($conn, $query);
+
+    if (!$result) {
+        die("Błąd zapytania: " . mysqli_error($conn));
+    }
+
+    return mysqli_fetch_assoc($result)['liczba'] ?? 0;
+
+    }
+
+    $teacher_id = $_SESSION['user_id'] ?? null;
+
+    $questionCount = getTableCountByTeacherId($conn, 'tPytania', $teacher_id);
+    $testCount = getTableCountByTeacherId($conn, 'tTesty', $teacher_id);
+    $groupCount = getTableCountByTeacherId($conn, 'tGrupy', $teacher_id);
+
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +53,48 @@
             </div>
         </div>
     </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="info">
+                 <!-- Informacja o testach -->
+                 <div class="teachers">
+                    <a href="tests.php" style="color: black;">
+                        <div class="card">
+                            <img src="../../assets/images/icons/online-test.svg" alt="Teacher Avatar" class="card-avatar">
+                            <h3 class="card-title">Testy</h3>
+                            <p class="card-count"><?php echo $testCount; ?></p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Informacja o testach -->
+
+                <!-- Informacja o pytania -->
+                <div class="students">
+                    <a href="questions.php" style="color: black;">
+                        <div class="card">
+                            <img src="../../assets/images/icons/question.svg" alt="Students Avatar" class="card-avatar">
+                            <h3 class="card-title">Pytania</h3>
+                            <p class="card-count"><?php echo $questionCount; ?></p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Informacja o pytania -->
+
+                <!-- Informacja o grupy -->
+                <div class="subjects">
+                    <a href="student_groups.php" style="color: black;">
+                        <div class="card">
+                            <img src="../../assets/images/icons/group.svg" alt="Book" class="card-avatar">
+                            <h3 class="card-title">Grupy studentów</h3>
+                            <p class="card-count"><?php echo $groupCount; ?></p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Informacja o grupy -->
+            </div>
+        </div>
+    </main>
 
     <!-- Plik JavaScript --> 
     <script src="../../assets/js/modal_windows.js"></script> 

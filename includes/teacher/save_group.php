@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $studenci = $_POST['studenci'];  // Tablica wybranych studentów
     
     // Dodanie grupy do bazy danych
-    $addGroupQuery = "INSERT INTO tGrupy (rok, nazwa, id_przedmiotu, id_uczelni, id_wykladowcy) 
+    $addGroupQuery = "INSERT INTO tGrupy (rok, nazwa, id_przedmiotu, id_kierunku, id_wykladowcy) 
                       VALUES ('$rok', '$nazwa', '$idPrzedmiotu', '$idUczelni', '$idWykladowcy')";
     
     if (mysqli_query($conn, $addGroupQuery)) {

@@ -12,7 +12,7 @@
     // Pobiera dane dla tabel tStudenci, tPrzedmioty, tUczelnie
     $studentInfo = getTableInfo($conn, 'tStudenci'); 
     $subjectInfo = getTableInfo($conn, 'tPrzedmioty');
-    $universityInfo = getTableInfo($conn, 'tUczelnie');
+    $kierunekInfo = getTableInfo($conn, 'tKierunki');
 
     // Wywołanie funkcji do zliczania studentów w konkretnej grupie
     $studentCountAtGroup = getStudentCountByGroup($conn, $userId);
@@ -65,19 +65,19 @@
                 <div id="openModal" class="modal">
                     <div class="modal-content">
                         <span class="close-btn" id="closeModal">&times;</span>
-                        <h1 class="modal-header">Dodaj Grupę</h1>
-                        <form action="../../includes/teacher/add_group.php" method="POST">
+                        <h1 class="modal-header">Dodaj grupę</h1>
+                        <form action="../../includes/teacher/save_group.php" method="POST">
 
                             <label>Rok</label>
                             <input type="text" pattern="\d{4}" id="rok" name="rok" required>
 
                             <!-- Lista uczelni do przypisania -->
-                            <label>Uczelnia</label>
+                            <label>Kierunek</label>
                             <select name="uczelnia" required>
-                                <option disabled selected>Wybierz uczelnię</option>
-                                <?php while ($university = mysqli_fetch_assoc($universityInfo)): ?>
-                                    <option value="<?php echo $university['ID']; ?>">
-                                        <?php echo $university['nazwa']; ?>
+                                <option disabled selected>Wybierz kierunek</option>
+                                <?php while ($kierunek = mysqli_fetch_assoc($kierunekInfo)): ?>
+                                    <option value="<?php echo $kierunek['ID']; ?>">
+                                        <?php echo $kierunek['nazwa']; ?>
                                     </option>
                                 <?php endwhile; ?>
                             </select>
@@ -125,7 +125,7 @@
                 <thead>
                     <tr>
                         <th>Rok</th>
-                        <th>Uczelnia</th>
+                        <th>Kierunek</th>
                         <th>Przedmiot</th>
                         <th>Nazwa</th>
                         <th>Liczba studentów</th>
@@ -136,7 +136,7 @@
                     <?php while ($groupData = mysqli_fetch_assoc($studentGroupInfo)): ?>
                         <tr>
                             <td><?php echo $groupData['rok']; ?></td>
-                            <td><?php echo $groupData['nazwa_uczelni']; ?></td>
+                            <td><?php echo $groupData['nazwa_kierunku']; ?></td>
                             <td><?php echo $groupData['przedmiot']; ?></td>
                             <td><?php echo $groupData['nazwa_grupy']; ?></td>
                             <td>

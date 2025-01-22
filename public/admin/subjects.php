@@ -22,9 +22,9 @@
         <div class="header-content">
             <div class="left-header">
                 <a class="nav-btn" href="admin_dashboard.php">Strona główna</a>
-                <a class="nav-btn" href="teachers.php">Wykładowcy</a>
+               <!-- <a class="nav-btn" href="teachers.php">Wykładowcy</a>
                 <a class="nav-btn" href="students.php">Studeńci</a>
-                <a class="nav-btn" href="universities.php">Uczelnie</a>
+                <a class="nav-btn" href="courses.php">Kierunki</a> -->
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
@@ -54,7 +54,7 @@
                     <div class="modal-content">
                         <span class="close-btn" id="closeModal">&times;</span>
                         <h1 class="modal-header">Dodaj przedmiot</h1>
-                        <form action="../../includes/admin/add_subject.php" method="POST">
+                        <form action="../../includes/admin/save_subject.php" method="POST">
 
                             <label for="nazwa">Nazwa</label>
                             <input type="text" id="nazwa" name="nazwa" required>
