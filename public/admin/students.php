@@ -77,6 +77,9 @@
                             <label>Rok</label>
                             <input type="number" name="rokStudenta" required>
 
+                            <label>Rocznik</label>
+                            <input type="number" name="rocznikStudenta" required>
+
                             <label>Imię</label>
                             <input type="text" name="imieStudenta" required>
 
@@ -106,6 +109,7 @@
                         <th>Nr. albumu</th>
                         <th>Kierunek</th>
                         <th>Rok</th>
+                        <th>Rocznik</th>
                         <th>Imię</th>
                         <th>Nazwisko</th>
                         <th>Email</th>
@@ -120,6 +124,7 @@
                             <td><?php echo $studentData['nr_albumu']; ?></td>
                             <td><?php echo $studentData['kierunek_nazwa']; ?></td>
                             <td><?php echo $studentData['rok']; ?></td>
+                            <td><?php echo $studentData['rocznik']; ?></td>
                             <td><?php echo $studentData['imie']; ?></td>
                             <td><?php echo $studentData['nazwisko']; ?></td>
                             <td><?php echo $studentData['email']; ?></td>

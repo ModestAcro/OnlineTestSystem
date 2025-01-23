@@ -90,7 +90,7 @@
         // Zapytanie SQL, które łączy tabele tStudenci i tKierunki
         $query = "
                 SELECT 
-                    s.ID, s.nr_albumu, s.id_kierunku, s.rok, s.imie, s.nazwisko, s.email, s.aktywny, s.uwagi, k.nazwa 
+                    s.ID, s.nr_albumu, s.id_kierunku, s.rok, s.rocznik, s.imie, s.nazwisko, s.email, s.aktywny, s.uwagi, k.nazwa 
                 AS 
                     kierunek_nazwa
                 FROM 

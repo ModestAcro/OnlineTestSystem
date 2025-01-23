@@ -27,8 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uwagi = $_POST['uwagiStudenta'];
         $kierunek = $_POST['kierunekStudenta'];
         $rok = $_POST['rokStudenta'];
+        $rocznik = $_POST['rocznikStudenta'];
 
-        $updateStudentQuery = "UPDATE tStudenci SET nr_albumu = '$nr_albumu', imie = '$imie', nazwisko = '$nazwisko', email = '$email', haslo = '$haslo', uwagi = '$uwagi', id_kierunku = '$kierunek', rok = '$rok' WHERE ID = $studentId";
+        $updateStudentQuery = "UPDATE tStudenci SET nr_albumu = '$nr_albumu', imie = '$imie', nazwisko = '$nazwisko', email = '$email', haslo = '$haslo', uwagi = '$uwagi', id_kierunku = '$kierunek', rok = '$rok', rocznik = '$rocznik' WHERE ID = $studentId";
         if (mysqli_query($conn, $updateStudentQuery)) {
             header("Location: ../../public/admin/students.php?update_success=1");
             exit;

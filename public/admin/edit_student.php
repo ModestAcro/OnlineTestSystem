@@ -47,6 +47,9 @@
                 <label for="rok">Rok</label>
                 <input type="number" name="rokStudenta" value="<?php echo $student['rok']; ?>" required>
 
+                <label for="rok">Rocznik</label>
+                <input type="number" name="rocznikStudenta" value="<?php echo $student['rocznik']; ?>" required>
+
                 <label for="imie">Imię</label>
                 <input type="text" name="imieStudenta" value="<?php echo $student['imie']; ?>" required>
 
