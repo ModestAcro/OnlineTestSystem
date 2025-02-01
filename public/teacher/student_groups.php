@@ -4,21 +4,61 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $userId = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 
     // Pobiera liczbę grup związanych z nauczycielem
-    $studentGroupCount = getGroupCountByTeacherId($conn, 'tGrupy', $userId); 
-
-    // Pobiera dane dla tabel tStudenci, tPrzedmioty, tUczelnie
-    $studentInfo = getTableInfo($conn, 'tStudenci'); 
-    $subjectInfo = getTableInfo($conn, 'tPrzedmioty');
-    $kierunekInfo = getTableInfo($conn, 'tKierunki');
+    $studentGroupCount = getGroupCountByTeacherId($conn, 'tGrupy', $user_id); 
 
     // Wywołanie funkcji do zliczania studentów w konkretnej grupie
-    $studentCountAtGroup = getStudentCountByGroup($conn, $userId);
+    $studentCountAtGroup = getStudentCountByGroup($conn, $user_id);
 
 
-    $studentGroupInfo = getStudentGroups($conn, $userId);
+    $studentGroupInfo = getStudentGroups($conn, $user_id);
+
+    function getStudentsByTeacher($conn, $user_id) {
+        $query = "SELECT tStudenci.*
+                  FROM tStudenci
+                  JOIN twykladowcykierunki 
+                      ON tStudenci.id_kierunku = tWykladowcyKierunki.id_kierunku
+                  WHERE twykladowcykierunki.id_wykladowcy = $user_id";
+    
+        $result = mysqli_query($conn, $query);
+    
+        return $result;
+    }
+
+    $studentInfo = getStudentsByTeacher($conn, $user_id); 
+
+    function getCoursesByTeacher2($conn, $user_id) {
+        $query = "SELECT tKierunki.*
+                  FROM tKierunki
+                  JOIN twykladowcykierunki 
+                      ON tKierunki.ID = twykladowcykierunki.id_kierunku
+                  WHERE twykladowcykierunki.id_wykladowcy = $user_id";
+    
+        $result = mysqli_query($conn, $query);
+    
+        return $result;
+    }
+
+    $kierunekInfo = getCoursesByTeacher2($conn, $user_id);
+    
+    function getSubjectsByTeacher($conn, $user_id) {
+        $query = "SELECT DISTINCT tPrzedmioty.*
+                  FROM tPrzedmioty
+                  JOIN tKierunkiPrzedmioty 
+                      ON tPrzedmioty.ID = tKierunkiPrzedmioty.id_przedmiotu
+                  JOIN tWykladowcyKierunki 
+                      ON tKierunkiPrzedmioty.id_kierunku = twykladowcykierunki.id_kierunku
+                  WHERE twykladowcykierunki.id_wykladowcy = $user_id";
+    
+        $result = mysqli_query($conn, $query);
+    
+        return $result;
+    }
+    
+    $subjectInfo = getSubjectsByTeacher($conn, $user_id);
+    
 
 
 ?>
@@ -71,7 +111,7 @@
                             <label>Rok</label>
                             <input type="text" pattern="\d{4}" id="rok" name="rok" required>
 
-                            <!-- Lista uczelni do przypisania -->
+                            <!-- Lista kierunków do przypisania -->
                             <label>Kierunek</label>
                             <select name="uczelnia" required>
                                 <option disabled selected>Wybierz kierunek</option>
@@ -81,7 +121,7 @@
                                     </option>
                                 <?php endwhile; ?>
                             </select>
-                            <!-- Lista uczelni do przypisania -->
+                            <!-- Lista kierunków do przypisania -->
 
 
                             <!-- Lista przedmiotów do przypisania -->

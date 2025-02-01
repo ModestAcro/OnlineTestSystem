@@ -3,9 +3,23 @@
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
 
-    $userId = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 
-    $subjectInfo = getTableInfo($conn, 'tPrzedmioty');
+
+    function getSubjectsByTeacher($conn, $user_id) {
+        $sql = "SELECT p.nazwa, p.ID
+                FROM tPrzedmioty p
+                JOIN tKierunkiPrzedmioty kp ON p.ID = kp.id_przedmiotu
+                JOIN tKierunki k ON kp.id_kierunku = k.ID
+                JOIN tWykladowcyKierunki wk ON wk.id_kierunku = k.ID
+                WHERE wk.id_wykladowcy = $user_id";
+    
+        $result = mysqli_query($conn, $sql);
+        
+        return $result;
+    }
+
+    $subjectInfo = getSubjectsByTeacher($conn, $user_id);
 ?>
 
 <!DOCTYPE html>
