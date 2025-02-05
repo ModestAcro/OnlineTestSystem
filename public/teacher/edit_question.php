@@ -141,9 +141,32 @@ while ($attachmentData = mysqli_fetch_assoc($attachmentResult)) {
                 <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń pytanie</button>
             </form>
         </div>
+
+        <!-- Okno modalne do potwierdzenia usunięcia Wykładowcy-->
+        <div id="deleteCharacterModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
+                <h2>Czy na pewno chcesz usunąć te pytanie?</h2>
+                <form action="../../includes/teacher/update_question.php" method="POST">
+                    <input type="hidden" name="question_id" value="<?php echo $questionId; ?>">
+                    <input type="hidden" name="action" value="delete">
+                    <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
+                </form>
+            </div>
+        </div>
+        <!-- Okno modalne do potwierdzenia usunięcia -->
+
     </main>
 
-    <script>
+</body>
+
+   <!-- Pliki JavaScript --> 
+   <script src="../../assets/js/modal_windows.js"></script> 
+
+
+
+
+   <script>
           document.getElementById('attachment-input').addEventListener('change', function(event) {
         const files = event.target.files;
         const previewContainer = document.getElementById('image-preview');
@@ -164,5 +187,4 @@ while ($attachmentData = mysqli_fetch_assoc($attachmentResult)) {
 
     </script>
 
-</body>
 </html>

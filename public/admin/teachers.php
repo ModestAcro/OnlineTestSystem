@@ -86,8 +86,6 @@
                             </select>
                             <!-- Lista kierunków do przypisania -->
 
-
-
                             <label>Uwagi</label>
                             <textarea name="uwagiWykladowcy"></textarea>
 

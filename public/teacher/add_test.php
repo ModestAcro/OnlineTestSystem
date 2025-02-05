@@ -294,7 +294,7 @@
 
 
 
-            <!-- Question card -->
+            <!-- Question card 
             <div class="radio" style="margin-top: 20px;">
                 <div class="question-card">
                     <div class="question-left">
@@ -330,7 +330,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Question card -->
+             Question card -->
              
 
         </div>
