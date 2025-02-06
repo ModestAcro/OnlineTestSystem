@@ -60,7 +60,46 @@
         }
     }
 
+    function getQuestionsList($conn, $testId){
+        $query ="SELECT p.ID as id_pytania, p.tresc as tresc_pytania, p.id_przedmiotu, t.id_przedmiotu, t.ID
+                FROM tPytania p
+                JOIN tTesty t ON t.id_przedmiotu = p.id_przedmiotu
+                WHERE t.ID = $testId;
+                ";
 
+    return mysqli_query($conn, $query);
+
+    }
+
+    $SubjectQuestions = getQuestionsList($conn, $testId);
+
+
+    function getAssignedTestQuestions($conn, $test_id){
+        $query = "SELECT p.ID as id_pytania, p.tresc as tresc_pytania, t.ID AS test_id, tp.id_testu, tp.id_pytania
+                    FROM tPytania p
+                    JOIN tTestPytania tp ON tp.id_pytania = p.ID
+                    JOIN tTesty t ON t.ID = tp.id_testu
+                    WHERE t.ID = $test_id;
+                ";
+
+    return mysqli_query($conn, $query);
+
+    }
+
+    $assignedQuestions = getAssignedTestQuestions($conn, $test_id);
+
+    // Sprawdzenie, czy wyniki zostały pobrane
+    if ($assignedQuestions) {
+        // Pobranie przypisanych pytań
+        $assignedQuestionsIds = [];
+        while ($question = mysqli_fetch_assoc($assignedQuestions)) {
+            $assignedQuestionsIds[] = $question['id_pytania'];
+        }
+    } else {
+        $assignedQuestionsIds = [];
+    }
+
+    $SubjectQuestions = getQuestionsList($conn, $test_id);
 
 ?>
 
@@ -74,31 +113,154 @@
     <title>Edytuj test</title>
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <div class="left-header">
+                <a class="nav-btn" href="tests.php">Testy</a>
+            </div>
+            <div class="right-header">
+                <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
+
+                <!-- Formularz wylogowania -->
+                <?php
+                    include('../../includes/logout_modal.php');
+                ?>
+                <!-- Formularz wylogowania -->
+
+            </div>
+        </div>
+    </header>
+
     <main class="main">
         <div class="container">
             <h1>Edytuj test</h1>
-            <form action="../../includes/teacher/update_test.php" method="POST">
-                <input type="hidden" name="test_id" value="<?php echo $ttestInfoest['ID']; ?>">
+            <form action="../../includes/teacher/save_test.php" method="POST">
+                <input type="hidden" name="test_id" value="<?php echo $testInfo['ID']; ?>">
+                <?php $ilosc_prob = $testInfo['ilosc_prob']; // Pobranie wartości z bazy ?>
 
-                <label>Nazwa</label>
-                <input type="text" name="nazwaTestu" value="<?php echo $testInfo['nazwa']; ?>">
-
-                <label>Data rozpoczęcia</label>
-                <input type="datetime-local" name="dataRozpoczeciaTestu" 
-                    value="<?php echo !empty($testInfo['data_rozpoczecia']) ? date('Y-m-d\TH:i', strtotime($testInfo['data_rozpoczecia'])) : ""; ?>">
-
-                <label>Data zakończenia</label>
-                <input type="datetime-local" name="dataZakonczeniaTestu" 
-                    value="<?php echo !empty($testInfo['data_zakonczenia']) ? date('Y-m-d\TH:i', strtotime($testInfo['data_zakonczenia'])) : ""; ?>">
+                <h4>Nazwa</h4>
+                <div class="radio">
+                    <div class="radio-section">
+                        <input type="text" name="nazwa" value="<?php echo $testInfo['nazwa']; ?>">
+                    </div>
+                </div>
 
 
-                <label>Czas trwania (min.)</label>
-                <input type="number" name="czasTrwaniaTestu" value="<?php echo $testInfo['czas_trwania']; ?>">
+                <h4>Okres dostępności testu</h4>
+                <div class="radio" style="margin-bottom: 15px;">
 
-                <label>Ilość prób</label>
-                <input type="text" name="iloscProbTestu" value="<?php echo $testInfo['ilosc_prob']; ?>">
+                    <div class="radio-section">
+                        <div class="radio-input">
+                            <input type="radio" name="limit" value="date"  
+                                <?php echo (!empty($testInfo['data_rozpoczecia']) && !empty($testInfo['data_zakonczenia'])) ? 'checked' : ''; ?>>
+                            <label>Limit czasowy</label>
+                        </div>
 
-                <h1>Pytania</h1>
+                        <!-- Wybór daty i godziny dla limitu czasowego -->
+                        <div class="time-limited-options">
+
+                        <div class="time-limit-input">
+                            <label>Od:</label>
+                            <input type="datetime-local" id="start-time" name="start-time"
+                                value="<?php echo !empty($testInfo['data_rozpoczecia']) ? date('Y-m-d\TH:i', strtotime($testInfo['data_rozpoczecia'])) : ""; ?>">
+                        </div>
+
+                        <div class="time-limit-input">
+                            <label>Do:</label>
+                            <input type="datetime-local" id="end-time" name="end-time"
+                                value="<?php echo !empty($testInfo['data_zakonczenia']) ? date('Y-m-d\TH:i', strtotime($testInfo['data_zakonczenia'])) : ""; ?>">
+                        </div>
+
+
+                        </div>
+                        <!-- Wybór daty i godziny dla limitu czasowego -->
+
+                    </div>
+                    <div class="radio-section">
+                        <div class="radio-input">
+                            <input type="radio" name="limit" value="unlimited"
+                                <?php echo (!empty($testInfo['data_rozpoczecia']) && !empty($testInfo['data_zakonczenia'])) ? ' ' : 'checked'; ?>    >
+                            <label>Bez limitu</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Czas trawania -->
+                <h4>Czas trwania (min.)</h4>
+                <div class="radio">
+                    <div class="radio-section">
+                    <input type="number" name="test-time" value="<?php echo $testInfo['czas_trwania']; ?>">
+                    </div>
+                </div>
+
+              <!--
+                <div style="display: flex; align-items: center;">
+                    <h4 style="margin-right: 10px;">Ilość prób</h4> 
+                    <img src="../../assets/images/icons/attention.svg" alt="attention" style="width: 20px" title="Wpisz -1, jeśli chcesz, aby liczba prób była nieograniczona">
+                </div>
+
+-->
+
+                <!-- Ilość prób -->
+                <h4>Ilość prób</h4>
+                <div class="radio">
+                    <div class="radio-section">
+                        <div class="radio-input">
+                            <input type="radio" name="attempts" value="unlimited" id="attempts-unlimited"
+                                <?php echo ($ilosc_prob == -1) ? 'checked' : ''; ?>>
+                            <label for="attempts-unlimited">Nieograniczona liczba</label>
+                        </div>
+                    </div>
+
+                    <div class="radio-section">
+                        <div class="radio-input">
+                            <input type="radio" name="attempts" value="one" id="attempts-one"
+                                <?php echo ($ilosc_prob == 1) ? 'checked' : ''; ?>>
+                            <label for="attempts-one">Jedno podejście</label>
+                        </div>
+                    </div>
+
+                    <div class="radio-section">
+                        <div class="radio-input">
+                            <input type="radio" name="attempts" value="multiple" id="attempts-multiple"
+                                <?php echo ($ilosc_prob > 1) ? 'checked' : ''; ?>>
+                            <label for="attempts-multiple">Wiele podejść</label>
+                        </div>
+
+                        <div class="time-limited-options">
+                            <div class="time-limit-input">
+                                <label for="number-of-attempts">Liczba</label>
+                                <input type="number" id="number-of-attempts" name="number-of-attempts" value="<?php echo ($testInfo['ilosc_prob'] > 1) ? $testInfo['ilosc_prob'] : ''; ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<input type="number" name="attempts" value="<?php echo $testInfo['ilosc_prob']; ?>" >-->
+
+
+                <h1 style="margin-top: 20px;">Pytania</h1>
+
+                <!-- Lista pytań do przypisania -->
+                <label>Wybierz pytania</label>
+                <select id="pytania" name="pytania[]" multiple>
+                    <?php 
+                    // Przechodzimy przez listę pytań
+                    while ($questionsforSubject = mysqli_fetch_assoc($SubjectQuestions)): 
+                        // Sprawdzenie, czy pytanie jest już przypisane do testu
+                        $czyZaznaczony = in_array($questionsforSubject['id_pytania'], $assignedQuestionsIds) ? 'selected' : '';
+                    ?>
+                        <option value="<?php echo $questionsforSubject['id_pytania']; ?>" <?php echo $czyZaznaczony; ?>>
+                            <?php echo $questionsforSubject['tresc_pytania']; ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+                <!-- Lista pytań do przypisania -->
+
+
+
+                
 
                 <!-- Question card -->
                 <!-- Wyświetlanie pytań -->
@@ -134,11 +296,13 @@
 
                             </div>
 
+                            <!-- 
                             <div class="question-right">
                                 <div class="question-action" id="delete-question-btn">
                                     <button>Usuń</button>
                                 </div>
                             </div>
+                                            -->
                         </div>
                     </div>
                     <?php $index++; ?>
@@ -148,6 +312,7 @@
 
                 <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
                 <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
+
             </form>
 
             <!-- Okno modalne do potwierdzenia usunięcia Testu-->
@@ -155,8 +320,8 @@
                 <div class="modal-content">
                     <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
                     <h2>Czy na pewno chcesz usunąć ten test?</h2>
-                    <form action="../../includes/teacher/update_test.php" method="POST">
-                        <input type="hidden" name="group_id" value="<?php echo $testInfo['ID']; ?>">
+                    <form action="../../includes/teacher/save_test.php" method="POST">
+                        <input type="hidden" name="test_id" value="<?php echo $testInfo['ID']; ?>">
                         <input type="hidden" name="action" value="delete">
                         <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
                     </form>
@@ -169,6 +334,15 @@
 
     <!-- Pliki JavaScript --> 
 
-    <script src="../../assets/js/modal_windows.js"></script>  
+    <script src="../../assets/js/modal_windows.js"></script>
+    <script src="../../assets/js/multi_select.js"></script>
+
+
+    <!-- multi_select.js --> 
+    <script>
+        new MultiSelectTag('pytania')  // id
+    </script>
+    <!-- multi_select.js -->   
+
 </body>
 </html>

@@ -66,6 +66,23 @@ while ($attachmentData = mysqli_fetch_assoc($attachmentResult)) {
     <title>Edytuj pytanie</title>
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <div class="left-header">
+                <a class="nav-btn" href="questions.php">Pytania</a>
+            </div>
+            <div class="right-header">
+                <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
+
+                <!-- Formularz wylogowania -->
+                <?php
+                    include('../../includes/logout_modal.php');
+                ?>
+                <!-- Formularz wylogowania -->
+
+            </div>
+        </div>
+    </header>
     <main class="main">
         <div class="container">
             

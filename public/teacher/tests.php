@@ -44,6 +44,26 @@
     $subjectsByTeacher = getSubjectsByTeacher($conn, $user_id);
 
 
+    function getTestDetails($conn, $test_id) {
+        $query = "SELECT t.ID, t.id_przedmiotu, p.nazwa AS nazwa_przedmiotu, COUNT(tp.id_pytania) AS liczba_pytan
+                  FROM tTesty t
+                  JOIN tPrzedmioty p ON t.id_przedmiotu = p.ID
+                  LEFT JOIN tTestPytania tp ON tp.id_testu = t.ID
+                  WHERE t.ID = $test_id
+                  GROUP BY t.ID, t.id_przedmiotu, p.nazwa";
+    
+        $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_assoc($result);
+    
+        return $row ? ['nazwa_przedmiotu' => $row['nazwa_przedmiotu'], 'liczba_pytan' => $row['liczba_pytan']] : ['nazwa_przedmiotu' => null, 'liczba_pytan' => 0];
+    }
+
+
+
+
+    
+
+
 ?>
 
 <!DOCTYPE html>
@@ -135,18 +155,29 @@
                 <thead>
                     <tr>
                         <th>Nazwa</th>
+                        <th>Przedmiot</th>
                         <th>Data utworzenia</th>
                         <th>Data rozpoczęcia</th>
                         <th>Data zakończenia</th>
                         <th>Czas trwania (min.)</th>
                         <th>Ilość prób</th>
+                        <th>Ilość pytań</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($testData = mysqli_fetch_assoc($tTestInfo)): ?>
+                        <?php      $test_id = $testData['ID']; ?>
                         <tr>
                             <td><?php echo $testData['nazwa']; ?></td>
+
+                            <td>
+                                <?php 
+                                     $testDetails = getTestDetails($conn, $test_id);
+                                     echo ($testDetails['nazwa_przedmiotu'] ?? 'Brak danych') . "<br>";
+                                ?>
+                            </td>
+
                             <td><?php echo date('Y-m-d', strtotime($testData['data_utworzenia'])); ?></td>
 
                             <!-- Zobacz jezeli data_rozpoczecia rowna NULL to wyswietl swoj nadpis -->
@@ -169,6 +200,14 @@
                                     echo $testData['ilosc_prob'] == -1 ? 'Nieograniczona' : $testData['ilosc_prob'];
                                 ?>
                             </td>
+                            <td>
+                                <?php
+                                    $testDetails = getTestDetails($conn, $test_id);
+                                    echo $testDetails['liczba_pytan'];
+                                ?>
+                            </td>
+
+
                     
                             <!-- Przyciski "Modyfikuj" -->
                             <td>

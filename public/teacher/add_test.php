@@ -188,8 +188,8 @@
                 </div>
             </div>
 
-             <!-- Ilość pobr -->
-             <h4 class="h4-margin">Ilość prób</h4>
+            <!-- Ilość pobr -->
+            <h4 class="h4-margin">Ilość prób</h4>
 
             <div class="radio">
                 <div class="radio-section">
@@ -287,7 +287,7 @@
                     <?php endwhile; ?>
                 </select>
 
-                <input type="submit" value="Zapisz">
+                <button type="submit" name="action" value="save" class="submit-btn">Zapisz </button>
 
             </form>
 
