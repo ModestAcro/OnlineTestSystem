@@ -59,6 +59,30 @@
     }
 
 
+    function getGroupDetails($conn, $test_id){
+        $query = "
+        SELECT 
+            t.id_grupy, 
+            g.ID AS id_grupy,
+            g.nazwa AS nazwa_grupy,
+            g.rok AS rok_grupy,
+            COUNT(gs.id_studenta) AS liczba_studentów,
+            GROUP_CONCAT(CONCAT(s.imie, ' ', s.nazwisko, ' (', s.nr_albumu, ')') SEPARATOR '; ') AS studenci
+        FROM tTesty t
+        JOIN tGrupy g ON t.id_grupy = g.ID
+        LEFT JOIN tGrupyStudenci gs ON g.ID = gs.id_grupy
+        LEFT JOIN tStudenci s ON gs.id_studenta = s.id
+        WHERE t.id = $test_id
+        GROUP BY t.id_grupy, g.ID, g.nazwa, g.rok;
+    ";
+
+    $result = mysqli_query($conn, $query);
+
+    return $result;
+
+    }
+
+
 
 
     
@@ -156,9 +180,9 @@
                     <tr>
                         <th>Nazwa</th>
                         <th>Przedmiot</th>
+                        <th>Grupa</th>
                         <th>Data utworzenia</th>
-                        <th>Data rozpoczęcia</th>
-                        <th>Data zakończenia</th>
+                        <th>Data</th>
                         <th>Czas trwania (min.)</th>
                         <th>Ilość prób</th>
                         <th>Ilość pytań</th>
@@ -178,19 +202,26 @@
                                 ?>
                             </td>
 
-                            <td><?php echo date('Y-m-d', strtotime($testData['data_utworzenia'])); ?></td>
-
-                            <!-- Zobacz jezeli data_rozpoczecia rowna NULL to wyswietl swoj nadpis -->
                             <td>
-                                <?php 
-                                    echo $testData['data_rozpoczecia'] ? date('Y-m-d', strtotime($testData['data_rozpoczecia'])) : 'Brak';
+                                <?php
+                                    $groupDetails = getGroupDetails($conn, $test_id);
+                                    if ($groupDetails && $group = mysqli_fetch_assoc($groupDetails)) {
+                                        $studentList = $group['studenci']; // Lista studentów z funkcji getGroupDetails
+                                        echo "<span class='group-name' data-students='$studentList'>{$group['nazwa_grupy']}</span>"; 
+                                    } else {
+                                        echo 'Brak grupy';
+                                    }
                                 ?>
                             </td>
+
+                            <td><?php echo date('Y-m-d', strtotime($testData['data_utworzenia'])); ?></td>
                             
-                            <!-- Zobacz jezeli data-zakonczenia rowna NULL to wyswietl swoj nadpis -->
+
                             <td>
-                                <?php 
-                                    echo $testData['data_zakonczenia'] ? date('Y-m-d', strtotime($testData['data_zakonczenia'])) : 'Brak';
+                                <?php
+                                    $start = $testData['data_rozpoczecia'] ? date('Y-m-d', strtotime($testData['data_rozpoczecia'])) : 'Brak';
+                                    $end = $testData['data_zakonczenia'] ? date('Y-m-d', strtotime($testData['data_zakonczenia'])) : 'Brak';
+                                    echo "$start / $end";
                                 ?>
                             </td>
 
