@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jan 23, 2025 at 10:59 AM
+-- Generation Time: Feb 08, 2025 at 09:14 PM
 -- Server version: 8.0.35
 -- PHP Version: 8.2.20
 
@@ -64,9 +64,11 @@ CREATE TABLE `tGrupy` (
 
 INSERT INTO `tGrupy` (`ID`, `rok`, `nazwa`, `id_wykladowcy`, `id_przedmiotu`, `id_kierunku`) VALUES
 (71, '2024', 'Grupa I', 31, 37, 42),
-(73, '2025', 'Brak', 29, 47, 42),
-(74, '2025', 'Brak', 29, 49, 42),
-(75, '2025', 'Brak', 35, 39, 43);
+(73, '2025', 'Grupa I', 29, 47, 42),
+(75, '2025', 'Brak', 35, 39, 43),
+(76, '2025', 'Grupa II', 29, 47, 42),
+(77, '2024', 'Grupa I', 29, 36, 42),
+(78, '2025', 'Grupa I', 30, 39, 43);
 
 -- --------------------------------------------------------
 
@@ -85,25 +87,34 @@ CREATE TABLE `tGrupyStudenci` (
 
 INSERT INTO `tGrupyStudenci` (`id_grupy`, `id_studenta`) VALUES
 (73, 54),
-(74, 54),
+(77, 54),
 (73, 55),
+(77, 55),
 (73, 56),
-(74, 56),
-(73, 57),
-(74, 57),
+(77, 56),
+(76, 57),
+(77, 57),
 (73, 58),
-(73, 59),
-(74, 59),
+(77, 58),
+(76, 59),
+(77, 59),
 (73, 60),
-(73, 61),
-(73, 62),
-(74, 62),
+(77, 60),
+(76, 61),
+(77, 61),
 (75, 62),
+(76, 62),
+(77, 62),
 (75, 63),
+(78, 63),
 (75, 64),
+(78, 64),
 (75, 65),
+(78, 65),
 (75, 66),
-(75, 67);
+(78, 66),
+(75, 67),
+(78, 67);
 
 -- --------------------------------------------------------
 
@@ -202,7 +213,23 @@ INSERT INTO `tOdpowiedzi` (`ID`, `id_pytania`, `tresc`, `data_stworzenia`, `data
 (401, 112, 'Podatki', '2025-01-23 12:58:36', '2025-01-23 12:58:36', 1, 5.00),
 (402, 112, 'Wydatki rządowe', '2025-01-23 12:58:36', '2025-01-23 12:58:36', 1, 5.00),
 (403, 112, ' Stopy procentowe', '2025-01-23 12:58:36', '2025-01-23 12:58:36', 0, 0.00),
-(404, 112, ' Interwencje walutowe', '2025-01-23 12:58:36', '2025-01-23 12:58:36', 0, 0.00);
+(404, 112, ' Interwencje walutowe', '2025-01-23 12:58:36', '2025-01-23 12:58:36', 0, 0.00),
+(409, 114, 'Badanie zachowań pojedynczych konsumentów i firm', '2025-02-01 14:57:07', '2025-02-01 14:57:07', 0, 0.00),
+(410, 114, ' Badanie gospodarki jako całości', '2025-02-01 14:57:07', '2025-02-01 22:35:40', 1, 10.00),
+(411, 114, 'Analiza rynku pracy', '2025-02-01 14:57:07', '2025-02-01 14:57:07', 0, 0.00),
+(412, 114, 'Badanie rynku produktów', '2025-02-01 14:57:07', '2025-02-01 14:57:07', 0, 0.00),
+(427, 120, 'Program do edycji tekstu', '2025-02-07 13:09:30', '2025-02-07 13:09:30', 0, 0.00),
+(428, 120, 'Oprogramowanie zarządzające zasobami komputera', '2025-02-07 13:09:30', '2025-02-07 13:09:30', 1, 1.00),
+(429, 120, 'Aplikacja do przeglądania internetu', '2025-02-07 13:09:30', '2025-02-07 13:09:30', 0, 0.00),
+(430, 121, 'Tryb jądra ma dostęp do wszystkich zasobów systemowych, a tryb użytkownika do ograniczonej części', '2025-02-07 13:10:10', '2025-02-07 13:10:10', 1, 1.00),
+(431, 121, 'Tryb jądra jest używany do obsługi aplikacji, a tryb użytkownika do zarządzania plikami', '2025-02-07 13:10:10', '2025-02-07 13:10:10', 0, 0.00),
+(432, 121, 'Tryb użytkownika ma wyższy priorytet niż tryb jądra', '2025-02-07 13:10:10', '2025-02-07 13:10:10', 0, 0.00),
+(433, 122, 'Podział pamięci na równe części o ustalonej wielkości, zwane stronami', '2025-02-07 13:10:40', '2025-02-07 13:10:40', 1, 1.00),
+(434, 122, 'Tworzenie kopii zapasowych pamięci RAM', '2025-02-07 13:10:40', '2025-02-07 13:10:40', 0, 0.00),
+(435, 122, 'Przesyłanie danych między pamięcią a dyskiem twardym', '2025-02-07 13:10:40', '2025-02-07 13:10:40', 0, 0.00),
+(436, 123, 'Wykorzystanie zasobów przez jeden proces', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 0, 0.00),
+(437, 123, ' Sytuacja, w której system operacyjny przestaje działać z powodu błędu', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 0, 0.00),
+(438, 123, 'Sytuacja, w której procesy czekają na zasoby, które są już zablokowane przez inne procesy', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 1, 1.00);
 
 -- --------------------------------------------------------
 
@@ -233,9 +260,7 @@ INSERT INTO `tPrzedmioty` (`ID`, `nazwa`, `uwagi`, `id_kierunku`) VALUES
 (42, 'Statystyka', 'Niema', NULL),
 (46, 'Programowanie w języku C', 'Niema', NULL),
 (47, 'Matematyka dyskretna', 'Niema', NULL),
-(48, 'Algorytmy i struktury danych II', 'Niema', NULL),
-(49, 'Pracownia dyplomowa I', 'Niema', NULL),
-(50, 'Pracownia dyplomowa II', 'Niema', NULL);
+(48, 'Algorytmy i struktury danych II', 'Niema', NULL);
 
 -- --------------------------------------------------------
 
@@ -264,7 +289,12 @@ INSERT INTO `tPytania` (`ID`, `id_przedmiotu`, `id_wykladowcy`, `typ`, `tresc`, 
 (109, 47, 29, 'Wielokrotnego wyboru', 'Które liczby są liczbami pierwszymi?', '2025-01-23 12:53:39', '2025-01-23 12:53:39'),
 (110, 47, 29, 'Wielokrotnego wyboru', ' Które z poniższych grafów są drzewami?', '2025-01-23 12:54:31', '2025-01-23 12:54:31'),
 (111, 39, 35, 'Wielokrotnego wyboru', 'Które z poniższych wskaźników mierzą inflację?', '2025-01-23 12:57:40', '2025-01-23 12:57:40'),
-(112, 39, 35, 'Wielokrotnego wyboru', 'Co zalicza się do instrumentów polityki fiskalnej?', '2025-01-23 12:58:36', '2025-01-23 12:58:36');
+(112, 39, 35, 'Wielokrotnego wyboru', 'Co zalicza się do instrumentów polityki fiskalnej?', '2025-01-23 12:58:36', '2025-01-23 12:58:36'),
+(114, 39, 30, 'Wielokrotnego wyboru', 'Czym jest makroekonomia?', '2025-02-01 14:57:07', '2025-02-01 14:57:07'),
+(120, 36, 29, 'Wielokrotnego wyboru', 'Co to jest system operacyjny?', '2025-02-07 13:09:30', '2025-02-07 13:09:30'),
+(121, 36, 29, 'Wielokrotnego wyboru', 'Czym różni się tryb użytkownika od trybu jądra w systemie operacyjnym? ', '2025-02-07 13:10:10', '2025-02-07 13:10:10'),
+(122, 36, 29, 'Wielokrotnego wyboru', 'Co to jest \"stronicowanie\" w zarządzaniu pamięcią w systemie operacyjnym?', '2025-02-07 13:10:40', '2025-02-07 13:10:40'),
+(123, 36, 29, 'Wielokrotnego wyboru', 'Co to jest deadlock?', '2025-02-07 13:11:10', '2025-02-07 13:11:10');
 
 -- --------------------------------------------------------
 
@@ -309,20 +339,61 @@ INSERT INTO `tStudenci` (`ID`, `nr_albumu`, `imie`, `nazwisko`, `email`, `haslo`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tTestPytania`
+--
+
+CREATE TABLE `tTestPytania` (
+  `id` int NOT NULL,
+  `id_testu` int DEFAULT NULL,
+  `id_pytania` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tTestPytania`
+--
+
+INSERT INTO `tTestPytania` (`id`, `id_testu`, `id_pytania`) VALUES
+(159, 37, 106),
+(160, 37, 107),
+(161, 37, 108),
+(162, 37, 109),
+(163, 37, 110),
+(164, 38, 120),
+(165, 38, 121),
+(166, 38, 122),
+(167, 38, 123),
+(173, 40, 106),
+(174, 40, 107),
+(175, 40, 108);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tTesty`
 --
 
 CREATE TABLE `tTesty` (
   `ID` int NOT NULL,
-  `nazwa` varchar(255) NOT NULL,
+  `nazwa` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `data_utworzenia` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `data_rozpoczecia` datetime NOT NULL,
-  `data_zakonczenia` datetime NOT NULL,
-  `czas_trwania` int NOT NULL,
-  `ilosc_prob` int NOT NULL,
+  `data_rozpoczecia` datetime DEFAULT NULL,
+  `data_zakonczenia` datetime DEFAULT NULL,
+  `czas_trwania` int DEFAULT NULL,
+  `ilosc_prob` int DEFAULT NULL,
   `id_grupy` int DEFAULT NULL,
-  `id_wykladowcy` int DEFAULT NULL
+  `id_wykladowcy` int DEFAULT NULL,
+  `id_przedmiotu` int NOT NULL,
+  `id_kierunku` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tTesty`
+--
+
+INSERT INTO `tTesty` (`ID`, `nazwa`, `data_utworzenia`, `data_rozpoczecia`, `data_zakonczenia`, `czas_trwania`, `ilosc_prob`, `id_grupy`, `id_wykladowcy`, `id_przedmiotu`, `id_kierunku`) VALUES
+(37, 'Test Nr. 1', '2025-02-06 22:00:00', '2025-02-10 12:35:00', '2025-02-14 12:35:00', 60, 1, 73, 29, 47, 42),
+(38, 'Test Nr. 1', '2025-02-06 22:00:00', NULL, NULL, 5, 3, 77, 29, 36, 42),
+(40, 'Test Nr. 2', '2025-02-07 22:00:00', '2025-03-03 00:00:00', '2025-03-07 00:00:00', 30, 5, 76, 29, 47, 42);
 
 -- --------------------------------------------------------
 
@@ -463,12 +534,22 @@ ALTER TABLE `tStudenci`
   ADD KEY `fk_tStudenci_tKierunki` (`id_kierunku`);
 
 --
+-- Indexes for table `tTestPytania`
+--
+ALTER TABLE `tTestPytania`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_testu` (`id_testu`),
+  ADD KEY `id_pytania` (`id_pytania`);
+
+--
 -- Indexes for table `tTesty`
 --
 ALTER TABLE `tTesty`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `id_grupy` (`id_grupy`),
-  ADD KEY `fk_wykladowca` (`id_wykladowcy`);
+  ADD KEY `fk_wykladowca` (`id_wykladowcy`),
+  ADD KEY `fk_testy_przedmiot` (`id_przedmiotu`),
+  ADD KEY `fk_testy_kierunek` (`id_kierunku`);
 
 --
 -- Indexes for table `tWykladowcy`
@@ -505,7 +586,7 @@ ALTER TABLE `tAdministratorzy`
 -- AUTO_INCREMENT for table `tGrupy`
 --
 ALTER TABLE `tGrupy`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `tKierunki`
@@ -529,7 +610,7 @@ ALTER TABLE `tPrzedmioty`
 -- AUTO_INCREMENT for table `tPytania`
 --
 ALTER TABLE `tPytania`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `tStudenci`
@@ -538,10 +619,16 @@ ALTER TABLE `tStudenci`
   MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
+-- AUTO_INCREMENT for table `tTestPytania`
+--
+ALTER TABLE `tTestPytania`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+
+--
 -- AUTO_INCREMENT for table `tTesty`
 --
 ALTER TABLE `tTesty`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `tWykladowcy`
@@ -608,9 +695,18 @@ ALTER TABLE `tStudenci`
   ADD CONSTRAINT `fk_tStudenci_tKierunki` FOREIGN KEY (`id_kierunku`) REFERENCES `tKierunki` (`ID`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `tTestPytania`
+--
+ALTER TABLE `tTestPytania`
+  ADD CONSTRAINT `ttestpytania_ibfk_1` FOREIGN KEY (`id_testu`) REFERENCES `tTesty` (`ID`),
+  ADD CONSTRAINT `ttestpytania_ibfk_2` FOREIGN KEY (`id_pytania`) REFERENCES `tPytania` (`ID`);
+
+--
 -- Constraints for table `tTesty`
 --
 ALTER TABLE `tTesty`
+  ADD CONSTRAINT `fk_testy_kierunek` FOREIGN KEY (`id_kierunku`) REFERENCES `tKierunki` (`ID`),
+  ADD CONSTRAINT `fk_testy_przedmiot` FOREIGN KEY (`id_przedmiotu`) REFERENCES `tPrzedmioty` (`ID`),
   ADD CONSTRAINT `fk_wykladowca` FOREIGN KEY (`id_wykladowcy`) REFERENCES `tWykladowcy` (`ID`),
   ADD CONSTRAINT `ttesty_ibfk_1` FOREIGN KEY (`id_grupy`) REFERENCES `tGrupy` (`ID`) ON DELETE CASCADE;
 
