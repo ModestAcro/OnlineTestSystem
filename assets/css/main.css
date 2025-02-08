@@ -208,6 +208,11 @@ header {
   border-radius: 15px;
 }
 
+@media screen and (max-width: 768px) {
+  .login-box {
+    width: 90%; /* Zmniejszenie szerokości, aby pasowało do mniejszych ekranów */
+  }
+}
 .input-box {
   width: 100%;
   height: 40px;
