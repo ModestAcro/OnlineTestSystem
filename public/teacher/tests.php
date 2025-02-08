@@ -191,7 +191,7 @@
                 </thead>
                 <tbody>
                     <?php while ($testData = mysqli_fetch_assoc($tTestInfo)): ?>
-                        <?php      $test_id = $testData['ID']; ?>
+                        <?php $test_id = $testData['ID']; ?>
                         <tr>
                             <td><?php echo $testData['nazwa']; ?></td>
 

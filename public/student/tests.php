@@ -100,10 +100,12 @@
                         <th>Data ważności</th>
                         <th>Czas trwania (min.)</th>
                         <th>Ilość prób</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($testData = mysqli_fetch_assoc($testInfo)): ?>
+                        <?php $test_id = $testData['ID']; ?>
                         <tr>
                             <td><?php echo $testData['nazwa_przedmiotu']; ?></td>
 
@@ -125,6 +127,14 @@
                                     echo $testData['ilosc_prob'] == -1 ? 'Nieograniczona' : $testData['ilosc_prob'];
                                 ?>
                             </td>
+
+                            <!-- Przyciski "Modyfikuj" -->
+                            <td>
+                                <a href="test_details.php?test_id=<?php echo $testData['ID']; ?>" class="btn-edit">
+                                    <img src="../../assets/images/icons/edit.svg" class="edit-icon">
+                                </a>
+                            </td>
+                            <!-- Przyciski "Modyfikuj" -->
 
                              
                         </tr>
