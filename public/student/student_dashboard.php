@@ -6,6 +6,33 @@
     $student_id = $_SESSION['user_id'] ?? null;
 
     $studentInfo = getRecordById($conn, 'tStudenci', $student_id);
+
+
+
+    function getTestInfo($conn, $student_id){
+        $query = "SELECT t.*, 
+                            t.nazwa AS nazwa_testu,
+                            p.nazwa AS nazwa_przedmiotu, 
+                            k.nazwa AS nazwa_kierunku, 
+                            w.imie AS imie_wykladowcy, 
+                            w.nazwisko AS nazwisko_wykladowcy, 
+                            COUNT(tp.ID) AS liczba_pytan
+                    FROM tTesty t
+                    JOIN tPrzedmioty p ON t.id_przedmiotu = p.ID
+                    JOIN tTestPytania tp ON tp.id_testu = t.ID
+                    JOIN tKierunki k ON t.id_kierunku = k.ID
+                    JOIN tWykladowcy w ON t.id_wykladowcy = w.ID
+                    JOIN tGrupy g ON g.ID = t.id_grupy
+                    JOIN tGrupyStudenci gs ON g.ID = gs.id_grupy
+                    JOIN tStudenci s ON gs.id_studenta = s.ID
+                    WHERE s.ID = $student_id
+                    GROUP BY t.ID";
+    
+        $result = mysqli_query($conn, $query);
+        return $result;
+    }
+    
+    $testInfo = getTestInfo($conn, $student_id);
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +47,7 @@
     <header>
         <div class="header-content">
             <div class="left-header">
-                <a class="nav-btn" href="tests.php">Testy</a>
+                <a class="nav-btn" href="tests.php">Rozwiązane testy</a>
                 <a class="nav-btn" href="">Oceny</a>
             </div>
             <div class="right-header">
@@ -34,6 +61,59 @@
             </div>
         </div>
     </header>
+
+    <main class="main">
+        <div class="container">
+
+            <div class="title">
+                <h1>Testy do wykonania</h1>
+            </div>
+            <div class="tests-box">
+                <?php while ($row = mysqli_fetch_assoc($testInfo)): ?>
+                    <div class="test_card">
+                        <div class="test_title">
+                            <div>
+                            <label>
+                                <?php 
+                                    // Pobieramy dane z bazy danych
+                                    $data_rozpoczecia = $row['data_rozpoczecia'];
+                                    $data_zakonczenia = $row['data_zakonczenia'];
+
+                                    // Sprawdzamy, czy jedna z dat jest NULL
+                                    if ($data_rozpoczecia == NULL || $data_zakonczenia == NULL) {
+                                        echo "Nieograniczona";
+                                    } else {
+                                        echo $data_rozpoczecia . " / " . $data_zakonczenia;
+                                    }
+                                ?>
+                            </label>
+                            <h1><?= htmlspecialchars($row['nazwa_testu']) ?></h1>
+                            </div>
+                            <div class="test_title-info">
+                                <h4><?= htmlspecialchars($row['nazwa_przedmiotu']) ?></h4>
+                                <p><?= htmlspecialchars($row['imie_wykladowcy']) . " " . htmlspecialchars($row['nazwisko_wykladowcy']) ?></p>
+                            </div>
+                        </div>
+                        <div class="test-info">
+                            <label>Liczba pytań: <?= $row['liczba_pytan'] ?></label>
+                            <label>Czas trwania: <?= $row['czas_trwania'] ?> min</label>
+                            <label>Ilość prób: <?= $row['ilosc_prob'] ?></label>
+
+                            <div class="test-buttons">
+                                <a href="rozpocznij_test.php?id=<?= $row['ID'] ?>" class="start-btn">Rozpocznij test</a>
+                            </div>
+                    
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+
+
+            <div class="title">
+                <h1>Twoje wyniki i postępy</h1>
+            </div>
+        </div>
+    </main>
 
 
     <!-- Plik JavaScript --> 

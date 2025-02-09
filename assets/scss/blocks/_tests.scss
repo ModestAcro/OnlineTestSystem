@@ -1,0 +1,51 @@
+.tests-box {
+    display: flex;
+    flex-wrap: wrap;  
+    gap: 20px; 
+    justify-content: center;
+    padding: 20px;
+}
+
+.test_card {
+    width: 100%;
+    border-radius: 10px;
+    background-color: #f4f4f4; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+
+.test_title {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px;
+    padding: 0px 10px;
+    align-items: center;
+}
+
+.test_title-info {
+    display: flex; 
+    flex-direction: column;
+    text-align: right;
+}
+
+.test-info {
+    background-color: #f8f9fa; 
+    padding: 10px;
+    border-radius: 0 0 10px 10px; 
+    color: #555; 
+}
+
+.test-buttons {
+    display: flex;
+    justify-content: space-between;
+    justify-content: flex-end; 
+
+}
+
+.start-btn {
+    padding: 5px 5px 5px 5px;
+    border-radius: 10px;
+    background-color: #6c757d; /* Zielony o mniejszej intensywności */
+    color: white;
+}
+

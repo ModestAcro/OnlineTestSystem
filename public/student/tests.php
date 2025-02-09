@@ -87,7 +87,7 @@
     <main class="main">
         <div class="container">
             <div class="title">
-                <h1>Lista testów</h1>
+                <h1>Rozwiązane testy</h1>
             </div>
 
             <p>Ilość: <?php echo $testCount; ?></p>
