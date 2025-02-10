@@ -11,12 +11,13 @@
 
     function getTestInfo($conn, $student_id){
         $query = "SELECT t.*, 
-                            t.nazwa AS nazwa_testu,
-                            p.nazwa AS nazwa_przedmiotu, 
-                            k.nazwa AS nazwa_kierunku, 
-                            w.imie AS imie_wykladowcy, 
-                            w.nazwisko AS nazwisko_wykladowcy, 
-                            COUNT(tp.ID) AS liczba_pytan
+                        t.nazwa AS nazwa_testu,
+                        p.nazwa AS nazwa_przedmiotu, 
+                        k.nazwa AS nazwa_kierunku, 
+                        w.imie AS imie_wykladowcy, 
+                        w.nazwisko AS nazwisko_wykladowcy, 
+                        COUNT(tp.ID) AS liczba_pytan,
+                        COUNT(pt.ID) AS liczba_prob
                     FROM tTesty t
                     JOIN tPrzedmioty p ON t.id_przedmiotu = p.ID
                     JOIN tTestPytania tp ON tp.id_testu = t.ID
@@ -25,8 +26,11 @@
                     JOIN tGrupy g ON g.ID = t.id_grupy
                     JOIN tGrupyStudenci gs ON g.ID = gs.id_grupy
                     JOIN tStudenci s ON gs.id_studenta = s.ID
+                    LEFT JOIN tProbyTestu pt ON pt.id_testu = t.ID AND pt.id_studenta = s.ID
                     WHERE s.ID = $student_id
-                    GROUP BY t.ID";
+                    GROUP BY t.ID
+                    HAVING COUNT(DISTINCT pt.ID) < t.ilosc_prob";
+
     
         $result = mysqli_query($conn, $query);
         return $result;
