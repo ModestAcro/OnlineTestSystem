@@ -1,7 +1,7 @@
 .tests-box {
     display: flex;
     flex-wrap: wrap;  
-    gap: 20px; 
+    gap: 40px; 
     justify-content: center;
     padding: 20px;
 }
@@ -48,4 +48,27 @@
     background-color: #6c757d; /* Zielony o mniejszej intensywności */
     color: white;
 }
+
+.test-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+}
+
+.answer-option {
+    display: flex; 
+    align-items: center;
+    gap: 10px; 
+}
+
+.answer-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0; /* Usuń wszelkie domyślne marginesy */
+}
+
+
 

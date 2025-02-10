@@ -100,11 +100,14 @@
                             <label>Ilość prób: <?= $row['ilosc_prob'] ?></label>
 
                             <div class="test-buttons">
-                                <a href="rozpocznij_test.php?id=<?= $row['ID'] ?>" class="start-btn">Rozpocznij test</a>
+                                <form action="../../includes/student/add_attempt.php" method="POST">
+                                    <input type="hidden" name="id_testu" value="<?= $row['ID'] ?>">
+                                    <button type="submit" class="start-btn">Rozpocznij test</button>
+                                </form>
                             </div>
-                    
                         </div>
                     </div>
+
                 <?php endwhile; ?>
             </div>
 
