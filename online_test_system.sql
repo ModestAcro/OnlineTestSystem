@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Feb 08, 2025 at 09:14 PM
+-- Generation Time: Feb 11, 2025 at 08:39 PM
 -- Server version: 8.0.35
 -- PHP Version: 8.2.20
 
@@ -65,10 +65,10 @@ CREATE TABLE `tGrupy` (
 INSERT INTO `tGrupy` (`ID`, `rok`, `nazwa`, `id_wykladowcy`, `id_przedmiotu`, `id_kierunku`) VALUES
 (71, '2024', 'Grupa I', 31, 37, 42),
 (73, '2025', 'Grupa I', 29, 47, 42),
-(75, '2025', 'Brak', 35, 39, 43),
 (76, '2025', 'Grupa II', 29, 47, 42),
 (77, '2024', 'Grupa I', 29, 36, 42),
-(78, '2025', 'Grupa I', 30, 39, 43);
+(78, '2025', 'Grupa I', 30, 39, 43),
+(80, '2025', 'Grupa I', 35, 39, 43);
 
 -- --------------------------------------------------------
 
@@ -102,18 +102,16 @@ INSERT INTO `tGrupyStudenci` (`id_grupy`, `id_studenta`) VALUES
 (77, 60),
 (76, 61),
 (77, 61),
-(75, 62),
 (76, 62),
 (77, 62),
-(75, 63),
 (78, 63),
-(75, 64),
+(80, 63),
 (78, 64),
-(75, 65),
+(80, 64),
 (78, 65),
-(75, 66),
+(80, 65),
 (78, 66),
-(75, 67),
+(80, 66),
 (78, 67);
 
 -- --------------------------------------------------------
@@ -230,6 +228,61 @@ INSERT INTO `tOdpowiedzi` (`ID`, `id_pytania`, `tresc`, `data_stworzenia`, `data
 (436, 123, 'Wykorzystanie zasobów przez jeden proces', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 0, 0.00),
 (437, 123, ' Sytuacja, w której system operacyjny przestaje działać z powodu błędu', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 0, 0.00),
 (438, 123, 'Sytuacja, w której procesy czekają na zasoby, które są już zablokowane przez inne procesy', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 1, 1.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tOdpowiedziStudenta`
+--
+
+CREATE TABLE `tOdpowiedziStudenta` (
+  `ID` int NOT NULL,
+  `id_proby` int NOT NULL,
+  `id_testu` int NOT NULL,
+  `id_studenta` int NOT NULL,
+  `id_pytania` int NOT NULL,
+  `id_odpowiedzi` int DEFAULT NULL,
+  `correct` tinyint(1) NOT NULL DEFAULT '0',
+  `points` decimal(5,2) NOT NULL DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tOdpowiedziStudenta`
+--
+
+INSERT INTO `tOdpowiedziStudenta` (`ID`, `id_proby`, `id_testu`, `id_studenta`, `id_pytania`, `id_odpowiedzi`, `correct`, `points`) VALUES
+(380, 160, 51, 55, 106, 378, 1, 10.00),
+(381, 160, 51, 55, 107, 381, 1, 10.00),
+(382, 160, 51, 55, 108, 385, 0, 0.00),
+(383, 160, 51, 55, 108, 386, 1, 10.00),
+(384, 160, 51, 55, 109, 389, 1, 10.00),
+(385, 160, 51, 55, 109, 391, 1, 10.00),
+(386, 160, 51, 55, 110, 393, 1, 10.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tProbyTestu`
+--
+
+CREATE TABLE `tProbyTestu` (
+  `ID` int NOT NULL,
+  `id_testu` int NOT NULL,
+  `id_studenta` int NOT NULL,
+  `data_prob` datetime DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('w trakcie','zakończony') DEFAULT 'w trakcie',
+  `zdobyto_punktow` int DEFAULT NULL,
+  `ocena` float DEFAULT NULL,
+  `wynik_procentowy` decimal(10,0) DEFAULT NULL,
+  `data_zakonczenia` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tProbyTestu`
+--
+
+INSERT INTO `tProbyTestu` (`ID`, `id_testu`, `id_studenta`, `data_prob`, `status`, `zdobyto_punktow`, `ocena`, `wynik_procentowy`, `data_zakonczenia`) VALUES
+(160, 51, 55, '2025-02-11 22:38:32', 'zakończony', 50, 4, 71, '2025-02-11 22:38:48');
 
 -- --------------------------------------------------------
 
@@ -353,18 +406,17 @@ CREATE TABLE `tTestPytania` (
 --
 
 INSERT INTO `tTestPytania` (`id`, `id_testu`, `id_pytania`) VALUES
-(159, 37, 106),
-(160, 37, 107),
-(161, 37, 108),
-(162, 37, 109),
-(163, 37, 110),
-(164, 38, 120),
-(165, 38, 121),
-(166, 38, 122),
-(167, 38, 123),
-(173, 40, 106),
-(174, 40, 107),
-(175, 40, 108);
+(178, 42, 111),
+(179, 42, 112),
+(240, 51, 106),
+(241, 51, 107),
+(242, 51, 108),
+(243, 51, 109),
+(244, 51, 110),
+(245, 52, 120),
+(246, 52, 121),
+(247, 52, 122),
+(248, 52, 123);
 
 -- --------------------------------------------------------
 
@@ -391,9 +443,9 @@ CREATE TABLE `tTesty` (
 --
 
 INSERT INTO `tTesty` (`ID`, `nazwa`, `data_utworzenia`, `data_rozpoczecia`, `data_zakonczenia`, `czas_trwania`, `ilosc_prob`, `id_grupy`, `id_wykladowcy`, `id_przedmiotu`, `id_kierunku`) VALUES
-(37, 'Test Nr. 1', '2025-02-06 22:00:00', '2025-02-10 12:35:00', '2025-02-14 12:35:00', 60, 1, 73, 29, 47, 42),
-(38, 'Test Nr. 1', '2025-02-06 22:00:00', NULL, NULL, 5, 3, 77, 29, 36, 42),
-(40, 'Test Nr. 2', '2025-02-07 22:00:00', '2025-03-03 00:00:00', '2025-03-07 00:00:00', 30, 5, 76, 29, 47, 42);
+(42, 'Test Nr. 1', '2025-02-07 22:00:00', NULL, NULL, 10, 1, 80, 35, 39, 43),
+(51, 'Test Nr. 1', '2025-02-10 22:00:00', '2025-02-11 21:30:00', '2025-02-12 20:58:00', 2, 1, 73, 29, 47, 42),
+(52, 'Test Nr. 2', '2025-02-10 22:00:00', '2025-02-11 21:30:00', '2025-02-12 20:58:00', 10, 3, 77, 29, 36, 42);
 
 -- --------------------------------------------------------
 
@@ -511,6 +563,25 @@ ALTER TABLE `tOdpowiedzi`
   ADD KEY `id_pytania` (`id_pytania`);
 
 --
+-- Indexes for table `tOdpowiedziStudenta`
+--
+ALTER TABLE `tOdpowiedziStudenta`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `id_proby` (`id_proby`),
+  ADD KEY `id_testu` (`id_testu`),
+  ADD KEY `id_studenta` (`id_studenta`),
+  ADD KEY `id_pytania` (`id_pytania`),
+  ADD KEY `id_odpowiedzi` (`id_odpowiedzi`);
+
+--
+-- Indexes for table `tProbyTestu`
+--
+ALTER TABLE `tProbyTestu`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `id_studenta` (`id_studenta`),
+  ADD KEY `tprobytestu_ibfk_1` (`id_testu`);
+
+--
 -- Indexes for table `tPrzedmioty`
 --
 ALTER TABLE `tPrzedmioty`
@@ -586,7 +657,7 @@ ALTER TABLE `tAdministratorzy`
 -- AUTO_INCREMENT for table `tGrupy`
 --
 ALTER TABLE `tGrupy`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `tKierunki`
@@ -599,6 +670,18 @@ ALTER TABLE `tKierunki`
 --
 ALTER TABLE `tOdpowiedzi`
   MODIFY `ID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tOdpowiedziStudenta`
+--
+ALTER TABLE `tOdpowiedziStudenta`
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
+
+--
+-- AUTO_INCREMENT for table `tProbyTestu`
+--
+ALTER TABLE `tProbyTestu`
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `tPrzedmioty`
@@ -622,13 +705,13 @@ ALTER TABLE `tStudenci`
 -- AUTO_INCREMENT for table `tTestPytania`
 --
 ALTER TABLE `tTestPytania`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
 
 --
 -- AUTO_INCREMENT for table `tTesty`
 --
 ALTER TABLE `tTesty`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `tWykladowcy`
@@ -679,6 +762,23 @@ ALTER TABLE `tKierunkiPrzedmioty`
 --
 ALTER TABLE `tOdpowiedzi`
   ADD CONSTRAINT `todpowiedzi_ibfk_1` FOREIGN KEY (`id_pytania`) REFERENCES `tPytania` (`ID`);
+
+--
+-- Constraints for table `tOdpowiedziStudenta`
+--
+ALTER TABLE `tOdpowiedziStudenta`
+  ADD CONSTRAINT `todpowiedzistudenta_ibfk_1` FOREIGN KEY (`id_proby`) REFERENCES `tProbyTestu` (`ID`),
+  ADD CONSTRAINT `todpowiedzistudenta_ibfk_2` FOREIGN KEY (`id_testu`) REFERENCES `tTesty` (`ID`),
+  ADD CONSTRAINT `todpowiedzistudenta_ibfk_3` FOREIGN KEY (`id_studenta`) REFERENCES `tStudenci` (`ID`),
+  ADD CONSTRAINT `todpowiedzistudenta_ibfk_4` FOREIGN KEY (`id_pytania`) REFERENCES `tPytania` (`ID`),
+  ADD CONSTRAINT `todpowiedzistudenta_ibfk_5` FOREIGN KEY (`id_odpowiedzi`) REFERENCES `tOdpowiedzi` (`ID`);
+
+--
+-- Constraints for table `tProbyTestu`
+--
+ALTER TABLE `tProbyTestu`
+  ADD CONSTRAINT `tprobytestu_ibfk_1` FOREIGN KEY (`id_testu`) REFERENCES `tTesty` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tprobytestu_ibfk_2` FOREIGN KEY (`id_studenta`) REFERENCES `tStudenci` (`ID`);
 
 --
 -- Constraints for table `tPytania`
