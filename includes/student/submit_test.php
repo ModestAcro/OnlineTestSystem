@@ -90,16 +90,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = mysqli_fetch_assoc($result);
     $max_punkty = (int) $data['max_punkty'] ?? 0;
 
+
+    $procent = ($suma_punktow / $max_punkty) * 100;
+
+    if ($procent >= 90) {
+        $ocena = 5; // Bardzo dobry
+    } elseif ($procent >= 80) {
+        $ocena = 4.5; // Dobry plus
+    } elseif ($procent >= 70) {
+        $ocena = 4; // Dobry
+    } elseif ($procent >= 60) {
+        $ocena = 3.5; // Dostateczny plus
+    } elseif ($procent >= 51) {
+        $ocena = 3; // Dostateczny
+    } else {
+        $ocena = 2; // Niedostateczny
+    }
+
     // Zaktualizuj wynik testu
     $sql = "UPDATE tProbyTestu 
-            SET wynik = '$suma_punktow', status = 'zakończony' 
+            SET zdobyto_punktow = '$suma_punktow', status = 'zakończony', ocena = '$ocena', wynik_procentowy = '$procent', data_zakonczenia = NOW()
             WHERE ID = '$id_proby'";
 
     if (!mysqli_query($conn, $sql)) {
         die("Błąd aktualizacji wyniku testu: " . mysqli_error($conn));
     }
 
+   
+    
+    $zaokraglony_procent = round($procent);
+
     // Wyświetl wynik testu
-    echo "<h2>Test zakończony! Zdobyłeś $suma_punktow/$max_punkty punktów.</h2>";
+    echo "<h2>Test zakończony! Zdobyłeś $suma_punktow/$max_punkty punktów ($zaokraglony_procent%). Twoja ocena: $ocena.</h2>";
+
+
 }
 ?>

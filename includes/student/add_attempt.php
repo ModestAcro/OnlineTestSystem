@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once('../../config/connect.php');
+date_default_timezone_set('Europe/Vilnius');
+
 
 $test_id = $_POST['id_testu']; // ID testu pobrane z URL
 $student_id = $_SESSION['user_id'] ?? null;
@@ -29,7 +31,15 @@ $sql = "INSERT INTO tProbyTestu (id_testu, id_studenta, status) VALUES ('$test_i
 if (mysqli_query($conn, $sql)) {
     // Pobranie ID ostatnio dodanej próby
     $id_proby = mysqli_insert_id($conn);
-    
+
+    // Pobranie daty rozpoczęcia próby
+    $sql_data_prob = "SELECT data_prob FROM tProbyTestu WHERE ID = '$id_proby'";
+    $result_data_prob = mysqli_query($conn, $sql_data_prob);
+    $row_data_prob = mysqli_fetch_assoc($result_data_prob);
+
+    // Ustawienie daty rozpoczęcia w sesji
+    $_SESSION['data_prob'] = $row_data_prob['data_prob'];
+
     // Przekierowanie do testu z nową próbą
     header("Location: ../../public/student/rozpocznij_test.php?id_proby=" . $id_proby);
     exit;

@@ -2,9 +2,10 @@
     session_start();
     require_once('../../config/connect.php');
     require_once('../../config/functions.php');
-
+    date_default_timezone_set('Europe/Vilnius');
 
     $id_proby = $_GET['id_proby'] ?? null;
+    $student_id = $_SESSION['user_id'] ?? null;
 
     if (!$id_proby) {
         die("Brak ID próby.");
@@ -54,6 +55,41 @@
 
 
 
+
+
+
+
+    // Pobierz czas trwania testu w minutach
+    $query = "SELECT czas_trwania FROM tTesty WHERE ID = $test_id";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
+    $czas_trwania = $row['czas_trwania'];
+
+
+
+    // Pobierz czas rozpoczenia testu 
+    $sql = "SELECT data_prob FROM tProbyTestu WHERE ID = '$id_proby' AND id_testu = '$test_id' AND id_studenta = '$student_id'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $data_prob = $row['data_prob'];
+    } else {
+        die("Nie znaleziono daty próby.");
+    }
+
+
+    
+    // Konwertuj data_prob na znacznik czasu UNIX
+    $timestamp_data_prob = strtotime($data_prob);
+
+    if ($timestamp_data_prob === false) {
+        die("Nieprawidłowy format daty próby.");
+    }
+
+    // Oblicz czas zakończenia
+    $czas_zakonczenia = $timestamp_data_prob + ($czas_trwania * 60);
+
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +105,7 @@
         <div class="container">
             <form action="../../includes/student/submit_test.php" method="POST">
             <input type="hidden" name="id_proby" value="<?= htmlspecialchars($id_proby) ?>">
+            <div id="timer"></div>
                 <div class="tests-box">
                     <?php foreach ($testQuestions as $pytanie_id => $pytanie): ?>
                     <div class="test_card">
@@ -96,5 +133,29 @@
         </div>
     </main>
     
+    <script>
+    // Pobierz czas zakończenia z PHP
+    var czasZakonczenia = <?= $czas_zakonczenia ?> * 1000; // w milisekundach
+
+    function odliczanie() {
+        var teraz = new Date().getTime();
+        var roznica = czasZakonczenia - teraz;
+
+        var minuty = Math.floor((roznica % (1000 * 60 * 60)) / (1000 * 60));
+        var sekundy = Math.floor((roznica % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").innerHTML = minuty + "m " + sekundy + "s ";
+
+        if (roznica < 0) {
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "KONIEC CZASU";
+            // Automatyczne wysłanie formularza po upływie czasu
+            document.querySelector('form').submit();
+        }
+    }
+
+    var x = setInterval(odliczanie, 1000);
+</script>
+
 </body>
 </html>
