@@ -75,15 +75,16 @@
     </header>
 
     <main class="main">
-        <div class="container">
+    <div class="container">
+        <?php if (mysqli_num_rows($testInfo) > 0): ?>
             <div class="tests-box">
                 <h1>Testy do wykonania</h1>
                 <?php while ($row = mysqli_fetch_assoc($testInfo)): ?>
                     <div class="test_card">
                         <div class="test_title">
                             <div>
-                            <label>
-                                <?php 
+                                <label>
+                                    <?php 
                                     // Pobieramy dane z bazy danych
                                     $data_rozpoczecia = $row['data_rozpoczecia'];
                                     $data_zakonczenia = $row['data_zakonczenia'];
@@ -94,9 +95,9 @@
                                     } else {
                                         echo $data_rozpoczecia . " / " . $data_zakonczenia;
                                     }
-                                ?>
-                            </label>
-                            <h1><?= htmlspecialchars($row['nazwa_testu']) ?></h1>
+                                    ?>
+                                </label>
+                                <h1><?= htmlspecialchars($row['nazwa_testu']) ?></h1>
                             </div>
                             <div class="test_title-info">
                                 <h4><?= htmlspecialchars($row['nazwa_przedmiotu']) ?></h4>
@@ -116,16 +117,16 @@
                             </div>
                         </div>
                     </div>
-
                 <?php endwhile; ?>
             </div>
+        <?php endif; ?>
 
-
-            <div class="tests-box">
-                <h1>Twoje wyniki i postępy</h1>
-            </div>
+        <div class="tests-box">
+            <h1>Twoje wyniki i postępy</h1>
         </div>
-    </main>
+    </div>
+</main>
+
 
 
     <!-- Plik JavaScript --> 
