@@ -20,8 +20,8 @@
                     k.nazwa AS nazwa_kierunku, 
                     w.imie AS imie_wykladowcy, 
                     w.nazwisko AS nazwisko_wykladowcy, 
-                    COUNT(tp.ID) AS liczba_pytan,
-                    COUNT(pt.ID) AS liczba_prob
+                    COUNT(DISTINCT tp.ID) AS liczba_pytan,  -- Liczenie unikalnych pytań
+                    COUNT(DISTINCT pt.ID) AS liczba_prob   -- Liczenie unikalnych pró
                 FROM tTesty t
                 JOIN tPrzedmioty p ON t.id_przedmiotu = p.ID
                 JOIN tTestPytania tp ON tp.id_testu = t.ID
@@ -43,6 +43,21 @@
     }
     
     $testInfo = getTestInfo($conn, $student_id);
+
+    function getStudentTestCount ($conn, $student_id, $test_id){
+        $query = "SELECT COUNT(*) AS liczba_prob_studenta
+                    FROM tProbytestu
+                    WHERE id_testu = $test_id AND id_studenta = $student_id";
+
+        $result = mysqli_query($conn, $query);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            return $row['liczba_prob_studenta'];
+        } else {
+            return 0;
+        }
+    }
+
 
 
 ?>
@@ -107,7 +122,14 @@
                         <div class="test-info">
                             <label>Liczba pytań: <?= $row['liczba_pytan'] ?></label>
                             <label>Czas trwania: <?= $row['czas_trwania'] ?> min</label>
-                            <label>Ilość prób: <?= $row['ilosc_prob'] ?></label>
+
+
+                            <?php 
+                                    $liczbaProbStudenta = getStudentTestCount($conn, $student_id, $row['ID']);
+                                    $pozostale_proby = $row['ilosc_prob'] - $liczbaProbStudenta;
+                                ?>
+
+                                <label>Liczba prób: <?= $pozostale_proby ?></label>
 
                             <div class="test-buttons">
                                 <form action="../../includes/student/add_attempt.php" method="POST">

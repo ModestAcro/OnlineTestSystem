@@ -60,10 +60,22 @@
                     AND pt.wynik_procentowy = (
                         SELECT MAX(wynik_procentowy)
                         FROM tProbyTestu
-                        WHERE id_testu = t.ID AND id_studenta = s.ID
+                        WHERE id_testu = t.ID AND id_studenta = s.ID AND status = 'zakończony'
+                    )
+                    AND pt.data_prob = (
+                        SELECT MAX(data_prob)
+                        FROM tProbyTestu
+                        WHERE id_testu = t.ID AND id_studenta = s.ID AND status = 'zakończony'
+                        AND wynik_procentowy = (
+                            SELECT MAX(wynik_procentowy)
+                            FROM tProbyTestu
+                            WHERE id_testu = t.ID AND id_studenta = s.ID AND status = 'zakończony'
+                        )
                     )
                     GROUP BY t.ID, t.nazwa, p.nazwa, k.nazwa, w.imie, w.nazwisko, pt.status, pt.zdobyto_punktow, pt.max_punktow, pt.ocena, pt.wynik_procentowy, pt.data_prob, pt.data_zakonczenia;
-                ";
+                    ";
+       
+ 
 
         $result = mysqli_query($conn, $query);
 
@@ -72,6 +84,8 @@
     }
 
     $testInfo = getTestInfo($conn, $student_id);
+
+
 
     
 ?>

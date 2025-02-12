@@ -36,12 +36,13 @@ if (!$row) {
 <body>
     <main class="main">
         <div class="container">
-            <h2>Test zakończony!</h2>
+            <h1>Test zakończony!</h1>
             <p>Czas trawania testu: <?= htmlspecialchars($czas_trwania)?></p>
-
             <p>Zdobyłeś: <?= htmlspecialchars($row['zdobyto_punktow']) ?>/<?= htmlspecialchars($row['max_punktow']) ?> punktów</p>
             <p>Wynik procentowy: <?= round(htmlspecialchars($row['wynik_procentowy'])) ?>%</p>
             <p>Twoja ocena: <?= htmlspecialchars($row['ocena']) ?></p>
+            <br>
+            <a class="submit-btn" href="student_dashboard.php">Dalej</a>
         </div>
     </main>
 </body>
