@@ -59,7 +59,7 @@
     <header>
         <div class="header-content">
             <div class="left-header">
-                <a class="nav-btn" href="tests.php">Rozwiązane testy</a>
+                <a class="nav-btn" href="completed_tests.php">Rozwiązane testy</a>
                 <a class="nav-btn" href="">Oceny</a>
             </div>
             <div class="right-header">

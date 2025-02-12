@@ -90,6 +90,21 @@
     // Oblicz czas zakończenia
     $czas_zakonczenia = $timestamp_data_prob + ($czas_trwania * 60);
 
+
+
+    //Sprawdzenie czy uczen nie oszukuje system po przycisku "wstecz"
+    $query = "SELECT status FROM tProbyTestu WHERE id_studenta = $student_id AND id_testu = $test_id AND ID = '$id_proby'";
+    $result = mysqli_query($conn, $query); 
+    $row = mysqli_fetch_assoc($result);
+
+    $status = $row['status'];
+    
+    if ($status === 'zakończony') {
+        // Przekieruj do strony z wynikami lub informacją o zakończonym teście
+        header("Location: student_dashboard.php");
+        exit();
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -105,9 +120,11 @@
         <div class="container">
             <form action="../../includes/student/submit_test.php" method="POST">
             <input type="hidden" name="id_proby" value="<?= htmlspecialchars($id_proby) ?>">
-            <div id="timer"></div>
+         
                 <div class="tests-box">
+                    <div class="timer" id="timer"></div>
                     <?php foreach ($testQuestions as $pytanie_id => $pytanie): ?>
+                    
                     <div class="test_card">
                         <div class="test_title">
                             <div>
@@ -128,7 +145,9 @@
                     </div>
                     <?php endforeach; ?>
                 </div>
-            <button type="submit" class="start-btn">Zakończ test</button>
+                <div class="tests-box">
+                    <button type="submit" class="submit-btn">Zakończ test</button>
+                </div>
             </form>
         </div>
     </main>

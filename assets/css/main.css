@@ -761,4 +761,30 @@ textarea, select {
   width: 20px;
   height: 20px;
   margin: 0; /* Usuń wszelkie domyślne marginesy */
+}
+
+.timer {
+  font-family: "Poppins", sans-serif;
+  font-size: 2em;
+  color: #333;
+  background-color: #f0f0f0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+}
+
+.submit-btn {
+  background-color: #6c757d; /* Gray background */
+  color: white; /* White text */
+  border: none; /* Remove default border */
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Set font size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.submit-btn:hover {
+  background-color: #5a6268; /* Darker gray on hover */
 }/*# sourceMappingURL=main.css.map */

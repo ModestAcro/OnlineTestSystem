@@ -6,21 +6,25 @@
     $student_id = $_SESSION['user_id'];
 
     function getTestCount($conn, $student_id) {
-        $query = "SELECT COUNT(DISTINCT t.ID) AS liczba_testow
-                  FROM tTesty t
-                  JOIN tGrupy g ON t.id_grupy = g.ID
-                  JOIN tGrupyStudenci gs ON g.ID = gs.id_grupy
-                  JOIN tStudenci s ON gs.id_studenta = s.ID
-                  WHERE s.ID = $student_id";
+        // Prepare the SQL query to count the number of tests for the given student
+        $query = "SELECT COUNT(DISTINCT id_testu) AS liczba_testow
+                  FROM tProbyTestu
+                  WHERE id_studenta = $student_id";
     
+        // Execute the query
         $result = mysqli_query($conn, $query);
     
+        // Check if the query was successful
         if ($result) {
+            // Fetch the result as an associative array
             $row = mysqli_fetch_assoc($result);
-            return $row['liczba_testow'] ?? 0; // Zwróć liczbę testów lub 0, jeśli brak wyników
+    
+            // Return the count of tests, defaulting to 0 if no tests are found
+            return $row['liczba_testow'] ?? 0;
         }
     
-        return 0; // W razie błędu zwracamy 0
+        // Return 0 if the query failed
+        return 0;
     }
 
     $testCount = getTestCount($conn, $student_id);
@@ -29,12 +33,19 @@
 
     function getTestInfo($conn, $student_id){
         $query = "SELECT t.*, 
-                            t.nazwa AS nazwa_testu,
-                            p.nazwa AS nazwa_przedmiotu, 
-                            k.nazwa AS nazwa_kierunku, 
-                            w.imie AS imie_wykladowcy, 
-                            w.nazwisko AS nazwisko_wykladowcy, 
-                            COUNT(tp.ID) AS liczba_pytan
+                        t.nazwa AS nazwa_testu,
+                        p.nazwa AS nazwa_przedmiotu, 
+                        k.nazwa AS nazwa_kierunku, 
+                        w.imie AS imie_wykladowcy, 
+                        w.nazwisko AS nazwisko_wykladowcy, 
+                        COUNT(tp.ID) AS liczba_pytan,
+                        pt.status AS status_testu,
+                        pt.zdobyto_punktow, 
+                        pt.max_punktow, 
+                        pt.ocena, 
+                        pt.wynik_procentowy, 
+                        pt.data_prob, 
+                        pt.data_zakonczenia
                     FROM tTesty t
                     JOIN tPrzedmioty p ON t.id_przedmiotu = p.ID
                     JOIN tTestPytania tp ON tp.id_testu = t.ID
@@ -43,8 +54,16 @@
                     JOIN tGrupy g ON g.ID = t.id_grupy
                     JOIN tGrupyStudenci gs ON g.ID = gs.id_grupy
                     JOIN tStudenci s ON gs.id_studenta = s.ID
-                    WHERE s.ID = $student_id
-                    GROUP BY t.ID";
+                    JOIN tProbyTestu pt ON pt.id_testu = t.ID AND pt.id_studenta = s.ID
+                    WHERE s.ID = $student_id 
+                    AND pt.status = 'zakończony'
+                    AND pt.wynik_procentowy = (
+                        SELECT MAX(wynik_procentowy)
+                        FROM tProbyTestu
+                        WHERE id_testu = t.ID AND id_studenta = s.ID
+                    )
+                    GROUP BY t.ID, t.nazwa, p.nazwa, k.nazwa, w.imie, w.nazwisko, pt.status, pt.zdobyto_punktow, pt.max_punktow, pt.ocena, pt.wynik_procentowy, pt.data_prob, pt.data_zakonczenia;
+                ";
 
         $result = mysqli_query($conn, $query);
 
@@ -95,36 +114,59 @@
                 <thead>
                     <tr>
                         <th>Przedmiot</th>
-                        <th>Test</th>
-                        <th>Liczba pytań</th>
-                        <th>Data ważności</th>
-                        <th>Czas trwania (min.)</th>
-                        <th>Ilość prób</th>
+                        <th>Nazwa</th>
+                        <th>Czas rozwiązania</th>
+                        <th>Wynik procentowy</th>
+                        <th>Ocena</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($testData = mysqli_fetch_assoc($testInfo)): ?>
-                        <?php $test_id = $testData['ID']; ?>
+                        <?php $test_id = $testData['ID']; 
+                          $start_time = strtotime($testData['data_prob']);
+                          $end_time = strtotime($testData['data_zakonczenia']);
+                          
+                          $startDateTime = new DateTime();
+                          $startDateTime->setTimestamp($start_time);
+                          
+                          $endDateTime = new DateTime();
+                          $endDateTime->setTimestamp($end_time);
+                          
+                          $interval = $startDateTime->diff($endDateTime);
+
+                          $wynikProcentowy = $testData['wynik_procentowy'];
+
+                            
+                        ?>
+
+
                         <tr>
                             <td><?php echo $testData['nazwa_przedmiotu']; ?></td>
 
                             <td><?php echo $testData['nazwa_testu']; ?></td>
 
-                            <td><?php echo $testData['liczba_pytan']; ?></td>
-
                             <td>
-                                <?php
-                                    $start = $testData['data_rozpoczecia'] ? date('Y-m-d', strtotime($testData['data_rozpoczecia'])) : 'Brak';
-                                    $end = $testData['data_zakonczenia'] ? date('Y-m-d', strtotime($testData['data_zakonczenia'])) : 'Brak';
-                                    echo "$start / $end";
+                                <?php     
+                                    echo $interval->format('%h godzin %i minut %s sekund');
                                 ?>
                             </td>
 
-                            <td><?php echo $testData['czas_trwania']; ?></td>
                             <td>
                                 <?php 
-                                    echo $testData['ilosc_prob'] == -1 ? 'Nieograniczona' : $testData['ilosc_prob'];
+                                    echo $testData['wynik_procentowy'] . "%";
+                                ?>
+                            </td>
+
+                            <td><?php echo $testData['ocena']; ?></td>
+                            <td>
+                                <?php 
+                                    if($wynikProcentowy >= 51){
+                                        echo "Zaliczony";
+                                    } else {
+                                        echo "Niezaliczony";
+                                    }
                                 ?>
                             </td>
 

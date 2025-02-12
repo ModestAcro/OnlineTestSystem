@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Zaktualizuj wynik testu
     $sql = "UPDATE tProbyTestu 
-            SET zdobyto_punktow = '$suma_punktow', status = 'zakończony', ocena = '$ocena', wynik_procentowy = '$procent', data_zakonczenia = NOW()
+            SET zdobyto_punktow = '$suma_punktow', max_punktow = '$max_punkty', status = 'zakończony', ocena = '$ocena', wynik_procentowy = '$procent', data_zakonczenia = NOW()
             WHERE ID = '$id_proby'";
 
     if (!mysqli_query($conn, $sql)) {
@@ -120,9 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $zaokraglony_procent = round($procent);
 
-    // Wyświetl wynik testu
-    echo "<h2>Test zakończony! Zdobyłeś $suma_punktow/$max_punkty punktów ($zaokraglony_procent%). Twoja ocena: $ocena.</h2>";
-
+    header("Location: ../../public/student/test_result.php?id_proby=$id_proby");
+    exit();
 
 }
 ?>
