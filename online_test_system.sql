@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Feb 11, 2025 at 08:39 PM
+-- Generation Time: Feb 13, 2025 at 12:57 PM
 -- Server version: 8.0.35
 -- PHP Version: 8.2.20
 
@@ -68,7 +68,8 @@ INSERT INTO `tGrupy` (`ID`, `rok`, `nazwa`, `id_wykladowcy`, `id_przedmiotu`, `i
 (76, '2025', 'Grupa II', 29, 47, 42),
 (77, '2024', 'Grupa I', 29, 36, 42),
 (78, '2025', 'Grupa I', 30, 39, 43),
-(80, '2025', 'Grupa I', 35, 39, 43);
+(80, '2025', 'Grupa I', 35, 39, 43),
+(81, '2025', 'Grupa I', 29, 35, 42);
 
 -- --------------------------------------------------------
 
@@ -88,22 +89,31 @@ CREATE TABLE `tGrupyStudenci` (
 INSERT INTO `tGrupyStudenci` (`id_grupy`, `id_studenta`) VALUES
 (73, 54),
 (77, 54),
+(81, 54),
 (73, 55),
 (77, 55),
+(81, 55),
 (73, 56),
 (77, 56),
+(81, 56),
 (76, 57),
 (77, 57),
+(81, 57),
 (73, 58),
 (77, 58),
+(81, 58),
 (76, 59),
 (77, 59),
+(81, 59),
 (73, 60),
 (77, 60),
+(81, 60),
 (76, 61),
 (77, 61),
+(81, 61),
 (76, 62),
 (77, 62),
+(81, 62),
 (78, 63),
 (80, 63),
 (78, 64),
@@ -227,7 +237,22 @@ INSERT INTO `tOdpowiedzi` (`ID`, `id_pytania`, `tresc`, `data_stworzenia`, `data
 (435, 122, 'Przesyłanie danych między pamięcią a dyskiem twardym', '2025-02-07 13:10:40', '2025-02-07 13:10:40', 0, 0.00),
 (436, 123, 'Wykorzystanie zasobów przez jeden proces', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 0, 0.00),
 (437, 123, ' Sytuacja, w której system operacyjny przestaje działać z powodu błędu', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 0, 0.00),
-(438, 123, 'Sytuacja, w której procesy czekają na zasoby, które są już zablokowane przez inne procesy', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 1, 1.00);
+(438, 123, 'Sytuacja, w której procesy czekają na zasoby, które są już zablokowane przez inne procesy', '2025-02-07 13:11:10', '2025-02-07 13:11:10', 1, 1.00),
+(439, 124, 'MySQL', '2025-02-12 20:28:34', '2025-02-12 20:28:34', 1, 5.00),
+(440, 124, 'PostgreSQL', '2025-02-12 20:28:34', '2025-02-12 20:28:34', 1, 5.00),
+(441, 124, 'HTML', '2025-02-12 20:28:34', '2025-02-12 20:28:34', 0, 0.00),
+(442, 125, 'SELECT', '2025-02-12 20:29:03', '2025-02-12 21:03:15', 1, 10.00),
+(443, 125, 'INSERT', '2025-02-12 20:29:03', '2025-02-12 20:29:03', 0, 0.00),
+(444, 125, 'DELETE', '2025-02-12 20:29:03', '2025-02-12 20:29:03', 0, 0.00),
+(445, 126, 'Atomicity, Consistency, Isolation, Durability', '2025-02-12 20:29:34', '2025-02-12 20:29:34', 1, 10.00),
+(446, 126, 'Automated, Centralized, Indexed, Distributed', '2025-02-12 20:29:34', '2025-02-12 20:29:34', 0, 0.00),
+(447, 126, 'Access, Control, Integrity, Design', '2025-02-12 20:29:34', '2025-02-12 20:29:34', 0, 0.00),
+(448, 127, ' INNER JOIN', '2025-02-12 20:30:14', '2025-02-12 20:30:14', 1, 5.00),
+(449, 127, 'LEFT JOIN', '2025-02-12 20:30:14', '2025-02-12 20:30:14', 1, 5.00),
+(450, 127, 'TOP JOIN', '2025-02-12 20:30:14', '2025-02-12 20:30:14', 0, 0.00),
+(451, 128, 'Liczby całkowite (INTEGER)', '2025-02-12 20:30:48', '2025-02-12 20:30:48', 1, 5.00),
+(452, 128, 'Tekst (VARCHAR)', '2025-02-12 20:30:48', '2025-02-12 20:30:48', 1, 5.00),
+(453, 128, 'CSS Stylesheets', '2025-02-12 20:30:48', '2025-02-12 20:30:48', 0, 0.00);
 
 -- --------------------------------------------------------
 
@@ -251,13 +276,62 @@ CREATE TABLE `tOdpowiedziStudenta` (
 --
 
 INSERT INTO `tOdpowiedziStudenta` (`ID`, `id_proby`, `id_testu`, `id_studenta`, `id_pytania`, `id_odpowiedzi`, `correct`, `points`) VALUES
-(380, 160, 51, 55, 106, 378, 1, 10.00),
-(381, 160, 51, 55, 107, 381, 1, 10.00),
-(382, 160, 51, 55, 108, 385, 0, 0.00),
-(383, 160, 51, 55, 108, 386, 1, 10.00),
-(384, 160, 51, 55, 109, 389, 1, 10.00),
-(385, 160, 51, 55, 109, 391, 1, 10.00),
-(386, 160, 51, 55, 110, 393, 1, 10.00);
+(1102, 330, 56, 54, 106, 378, 1, 10.00),
+(1103, 330, 56, 54, 107, 381, 1, 10.00),
+(1104, 330, 56, 54, 108, 384, 0, 0.00),
+(1105, 330, 56, 54, 108, 385, 0, 0.00),
+(1106, 330, 56, 54, 108, 386, 1, 10.00),
+(1107, 330, 56, 54, 109, 389, 1, 10.00),
+(1108, 330, 56, 54, 109, 391, 1, 10.00),
+(1109, 330, 56, 54, 110, 396, 0, 0.00),
+(1110, 331, 56, 55, 106, 378, 1, 10.00),
+(1111, 331, 56, 55, 107, 381, 1, 10.00),
+(1112, 331, 56, 55, 108, 385, 0, 0.00),
+(1113, 331, 56, 55, 108, 386, 1, 10.00),
+(1114, 331, 56, 55, 108, 388, 0, 0.00),
+(1115, 331, 56, 55, 109, 389, 1, 10.00),
+(1116, 331, 56, 55, 109, 391, 1, 10.00),
+(1117, 331, 56, 55, 110, 394, 0, 0.00),
+(1118, 334, 56, 56, 106, 377, 0, 0.00),
+(1119, 334, 56, 56, 107, 381, 1, 10.00),
+(1120, 334, 56, 56, 108, 386, 1, 10.00),
+(1121, 334, 56, 56, 109, 389, 1, 10.00),
+(1122, 334, 56, 56, 109, 391, 1, 10.00),
+(1123, 334, 56, 56, 110, 393, 1, 10.00),
+(1124, 334, 56, 56, 110, 395, 1, 10.00),
+(1125, 336, 56, 58, 106, 377, 0, 0.00),
+(1126, 336, 56, 58, 107, 381, 1, 10.00),
+(1127, 336, 56, 58, 108, 386, 1, 10.00),
+(1128, 336, 56, 58, 109, 389, 1, 10.00),
+(1129, 336, 56, 58, 109, 391, 1, 10.00),
+(1130, 336, 56, 58, 110, 393, 1, 10.00),
+(1131, 336, 56, 58, 110, 396, 0, 0.00),
+(1132, 338, 56, 60, 106, 377, 0, 0.00),
+(1133, 338, 56, 60, 106, 378, 1, 10.00),
+(1134, 338, 56, 60, 107, 381, 1, 10.00),
+(1135, 338, 56, 60, 107, 382, 0, 0.00),
+(1136, 338, 56, 60, 108, 386, 1, 10.00),
+(1137, 338, 56, 60, 109, 391, 1, 10.00),
+(1138, 338, 56, 60, 110, 395, 1, 10.00),
+(1139, 339, 56, 60, 109, 391, 1, 10.00),
+(1140, 339, 56, 60, 109, 392, 0, 0.00),
+(1141, 339, 56, 60, 110, 393, 1, 10.00),
+(1142, 339, 56, 60, 110, 396, 0, 0.00),
+(1143, 340, 56, 54, 106, 378, 1, 10.00),
+(1144, 340, 56, 54, 107, 381, 1, 10.00),
+(1145, 340, 56, 54, 108, 385, 0, 0.00),
+(1146, 340, 56, 54, 109, 389, 1, 10.00),
+(1147, 340, 56, 54, 109, 391, 1, 10.00),
+(1148, 341, 59, 54, 120, 428, 1, 1.00),
+(1149, 341, 59, 54, 121, 430, 1, 1.00),
+(1150, 341, 59, 54, 122, 433, 1, 1.00),
+(1151, 341, 59, 54, 123, 438, 1, 1.00),
+(1152, 342, 59, 54, 120, 428, 1, 1.00),
+(1153, 342, 59, 54, 121, 430, 1, 1.00),
+(1154, 343, 59, 55, 120, 428, 1, 1.00),
+(1155, 343, 59, 55, 121, 430, 1, 1.00),
+(1156, 343, 59, 55, 122, 434, 0, 0.00),
+(1157, 343, 59, 55, 123, 436, 0, 0.00);
 
 -- --------------------------------------------------------
 
@@ -270,8 +344,9 @@ CREATE TABLE `tProbyTestu` (
   `id_testu` int NOT NULL,
   `id_studenta` int NOT NULL,
   `data_prob` datetime DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('w trakcie','zakończony') DEFAULT 'w trakcie',
+  `status` enum('w trakcie','zakończony') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'w trakcie',
   `zdobyto_punktow` int DEFAULT NULL,
+  `max_punktow` int DEFAULT NULL,
   `ocena` float DEFAULT NULL,
   `wynik_procentowy` decimal(10,0) DEFAULT NULL,
   `data_zakonczenia` datetime DEFAULT NULL
@@ -281,8 +356,23 @@ CREATE TABLE `tProbyTestu` (
 -- Dumping data for table `tProbyTestu`
 --
 
-INSERT INTO `tProbyTestu` (`ID`, `id_testu`, `id_studenta`, `data_prob`, `status`, `zdobyto_punktow`, `ocena`, `wynik_procentowy`, `data_zakonczenia`) VALUES
-(160, 51, 55, '2025-02-11 22:38:32', 'zakończony', 50, 4, 71, '2025-02-11 22:38:48');
+INSERT INTO `tProbyTestu` (`ID`, `id_testu`, `id_studenta`, `data_prob`, `status`, `zdobyto_punktow`, `max_punktow`, `ocena`, `wynik_procentowy`, `data_zakonczenia`) VALUES
+(329, 56, 54, '2025-02-13 13:46:51', 'zakończony', 0, 70, 2, 0, '2025-02-13 13:46:54'),
+(330, 56, 54, '2025-02-13 13:47:00', 'zakończony', 40, 70, 3, 57, '2025-02-13 13:47:12'),
+(331, 56, 55, '2025-02-13 13:47:31', 'zakończony', 40, 70, 3, 57, '2025-02-13 13:47:49'),
+(332, 56, 55, '2025-02-13 13:47:55', 'zakończony', 0, 70, 2, 0, '2025-02-13 13:47:56'),
+(333, 56, 56, '2025-02-13 13:48:18', 'zakończony', 0, 70, 2, 0, '2025-02-13 13:48:20'),
+(334, 56, 56, '2025-02-13 13:48:24', 'zakończony', 60, 70, 4.5, 86, '2025-02-13 13:49:10'),
+(335, 56, 58, '2025-02-13 13:49:58', 'zakończony', 0, 70, 2, 0, '2025-02-13 13:50:01'),
+(336, 56, 58, '2025-02-13 13:50:06', 'zakończony', 50, 70, 4, 71, '2025-02-13 13:50:20'),
+(337, 56, 58, '2025-02-13 13:50:27', 'zakończony', 0, 70, 2, 0, '2025-02-13 13:50:28'),
+(338, 56, 60, '2025-02-13 13:51:11', 'zakończony', 30, 70, 2, 43, '2025-02-13 13:51:22'),
+(339, 56, 60, '2025-02-13 13:51:26', 'zakończony', 20, 70, 2, 29, '2025-02-13 13:51:33'),
+(340, 56, 54, '2025-02-13 14:44:59', 'zakończony', 40, 70, 3, 57, '2025-02-13 14:45:08'),
+(341, 59, 54, '2025-02-13 14:46:47', 'zakończony', 4, 4, 5, 100, '2025-02-13 14:46:55'),
+(342, 59, 54, '2025-02-13 14:47:02', 'zakończony', 2, 4, 2, 50, '2025-02-13 14:47:04'),
+(343, 59, 55, '2025-02-13 14:47:14', 'zakończony', 2, 4, 2, 50, '2025-02-13 14:47:20'),
+(344, 59, 55, '2025-02-13 14:47:25', 'zakończony', 0, 4, 2, 0, '2025-02-13 14:47:26');
 
 -- --------------------------------------------------------
 
@@ -347,7 +437,12 @@ INSERT INTO `tPytania` (`ID`, `id_przedmiotu`, `id_wykladowcy`, `typ`, `tresc`, 
 (120, 36, 29, 'Wielokrotnego wyboru', 'Co to jest system operacyjny?', '2025-02-07 13:09:30', '2025-02-07 13:09:30'),
 (121, 36, 29, 'Wielokrotnego wyboru', 'Czym różni się tryb użytkownika od trybu jądra w systemie operacyjnym? ', '2025-02-07 13:10:10', '2025-02-07 13:10:10'),
 (122, 36, 29, 'Wielokrotnego wyboru', 'Co to jest \"stronicowanie\" w zarządzaniu pamięcią w systemie operacyjnym?', '2025-02-07 13:10:40', '2025-02-07 13:10:40'),
-(123, 36, 29, 'Wielokrotnego wyboru', 'Co to jest deadlock?', '2025-02-07 13:11:10', '2025-02-07 13:11:10');
+(123, 36, 29, 'Wielokrotnego wyboru', 'Co to jest deadlock?', '2025-02-07 13:11:10', '2025-02-07 13:11:10'),
+(124, 35, 29, 'Wielokrotnego wyboru', 'Które z poniższych są systemami zarządzania bazami danych (DBMS)?', '2025-02-12 20:28:34', '2025-02-12 20:28:34'),
+(125, 35, 29, 'Wielokrotnego wyboru', 'Która operacja w SQL służy do pobierania danych z tabeli?', '2025-02-12 20:29:03', '2025-02-12 20:29:03'),
+(126, 35, 29, 'Wielokrotnego wyboru', 'Co oznacza skrót ACID w kontekście baz danych?', '2025-02-12 20:29:34', '2025-02-12 20:29:34'),
+(127, 35, 29, 'Wielokrotnego wyboru', 'Które z poniższych są typami połączeń (JOIN) w SQL?', '2025-02-12 20:30:14', '2025-02-12 20:30:14'),
+(128, 35, 29, 'Wielokrotnego wyboru', 'Jakie typy danych można przechowywać w bazie danych?', '2025-02-12 20:30:48', '2025-02-12 20:30:48');
 
 -- --------------------------------------------------------
 
@@ -406,17 +501,16 @@ CREATE TABLE `tTestPytania` (
 --
 
 INSERT INTO `tTestPytania` (`id`, `id_testu`, `id_pytania`) VALUES
-(178, 42, 111),
-(179, 42, 112),
-(240, 51, 106),
-(241, 51, 107),
-(242, 51, 108),
-(243, 51, 109),
-(244, 51, 110),
-(245, 52, 120),
-(246, 52, 121),
-(247, 52, 122),
-(248, 52, 123);
+(350, 58, 114),
+(396, 56, 106),
+(397, 56, 107),
+(398, 56, 108),
+(399, 56, 109),
+(400, 56, 110),
+(405, 59, 120),
+(406, 59, 121),
+(407, 59, 122),
+(408, 59, 123);
 
 -- --------------------------------------------------------
 
@@ -443,9 +537,9 @@ CREATE TABLE `tTesty` (
 --
 
 INSERT INTO `tTesty` (`ID`, `nazwa`, `data_utworzenia`, `data_rozpoczecia`, `data_zakonczenia`, `czas_trwania`, `ilosc_prob`, `id_grupy`, `id_wykladowcy`, `id_przedmiotu`, `id_kierunku`) VALUES
-(42, 'Test Nr. 1', '2025-02-07 22:00:00', NULL, NULL, 10, 1, 80, 35, 39, 43),
-(51, 'Test Nr. 1', '2025-02-10 22:00:00', '2025-02-11 21:30:00', '2025-02-12 20:58:00', 2, 1, 73, 29, 47, 42),
-(52, 'Test Nr. 2', '2025-02-10 22:00:00', '2025-02-11 21:30:00', '2025-02-12 20:58:00', 10, 3, 77, 29, 36, 42);
+(56, 'Test Nr. 1', '2025-02-12 22:00:00', '2025-02-13 12:19:00', '2025-02-13 14:45:00', 1, 3, 73, 29, 47, 42),
+(58, 'Test Nr. 1', '2025-02-12 22:00:00', '2025-02-13 12:21:00', '2025-02-13 12:25:00', 1, 2, 78, 30, 39, 43),
+(59, 'Test Nr. 1', '2025-02-12 22:00:00', '2025-02-13 14:46:00', '2025-02-13 14:47:00', 2, 2, 77, 29, 36, 42);
 
 -- --------------------------------------------------------
 
@@ -657,7 +751,7 @@ ALTER TABLE `tAdministratorzy`
 -- AUTO_INCREMENT for table `tGrupy`
 --
 ALTER TABLE `tGrupy`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `tKierunki`
@@ -675,13 +769,13 @@ ALTER TABLE `tOdpowiedzi`
 -- AUTO_INCREMENT for table `tOdpowiedziStudenta`
 --
 ALTER TABLE `tOdpowiedziStudenta`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1158;
 
 --
 -- AUTO_INCREMENT for table `tProbyTestu`
 --
 ALTER TABLE `tProbyTestu`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=345;
 
 --
 -- AUTO_INCREMENT for table `tPrzedmioty`
@@ -693,7 +787,7 @@ ALTER TABLE `tPrzedmioty`
 -- AUTO_INCREMENT for table `tPytania`
 --
 ALTER TABLE `tPytania`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT for table `tStudenci`
@@ -705,13 +799,13 @@ ALTER TABLE `tStudenci`
 -- AUTO_INCREMENT for table `tTestPytania`
 --
 ALTER TABLE `tTestPytania`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=409;
 
 --
 -- AUTO_INCREMENT for table `tTesty`
 --
 ALTER TABLE `tTesty`
-  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `ID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `tWykladowcy`
