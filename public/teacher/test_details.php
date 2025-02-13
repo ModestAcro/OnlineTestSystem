@@ -139,6 +139,8 @@ $previous_student = null;
                 endwhile; ?>
             </tbody>
         </table>
+        <a href="export_excel.php?test_id=<?php echo $test_id; ?>" class="submit-btn" style="display: block; width: 220px;">Pobierz wyniki (Excel)<img src="../../assets/images/icons/download.svg" class="edit-icon" style="margin-left: 10px"></a>
+
     </main>
 
     <script src="../../assets/js/modal_windows.js"></script>
