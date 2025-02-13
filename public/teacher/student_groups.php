@@ -58,6 +58,10 @@
     }
     
     $subjectInfo = getSubjectsByTeacher($conn, $user_id);
+
+
+
+    
     
 
 

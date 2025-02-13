@@ -23,6 +23,20 @@
     $testCount = getTableCountByTeacherId($conn, 'tTesty', $teacher_id);
     $groupCount = getTableCountByTeacherId($conn, 'tGrupy', $teacher_id);
 
+
+    function getCompletedTestsCount($conn, $teacher_id){
+        $query = "SELECT COUNT(*) AS liczba_zakonczonych_testow
+                    FROM tTesty 
+                    WHERE data_zakonczenia IS NOT NULL 
+                    AND data_zakonczenia <= NOW()
+                    AND id_wykladowcy = $teacher_id";
+        
+        $result = mysqli_query($conn, $query);
+        return mysqli_fetch_assoc($result)['liczba_zakonczonych_testow'];
+    }
+
+    $completedTestCount = getCompletedTestsCount($conn, $teacher_id);
+
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +54,7 @@
                 <a class="nav-btn" href="tests.php">Testy</a>
                 <a class="nav-btn" href="questions.php">Pytania</a>
                 <a class="nav-btn" href="student_groups.php">Grupy studentów</a>
+                <a class="nav-btn" href="completed_tests.php">Wyniki testów</a>
             </div>
             <div class="right-header">
                 <span class="name"><?php echo $_SESSION['user_name'] . ' ' . $_SESSION['user_surname']; ?></span>
@@ -92,6 +107,19 @@
                     </a>
                 </div>
                 <!-- Informacja o grupy -->
+
+
+                <!-- Informacja o wykonanych testach -->
+                <div class="subjects">
+                    <a href="completed_tests.php" style="color: black;">
+                        <div class="card">
+                            <img src="../../assets/images/icons/checked.svg" alt="Book" class="card-avatar">
+                            <h3 class="card-title">Wyniki testów</h3>
+                            <p class="card-count"><?php echo $completedTestCount; ?></p>
+                        </div>
+                    </a>
+                </div>
+                <!-- Informacja o wykonanych testach -->
             </div>
         </div>
     </main>

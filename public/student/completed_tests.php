@@ -30,7 +30,7 @@
     $testCount = getTestCount($conn, $student_id);
 
 
-
+    // Funkcja ktora filtruje najleprzy test po wynik_procentowy + data_prob
     function getTestInfo($conn, $student_id){
         $query = "SELECT t.*, 
                         t.nazwa AS nazwa_testu,
