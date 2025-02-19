@@ -1,5 +1,5 @@
 
-<button id="logoutBtn" class="logout-btn" onclick="LogoutModal()">Wyloguj</button>
+<button class="btn btn-outline-danger" onclick="LogoutModal()">Wyloguj</button>
 
 <!-- Okno modalne do potwierdzenia wylogowania -->
 <div id="openLogoutModal" class="modal">

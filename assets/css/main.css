@@ -122,113 +122,67 @@ label {
 }
 
 header {
-  height: 70px;
-  width: 100%;
-  background-color: #333333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: #962328 !important;
+  padding: 0px 30px 0px 30px;
 }
 
-.header-content {
-  width: 90%;
-  display: flex;
-  justify-content: space-between;
+.navbar {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #962328 !important;
 }
 
-.right-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
+.nav-link {
+  color: #FFDAB9 !important;
+}
+.nav-link:hover {
+  color: #FFD700 !important;
 }
 
-.left-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
+.fw-bold {
+  color: #fff !important;
 }
 
-.nav-btn {
-  background-color: #757575;
-  color: white;
-  width: 150px;
-  padding: 20px 20px;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.nav-btn:hover {
-  opacity: 0.8;
-}
-
-.name {
-  font-size: 18px;
-  font-weight: bold;
-  color: #fff;
-}
-
-.logout-btn {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 5px;
-}
-
-.logout-btn:hover {
-  opacity: 0.8;
+.custom-toggler {
+  filter: invert(1); /* Zmienia kolor na biały */
 }
 
 #login-body {
   background-image: url("../images/wallpapers/login_wallpaper_HD.jpg");
+  width: 100vw;
+  height: 100vh;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
 }
 
 .login-box {
   background-color: rgba(211, 211, 211, 0.3);
   backdrop-filter: blur(25px);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 440px;
-  height: 440px;
   padding: 30px;
-  border-radius: 15px;
-}
-
-@media screen and (max-width: 768px) {
-  .login-box {
-    width: 90%; /* Zmniejszenie szerokości, aby pasowało do mniejszych ekranów */
-  }
-}
-.input-box {
-  width: 100%;
-  height: 40px;
-  font-size: 17px;
-  padding: 0 25px;
-  margin-bottom: 15px;
-  border-radius: 15px;
-  border: none;
-  background-color: #fff;
-  box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.05);
-  outline: none;
+  width: 90%;
 }
 
 .login-header {
   text-align: center;
   margin: 20px 0 40px 0;
+}
+
+/* Styl inputów */
+.input-box {
+  width: 100%;
+  height: 40px;
+  border-radius: 15px;
+  border: none;
+  background-color: #fff;
+  box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.05);
 }
 
 .login-submit-btn {
@@ -238,12 +192,38 @@ header {
   border-radius: 15px;
   cursor: pointer;
   color: #fff;
+  margin-top: 20px;
 }
 
 .error-message {
   margin-top: 10px;
 }
 
+/* Media Queries dla różnych ekranów */
+/* Extra small devices (telefony) */
+@media only screen and (max-width: 600px) {
+  .login-box {
+    max-width: 80%;
+  }
+}
+/* Small devices (większe telefony, małe tablety) */
+@media only screen and (min-width: 601px) and (max-width: 768px) {
+  .login-box {
+    max-width: 80%;
+  }
+}
+/* Medium devices (tablety w pionie i poziomie) */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .login-box {
+    max-width: 50%;
+  }
+}
+/* Large devices (laptopy i duże ekrany) */
+@media only screen and (min-width: 1025px) {
+  .login-box {
+    max-width: 35%;
+  }
+}
 .info {
   display: flex;
   justify-content: space-between;

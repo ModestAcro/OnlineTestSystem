@@ -1,10 +1,11 @@
 @import "./base/reset";
 @import "./base/globals";
+@import "./base/variables";
 
 @import "./blocks/header";
 @import "./blocks/login";
-@import "./blocks/admin/dashboard";
-@import "./blocks/admin/teachers";
+@import "./blocks/dashboard";
+@import "./blocks/teachers";
 @import "./blocks/modal";
 @import "./blocks/multi-select";
 @import "./blocks/radio";
