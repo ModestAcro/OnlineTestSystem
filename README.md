@@ -35,6 +35,7 @@ Ten system to aplikacja webowa przeznaczona dla administratorów, nauczycieli i 
 - <img src="https://user-images.githubusercontent.com/25181517/183896128-ec99105a-ec1a-4d85-b08b-1aa1620b2046.png" alt="MySQL" style="width:30px; vertical-align:middle;"> <span>MySQL</span>
 - <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/git.png" alt="Git" style="width:30px; vertical-align:middle;"> <span>Git</span>
 - <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/sass.png" alt="Sass" style="width:30px; vertical-align:middle;"> <span>Sass</span>
+- <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/bootstrap.png" alt="Bootstrap" style="width:30px; vertical-align:middle;"> <span>Bootstrap</span>
 
 
 
