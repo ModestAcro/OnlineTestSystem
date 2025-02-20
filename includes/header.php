@@ -115,9 +115,26 @@ if (!isset($_SESSION['user_role'])) {
                     <?php endif; ?>
                 </ul>
                 <form class="d-flex">
-                    <a class="btn btn-outline-light" href="../../config/logout.php">Wyloguj</a>
+                    <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#logoutModal">Wyloguj</a>
                 </form>
             </div>
         </div>
     </nav>
 </header>
+
+
+<!-- Modal potwierdzenia wylogowania -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Czy na pewno chcesz się wylogować?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+        <a href="../../config/logout.php" type="button" class="btn btn-outline-danger">Wyloguj</a>
+      </div>
+    </div>
+  </div>
+</div>

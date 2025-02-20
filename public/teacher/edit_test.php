@@ -121,124 +121,126 @@
    
     <?php include '../../includes/header.php'; ?>
 
-    <main class="main">
-        <div class="container">
-            <h1>Edytuj test</h1>
-            <form action="../../includes/teacher/save_test.php" method="POST">
-                <input type="hidden" name="test_id" value="<?php echo $testInfo['ID']; ?>">
-                <?php $ilosc_prob = $testInfo['ilosc_prob']; // Pobranie wartości z bazy ?>
+    <main class="main my-5">
+    <div class="container card shadow p-4">
+        <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Edytuj test</h1>
+        <form action="../../includes/teacher/save_test.php" method="POST">
+            <input type="hidden" name="test_id" value="<?php echo $testInfo['ID']; ?>">
+            <?php $ilosc_prob = $testInfo['ilosc_prob']; // Pobranie wartości z bazy ?>
 
-                <h4>Nazwa</h4>
-                <div class="radio">
-                    <div class="radio-section">
-                        <input type="text" name="nazwa" value="<?php echo $testInfo['nazwa']; ?>">
+            <h5 class="card-title fs-4 mt-2">Nazwa</h5>
+            <div class="mb-3">
+                <input type="text" name="nazwa" class="form-control" value="<?php echo $testInfo['nazwa']; ?>">
+            </div>
+
+            
+            <!-- Wybór daty i godziny dla limitu czasowego -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Okres dostępności testu</h5>
+
+                <!-- Przełącznik (switch) do włączania/wyłączania limitu czasowego -->
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="limitSwitch" 
+                        <?php echo (!empty($testInfo['data_rozpoczecia'])) ? 'checked' : ''; ?>>
+                    <label class="form-check-label" for="limitSwitch">Włącz/Wyłącz</label>
+                </div>
+        
+                <!-- Sekcja z wyborem daty, domyślnie ukryta -->
+                <div id="timeLimitSection" class="row g-2 mt-2 d-none">
+                    <div class="col-md-6">
+                        <label class="form-label">Od:</label>
+                        <input type="datetime-local" class="form-control" name="start-time" 
+                            value="<?php echo !empty($testInfo['data_rozpoczecia']) ? date('Y-m-d\TH:i', strtotime($testInfo['data_rozpoczecia'])) : ""; ?>">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Do:</label>
+                        <input type="datetime-local" class="form-control" name="end-time" 
+                            value="<?php echo !empty($testInfo['data_zakonczenia']) ? date('Y-m-d\TH:i', strtotime($testInfo['data_zakonczenia'])) : ""; ?>">
                     </div>
                 </div>
+            </div>
+
+            <!-- Skrypt do obsługi przełącznika -->
+            <script>
+                // Funkcja do ustawienia widoczności sekcji na podstawie stanu przełącznika
+                function toggleTimeLimitSection() {
+                    const timeLimitSection = document.getElementById('timeLimitSection');
+                    const limitSwitch = document.getElementById('limitSwitch');
+                    if (limitSwitch.checked) {
+                        timeLimitSection.classList.remove('d-none');
+                    } else {
+                        timeLimitSection.classList.add('d-none');
+                    }
+                }
+
+                // Wywołanie funkcji przy załadowaniu strony, aby ustawić początkowy stan
+                window.onload = function() {
+                    toggleTimeLimitSection();
+                };
+
+                // Obsługa zmiany stanu przełącznika
+                document.getElementById('limitSwitch').addEventListener('change', toggleTimeLimitSection);
+            </script>
 
 
-                <h4>Okres dostępności testu</h4>
-                <div class="radio" style="margin-bottom: 15px;">
+            <!-- Czas trwania -->
+            <h5 class="card-title fs-4 mt-2">Czas trwania (min.)</h5>
+            <div class="mb-3">
+                <input type="number" name="test-time" class="form-control" value="<?php echo $testInfo['czas_trwania']; ?>">
+            </div>
 
-                    <div class="radio-section">
-                        <div class="radio-input">
-                            <input type="radio" name="limit" value="date"  
-                                <?php echo (!empty($testInfo['data_rozpoczecia']) && !empty($testInfo['data_zakonczenia'])) ? 'checked' : ''; ?>>
-                            <label>Limit czasowy</label>
-                        </div>
-
-                        <!-- Wybór daty i godziny dla limitu czasowego -->
-                        <div class="time-limited-options">
-
-                        <div class="time-limit-input">
-                            <label>Od:</label>
-                            <input type="datetime-local" id="start-time" name="start-time"
-                                value="<?php echo !empty($testInfo['data_rozpoczecia']) ? date('Y-m-d\TH:i', strtotime($testInfo['data_rozpoczecia'])) : ""; ?>">
-                        </div>
-
-                        <div class="time-limit-input">
-                            <label>Do:</label>
-                            <input type="datetime-local" id="end-time" name="end-time"
-                                value="<?php echo !empty($testInfo['data_zakonczenia']) ? date('Y-m-d\TH:i', strtotime($testInfo['data_zakonczenia'])) : ""; ?>">
-                        </div>
-
-
-                        </div>
-                        <!-- Wybór daty i godziny dla limitu czasowego -->
-
-                    </div>
-                    <div class="radio-section">
-                        <div class="radio-input">
-                            <input type="radio" name="limit" value="unlimited"
-                                <?php echo (!empty($testInfo['data_rozpoczecia']) && !empty($testInfo['data_zakonczenia'])) ? ' ' : 'checked'; ?>    >
-                            <label>Bez limitu</label>
-                        </div>
-                    </div>
-
+            <!-- Ilość prób -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Ilość prób</h5>
+                <div class="form-check">
+                    <input type="radio" name="attempts" value="unlimited" id="attempts-unlimited" class="form-check-input"
+                        <?php echo ($ilosc_prob == -1) ? 'checked' : ''; ?>>
+                    <label for="attempts-unlimited" class="form-check-label">Nieograniczona liczba</label>
                 </div>
 
-                <!-- Czas trawania -->
-                <h4>Czas trwania (min.)</h4>
-                <div class="radio">
-                    <div class="radio-section">
-                    <input type="number" name="test-time" value="<?php echo $testInfo['czas_trwania']; ?>">
-                    </div>
+                <div class="form-check">
+                    <input type="radio" name="attempts" value="one" id="attempts-one" class="form-check-input"
+                        <?php echo ($ilosc_prob == 1) ? 'checked' : ''; ?>>
+                    <label for="attempts-one" class="form-check-label">Jedno podejście</label>
                 </div>
 
-              <!--
-                <div style="display: flex; align-items: center;">
-                    <h4 style="margin-right: 10px;">Ilość prób</h4> 
-                    <img src="../../assets/images/icons/attention.svg" alt="attention" style="width: 20px" title="Wpisz -1, jeśli chcesz, aby liczba prób była nieograniczona">
+                <div class="form-check">
+                    <input type="radio" name="attempts" value="multiple" id="attempts-multiple" class="form-check-input"
+                        <?php echo ($ilosc_prob > 1) ? 'checked' : ''; ?>>
+                    <label for="attempts-multiple" class="form-check-label">Wiele podejść</label>
                 </div>
 
--->
-
-                <!-- Ilość prób -->
-                <h4>Ilość prób</h4>
-                <div class="radio">
-                    <div class="radio-section">
-                        <div class="radio-input">
-                            <input type="radio" name="attempts" value="unlimited" id="attempts-unlimited"
-                                <?php echo ($ilosc_prob == -1) ? 'checked' : ''; ?>>
-                            <label for="attempts-unlimited">Nieograniczona liczba</label>
-                        </div>
-                    </div>
-
-                    <div class="radio-section">
-                        <div class="radio-input">
-                            <input type="radio" name="attempts" value="one" id="attempts-one"
-                                <?php echo ($ilosc_prob == 1) ? 'checked' : ''; ?>>
-                            <label for="attempts-one">Jedno podejście</label>
-                        </div>
-                    </div>
-
-                    <div class="radio-section">
-                        <div class="radio-input">
-                            <input type="radio" name="attempts" value="multiple" id="attempts-multiple"
-                                <?php echo ($ilosc_prob > 1) ? 'checked' : ''; ?>>
-                            <label for="attempts-multiple">Wiele podejść</label>
-                        </div>
-
-                        <div class="time-limited-options">
-                            <div class="time-limit-input">
-                                <label for="number-of-attempts">Liczba</label>
-                                <input type="number" id="number-of-attempts" name="number-of-attempts" value="<?php echo ($testInfo['ilosc_prob'] > 1) ? $testInfo['ilosc_prob'] : ''; ?>">
-                            </div>
-                        </div>
-                    </div>
+                <!-- Pole do wpisania liczby prób (domyślnie ukryte) -->
+                <div class="mt-2 <?php echo ($ilosc_prob > 1) ? '' : 'd-none'; ?>" id="attemptsNumberSection">
+                    <input type="number" class="form-control" id="number-of-attempts" name="number-of-attempts" min="1" placeholder="Wpisz liczbę"
+                        value="<?php echo ($ilosc_prob > 1) ? $ilosc_prob : ''; ?>">
                 </div>
+            </div>
 
-                <!--<input type="number" name="attempts" value="<?php echo $testInfo['ilosc_prob']; ?>" >-->
+            <!-- Skrypt do obsługi przełączania -->
+            <script>
+                document.querySelectorAll('input[name="attempts"]').forEach(function(radio) {
+                    radio.addEventListener('change', function() {
+                        const attemptsNumberSection = document.getElementById('attemptsNumberSection');
+
+                        if (this.value === 'multiple') {
+                            attemptsNumberSection.classList.remove('d-none'); // Pokaż pole do liczby prób
+                        } else {
+                            attemptsNumberSection.classList.add('d-none'); // Ukryj pole do liczby prób
+                        }
+                    });
+                });
+            </script>
 
 
-                <h1 style="margin-top: 20px;">Pytania</h1>
 
-                <!-- Lista pytań do przypisania -->
-                <label>Wybierz pytania</label>
-                <select id="pytania" name="pytania[]" multiple>
+            <h5 class="card-title fs-4 mt-2">Pytania</h5>
+
+            <!-- Lista pytań do przypisania -->
+            <div class="mb-5">
+                <select id="pytania" name="pytania[]" class="form-select" multiple>
                     <?php 
-                    // Przechodzimy przez listę pytań
                     while ($questionsforSubject = mysqli_fetch_assoc($SubjectQuestions)): 
-                        // Sprawdzenie, czy pytanie jest już przypisane do testu
                         $czyZaznaczony = in_array($questionsforSubject['id_pytania'], $assignedQuestionsIds) ? 'selected' : '';
                     ?>
                         <option value="<?php echo $questionsforSubject['id_pytania']; ?>" <?php echo $czyZaznaczony; ?>>
@@ -246,80 +248,71 @@
                         </option>
                     <?php endwhile; ?>
                 </select>
-                <!-- Lista pytań do przypisania -->
+            </div>
+            <!-- Lista pytań do przypisania -->
 
-
-
-                
-
-                <!-- Question card -->
-                <!-- Wyświetlanie pytań -->
-                <?php $index = 1; ?>
-                <?php foreach ($questions as $pytanie_id => $pytanie): ?>
-                    <div class="radio" style="margin-top: 20px;">
-                        <div class="question-card">
-                            <div class="question-left">
-
-                                <div class="question-top">
-                                    <div class="number">
-                                        <label><?php echo $index; ?>/<?php echo count($questions); ?></label>
-                                        <label><?php echo ucfirst($pytanie['typ']); ?></label>
-                                    </div>
-                                    <div class="points">
-                                        <label>Punkty: <?php echo isset($pytanie['suma_punktow']) ? $pytanie['suma_punktow'] : 0; ?></label>
-                                    </div>
+            <!-- Wyświetlanie pytań -->
+            <?php $index = 1; ?>
+            <?php foreach ($questions as $pytanie_id => $pytanie): ?>
+                <div class="mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between">
+                                    <label class="d-block"><?php echo $index; ?>/<?php echo count($questions); ?></label>
+                                    <label class="d-block ms-3 text-end"><?php echo ucfirst($pytanie['typ']); ?></label>
                                 </div>
-
-                                <div class="question-top">
-                                    <div class="question">
-                                        <label><?php echo htmlspecialchars($pytanie['tresc']); ?></label>
-                                    </div>
-                                    <div class="answer">
-                                        <?php foreach ($pytanie['odpowiedzi'] as $odpowiedz): ?>
-                                            <?php if ($odpowiedz['czy_poprawna'] == 1): ?>
-                                                <label>Odpowiedź: <?php echo htmlspecialchars($odpowiedz['tresc']); ?> 
-                                                    (<?php echo "✔"; ?>)</label>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <!-- 
-                            <div class="question-right">
-                                <div class="question-action" id="delete-question-btn">
-                                    <button>Usuń</button>
+                                <div>
+                                    <label class="d-block">Punkty: <?php echo isset($pytanie['suma_punktow']) ? $pytanie['suma_punktow'] : 0; ?></label>
                                 </div>
                             </div>
-                                            -->
+
+                            <div class="mt-3">
+                                <label class="d-block"><?php echo htmlspecialchars($pytanie['tresc']); ?></label>
+                                <div class="mt-2">
+                                    <?php foreach ($pytanie['odpowiedzi'] as $odpowiedz): ?>
+                                        <?php if ($odpowiedz['czy_poprawna'] == 1): ?>
+                                            <label>Odpowiedź: <?php echo htmlspecialchars($odpowiedz['tresc']); ?> 
+                                                (<?php echo "✔"; ?>)</label><br>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <?php $index++; ?>
-                <?php endforeach; ?>
-                <!-- Question card -->
+                </div>
+                <?php $index++; ?>
+            <?php endforeach; ?>
+            <!-- Wyświetlanie pytań -->
 
+            <div class="mt-4">
+                <button type="submit" name="action" value="update" class="btn btn-outline-danger">Zapisz Zmiany</button>
+                <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Usuń</a>
+            </div>
+        </form>
 
-                <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
-                <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
-
-            </form>
-
-            <!-- Okno modalne do potwierdzenia usunięcia Testu-->
-            <div id="deleteCharacterModal" class="modal">
+       
+        <!-- Modal potwierdzenia wylogowania -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
-                    <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
-                    <h2>Czy na pewno chcesz usunąć ten test?</h2>
+                <div class="modal-header">
+                    <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Czy na pewno chcesz usunąć ten test?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
                     <form action="../../includes/teacher/save_test.php" method="POST">
                         <input type="hidden" name="test_id" value="<?php echo $testInfo['ID']; ?>">
                         <input type="hidden" name="action" value="delete">
-                        <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
+                        <button class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="submit" class="btn btn-outline-danger">Usuń</button>
                     </form>
                 </div>
+                </div>
             </div>
-            <!-- Okno modalne do potwierdzenia usunięcia Testu -->
-
         </div>
+
+    </div>
     </main>
 
     <!-- Pliki JavaScript --> 

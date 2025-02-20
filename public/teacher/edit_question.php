@@ -74,104 +74,108 @@ while ($attachmentData = mysqli_fetch_assoc($attachmentResult)) {
     
     <?php include '../../includes/header.php'; ?>
 
-    <main class="main">
-        <div class="container">
-            
-            <h1>Edytuj pytanie</h1>
+    <main class="container my-5">
+        <div class="card shadow p-4">
+            <h1 class="fs-2 fs-md-3 fs-lg-5">Edytuj pytanie</h1>
 
             <form action="../../includes/teacher/update_question.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="question_id" value="<?php echo $questionData['ID']; ?>">
 
                 <!-- Treść pytania -->
-                <h4>Treść pytania</h4>
-                <input type="text" name="question_text" value="<?php echo $questionData['tresc']; ?>" required>
+                <div>
+                    <label class="form-label fw-bold">Treść pytania</label>
+                    <textarea type="text" class="form-control" name="question_text" rows="4" required><?php echo $questionData['tresc']; ?></textarea>
+                </div>
 
                 <!-- Odpowiedzi -->
                 <div id="answers-container">
-                        <?php 
-                        $counter = 1; // Licznik odpowiedzi
-                        while ($answer = mysqli_fetch_assoc($answers)): ?>
-                     
-                                <div class="answer-options" style="display: flex; justify-content: space-between; gap: 10px; margin-top: 10px;">
-                                    <div style="flex: 9;">
-                                        <h4>Odpowiedź <?php echo $counter++; ?></h4> <!-- Wypisanie numeru odpowiedzi -->
-                                        <input type="text" name="answers[<?php echo $answer['ID']; ?>][text]" value="<?php echo $answer['tresc']; ?>" required>
-                                    </div>
-                                
-                                    <div style="flex: 1;">
-                                        <h4>Punkty</h4>
-                                        <input type="number" name="answers[<?php echo $answer['ID']; ?>][points]" value="<?php echo $answer['punkty']; ?>" required>
-                                    </div>
-                               
-                                    <div style="flex: 1;">
-                                        <h4>Poprawna</h4>
-                                        <input type="checkbox" name="answers[<?php echo $answer['ID']; ?>][correct]" value="1" <?php echo ($answer['correct'] == 1) ? 'checked' : ''; ?>>
-                                    </div>
+                    <?php $counter = 1; ?>
+                    <?php while ($answer = mysqli_fetch_assoc($answers)): ?>
+                        <div class="answer-options d-flex flex-wrap align-items-center gap-3 mt-3 p-2 border rounded">
+                            <div class="flex-grow-1">
+                                <label class="form-label">Odpowiedź <?php echo $counter++; ?></label>
+                                <textarea type="text" class="form-control" name="answers[<?php echo $answer['ID']; ?>][text]" required><?php echo $answer['tresc']; ?></textarea>
+                            </div>
+                            <div class="col-auto">
+                                <label class="form-label">Punkty</label>
+                                <input type="number" class="form-control" name="answers[<?php echo $answer['ID']; ?>][points]" value="<?php echo $answer['punkty']; ?>" required>
+                            </div>
+                            <div class="col-auto d-flex align-items-center">
+                                <div class="form-check mt-3">
+                                    <input type="checkbox" class="form-check-input" name="answers[<?php echo $answer['ID']; ?>][correct]" value="1" <?php echo ($answer['correct'] == 1) ? 'checked' : ''; ?>>
+                                    <label class="form-check-label">Poprawna</label>
                                 </div>
-                            
-                        <?php endwhile; ?>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
                 </div>
 
-                <h1>Załączniki</h1>
-                <input type="file" id="attachment-input" accept="image/*" name="attachment[]" multiple>
+                <!-- Załączniki -->
+                <h4 class="mt-4">Załączniki</h4>
+                <div class="mb-3">
+                    <input type="file" class="form-control" id="attachment-input" accept="image/*" name="attachment[]" multiple>
+                </div>
 
-                <div id="image-preview" style="margin-bottom: 20px;">
-                    <!-- Wyświetlanie wcześniej załadowanych obrazków -->
+                <div id="image-preview" class="row g-3">
                     <?php foreach ($attachmentPaths as $path): ?>
                         <?php if (file_exists($path)): ?>
-                            <div class="image-preview-item" style="display: inline-block; margin-right: 10px;">
-                                <img src="<?php echo $path; ?>" style="width: 150px; height: auto; border-radius: 5px;">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img src="<?php echo $path; ?>" class="card-img-top img-thumbnail">
+                                </div>
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
 
-
-
-
-              <!-- Przedmiot -->
-                <h1>Przedmiot</h1>
-                <select name="subject" required>
-                    <option disabled selected>Wybierz przedmiot</option>
-                    
-                    <!-- Dodaj wszystkie przedmioty z tabeli tPrzedmioty -->
-                    <?php while ($allSubject = mysqli_fetch_assoc($allSubjectsInfo)): ?>
-                        <option value="<?php echo $allSubject['ID']; ?>" 
-                                <?php echo ($allSubject['ID'] == $questionData['id_przedmiotu']) ? 'selected' : ''; ?>>
-                            <?php echo $allSubject['nazwa']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-
+                <!-- Przedmiot -->
+                <h4 class="mt-4">Przedmiot</h4>
+                <div class="mb-3">
+                    <select class="form-select" name="subject" required>
+                        <option disabled selected>Wybierz przedmiot</option>
+                        <?php while ($allSubject = mysqli_fetch_assoc($allSubjectsInfo)): ?>
+                            <option value="<?php echo $allSubject['ID']; ?>" <?php echo ($allSubject['ID'] == $questionData['id_przedmiotu']) ? 'selected' : ''; ?>>
+                                <?php echo $allSubject['nazwa']; ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
                 <!-- Przyciski akcji -->
-                <button type="submit" name="action" value="update" class="submit-btn">Zapisz zmiany</button>
-                <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń pytanie</button>
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" name="action" value="update" class="btn btn-outline-danger">Zapisz zmiany</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteQuestionModal">Usuń pytanie</button>
+                </div>
             </form>
         </div>
-
-        <!-- Okno modalne do potwierdzenia usunięcia Wykładowcy-->
-        <div id="deleteCharacterModal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
-                <h2>Czy na pewno chcesz usunąć te pytanie?</h2>
-                <form action="../../includes/teacher/update_question.php" method="POST">
-                    <input type="hidden" name="question_id" value="<?php echo $questionId; ?>">
-                    <input type="hidden" name="action" value="delete">
-                    <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
-                </form>
-            </div>
-        </div>
-        <!-- Okno modalne do potwierdzenia usunięcia -->
-
     </main>
 
+    <!-- Okno modalne do potwierdzenia usunięcia -->
+    <div class="modal fade" id="deleteQuestionModal" tabindex="-1" aria-labelledby="deleteQuestionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteQuestionModalLabel">Potwierdzenie usunięcia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+                </div>
+                <div class="modal-body">
+                    Czy na pewno chcesz usunąć to pytanie?
+                </div>
+                <div class="modal-footer">
+                    <form action="../../includes/teacher/update_question.php" method="POST">
+                        <input type="hidden" name="question_id" value="<?php echo $questionData['ID']; ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <button type="submit" class="btn btn-danger">Tak, usuń</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
    <!-- Pliki JavaScript --> 
    <script src="../../assets/js/modal_windows.js"></script> 
-
-
 
 
    <script>

@@ -55,9 +55,9 @@
     <?php include '../../includes/header.php'; ?>
 
    
-    <main class="main">
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mt-5">
+    <main class="container my-5">
+    <div class="container card shadow p-4">
+        <div class="d-flex justify-content-between align-items-center">
             <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista pytań</h1>
             <a class="btn btn-outline-danger" href="add_multichoice.php">
                 <i class="bi bi-plus-circle"></i> Utwórz pytanie
@@ -68,14 +68,12 @@
 
 
         <div class="table-responsive mt-5">
-            <table class="table">
+            <table class="table  table-striped">
                 <thead class="table-active">
                     <tr>
                         <th>Przedmiot</th>
                         <th>Pytanie</th>
                         <th>Typ</th>
-                        <th>Odpowiedzi</th>
-                        <th>Całkowita liczba punktów</th>
                         <th>Akcje</th>
                     </tr>
                 </thead>
@@ -90,35 +88,6 @@
                             <td><?php echo $subjectName; ?></td>
                             <td><?php echo $QuestionData['tresc']; ?></td>
                             <td><?php echo $QuestionData['typ']; ?></td>
-
-                            <td>
-                                <ul class="list-group">
-                                    <?php
-                                    $answers = getAnswersByQuestionId($conn, $QuestionData['ID']);
-                                    $totalPoints = 0;
-                                    $questionNumber = 1;
-
-                                    while ($answer = $answers->fetch_assoc()): 
-                                        $totalPoints += $answer['punkty'];
-                                    ?>
-                                        <li class="list-group-item <?php echo ($answer['correct'] == 1) ? 'list-group-item-success' : 'list-group-item-light'; ?>">
-                                            Odpowiedź <?php echo $questionNumber; ?> 
-                                            (Punkty: <?php echo number_format($answer['punkty'], 2); ?>)
-                                            <?php if ($answer['correct'] == 1): ?>
-                                                <span class="badge bg-success">Poprawna</span>
-                                            <?php endif; ?>
-                                        </li>
-                                    <?php 
-                                        $questionNumber++;
-                                    endwhile; 
-                                    ?>
-                                </ul>
-                            </td>
-
-                            <!-- Kolumna z całkowitą liczbą punktów -->
-                            <td>
-                                <strong><?php echo $totalPoints; ?></strong>
-                            </td>
                             <td>
                                 <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>" class="btn">
                                     <i class="bi bi-pencil-square"></i>

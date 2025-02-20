@@ -109,9 +109,9 @@
    
     <?php include '../../includes/header.php'; ?>
 
-    <main class="main">
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mt-5">
+    <main class="main my-5">
+    <div class="container card shadow p-4">
+        <div class="d-flex justify-content-between align-items-center">
             <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista testów</h1>
             <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addTestModal">
                 <i class="bi bi-plus-circle"></i> Utwórz test
@@ -172,7 +172,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addTestModalLabel">Dodaj Test</h5>
+                    <h5 class="card-title fs-4 mt-2" id="addTestModalLabel">Dodaj Test</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

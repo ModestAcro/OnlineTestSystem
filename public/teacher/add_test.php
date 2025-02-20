@@ -113,219 +113,139 @@
 
     <?php include '../../includes/header.php'; ?>
 
-    <main class="main">
-        <div class="container">
-            <div class="title">
-                <h1>Ustawienia ogólne</h1>
-            </div>
+   <main class="main my-5">
+    <div class="container card shadow p-4">
 
-            <form method="POST" action="../../includes/teacher/save_test.php">
-
-             <!-- Przesyłanie ukrytych danych (user_id, course_id, subject_id) -->
+        <form method="POST" action="../../includes/teacher/save_test.php">
+            <!-- Przesyłanie ukrytych danych -->
             <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
             <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
             <input type="hidden" name="subject_id" value="<?php echo $subject_id; ?>">
 
-            <!-- Nazwa -->
-            <h4 class="h4-margin">Nazwa</h4>
-
-            <div class="radio">
-                <div class="radio-section">
-                    <input type="text" name="nazwa" value="<?php echo isset($nazwa) ? $nazwa : ''; ?>" required>
-                </div>
+            <!-- Nazwa testu -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Nazwa testu</h5>
+                <input type="text" class="form-control" name="nazwa" value="<?php echo isset($nazwa) ? $nazwa : ''; ?>" required>
             </div>
-    
-            <div class="radio">
-                <div class="radio-section">
-            
-                    <div class="radio-input">
-                        <input type="radio" name="limit" value="date">
-                        <label>Limit czasowy</label>
-                    </div>
 
-                    <!-- Wybór daty i godziny dla limitu czasowego -->
-                    <div class="time-limited-options">
+            <!-- Limit czasowy -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Okres dostępności testu</h5>
 
-                        <div class="time-limit-input">
-                            <label>Od:</label>
-                            <input type="datetime-local" id="start-time" name="start-time">
-                        </div>
-
-                        <div class="time-limit-input">
-                            <label>Do:</label>
-                            <input type="datetime-local" id="end-time" name="end-time">
-                        </div>
-             
-
-                    </div>
-                    <!-- Wybór daty i godziny dla limitu czasowego -->
+                <!-- Przełącznik (switch) do włączania/wyłączania limitu czasowego -->
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="limitSwitch">
+                    <label class="form-check-label" for="limitSwitch">Włącz/Wyłącz</label>
                 </div>
 
-                <div class="radio-section">
-                    <div class="radio-input">
-                        <input type="radio" name="limit" value="unlimited">
-                        <label>Bez limitu</label>
+                <!-- Sekcja z wyborem daty, domyślnie ukryta -->
+                <div id="timeLimitSection" class="row g-2 mt-2 d-none">
+                    <div class="col-md-6">
+                        <label class="form-label">Od:</label>
+                        <input type="datetime-local" class="form-control" name="start-time">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Do:</label>
+                        <input type="datetime-local" class="form-control" name="end-time">
                     </div>
                 </div>
             </div>
 
-            <!-- Czas trawania -->
-            <h4 class="h4-margin">Czas trwania testu</h4>
+            <!-- Skrypt do obsługi przełącznika -->
+            <script>
+                document.getElementById('limitSwitch').addEventListener('change', function() {
+                    const timeLimitSection = document.getElementById('timeLimitSection');
+                    if (this.checked) {
+                        timeLimitSection.classList.remove('d-none');
+                    } else {
+                        timeLimitSection.classList.add('d-none');
+                    }
+                });
+            </script>
 
-            <div class="radio">
-                <div class="radio-section">
-                <input type="number" placeholder="W minutach" name="test-time">
+
+            <!-- Czas trwania -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Czas trwania testu (w minutach)</h5>
+                <input type="number" class="form-control" name="test-time" placeholder="Wpisz liczbę minut">
+            </div>
+
+            <!-- Ilość prób -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Ilość prób</h5>
+
+                <!-- Opcja: Nieograniczona liczba prób -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="attempts" value="unlimited" id="attemptsUnlimited" checked>
+                    <label class="form-check-label" for="attemptsUnlimited">Nieograniczona liczba</label>
+                </div>
+
+                <!-- Opcja: Jedno podejście -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="attempts" value="one" id="attemptsOne">
+                    <label class="form-check-label" for="attemptsOne">Jedno podejście</label>
+                </div>
+
+                <!-- Opcja: Wiele podejść -->
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="attempts" value="multiple" id="attemptsMultiple">
+                    <label class="form-check-label" for="attemptsMultiple">Wiele podejść</label>
+                </div>
+
+                <!-- Pole do wpisania liczby prób (domyślnie ukryte) -->
+                <div class="mt-2 d-none" id="attemptsNumberSection">
+                    <input type="number" class="form-control" id="number-of-attempts" name="number-of-attempts" min="1" placeholder="Wpisz liczbę">
                 </div>
             </div>
 
-            <!-- Ilość pobr -->
-            <h4 class="h4-margin">Ilość prób</h4>
+            <!-- Skrypt do obsługi przełączania -->
+            <script>
+                document.querySelectorAll('input[name="attempts"]').forEach(function(radio) {
+                    radio.addEventListener('change', function() {
+                        const attemptsNumberSection = document.getElementById('attemptsNumberSection');
 
-            <div class="radio">
-                <div class="radio-section">
-                    <div class="radio-input">
-                        <input type="radio" name="attempts" value="unlimited" id="attempts-unlimited">
-                        <label for="attempts-unlimited">Nieograniczona liczba</label>
-                    </div>
-                </div>
-
-                <div class="radio-section">
-                    <div class="radio-input">
-                        <input type="radio" name="attempts" value="one" id="attempts-one">
-                        <label for="attempts-one">Jedno podejście</label>
-                    </div>
-                </div>
-
-                <div class="radio-section">
-                    <div class="radio-input">
-                        <input type="radio" name="attempts" value="multiple" id="attempts-multiple">
-                        <label for="attempts-multiple">Wiele podejść</label>
-                    </div>
-
-                    <div class="time-limited-options">
-                        <div class="time-limit-input">
-                            <label for="number-of-attempts">Liczba</label>
-                            <input type="number" id="number-of-attempts" name="number-of-attempts">
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        if (this.value === 'multiple') {
+                            attemptsNumberSection.classList.remove('d-none'); // Pokaż pole do liczby prób
+                        } else {
+                            attemptsNumberSection.classList.add('d-none'); // Ukryj pole do liczby prób
+                        }
+                    });
+                });
+            </script>
 
 
-            <div class="title">
-                <h1 style="margin: 20px 0px 20px 0px">Grupa</h1>
-            </div>
-
-            <!-- Lista grup do przypisania -->
-                <select name="grupa" required>
+            <!-- Wybór grupy -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Grupa</h5>
+                <select class="form-select" name="grupa" required>
                     <option disabled selected>Wybierz grupę</option>
                     <?php while ($groups = mysqli_fetch_assoc($groupsInfo)): ?>
                         <option value="<?php echo $groups['ID']; ?>">
-                        <?php echo $groups['rok'] . ', ' . $groups['nazwa_kierunku'] . ', ' . $groups['nazwa_przedmiotu'] . ', ' . $groups['nazwa']; ?>
+                            <?php echo $groups['rok'] . ', ' . $groups['nazwa_kierunku'] . ', ' . $groups['nazwa_przedmiotu'] . ', ' . $groups['nazwa']; ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
-            <!-- Lista grup do przypisania -->
-
-
-
-            <!--
-
-            <div class="title">
-                <h1 style="margin: 20px 0px 20px 0px">Ustawienia pytań</h1>
             </div>
 
-            <div class="radio">
-                <div class="radio-section">
-                    <div class="radio-input">
-                        <input type="checkbox">
-                        <label>Losuj opcje pytań</label>
-                    </div>
-                </div>
-
-                <div class="radio-section">
-                    <div class="radio-input">
-                        <input type="checkbox">
-                        <label>Losuj pytania</label>
-                    </div>
-
-                    <div class="time-limited-options">
-                        <div class="time-limit-input">
-                            <label>Liczba</label>
-                            <input type="number">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            -->
-
-
-            <div class="title">
-                <h1 style="margin: 20px 0px 20px 0px">Pytania</h1>
-            </div>
-                <!-- Lista pytań do przypisania -->
-                <label>Wybierz pytania</label>
-                <select id="pytania" name="pytania[]" multiple>
-                    <?php 
-                    // Przechodzimy przez listę pytań
-                    while ($questions = mysqli_fetch_assoc($questionsInfo)): ?>
+            <!-- Wybór pytań -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Pytania</h5>
+                <select id="pytania" name="pytania[]" class="form-select" multiple>
+                    <?php while ($questions = mysqli_fetch_assoc($questionsInfo)): ?>
                         <option value="<?php echo $questions['ID']; ?>">
                             <?php echo $questions['tresc']; ?>
                         </option>
                     <?php endwhile; ?>
                 </select>
-
-                <button type="submit" name="action" value="save" class="submit-btn">Zapisz </button>
-
-            </form>
-
-
-
-
-            <!-- Question card 
-            <div class="radio" style="margin-top: 20px;">
-                <div class="question-card">
-                    <div class="question-left">
-
-                        <div class="question-top">
-                            <div class="number">
-                                <label>1/3</label>
-                                <label>Multiple choice</label>
-                            </div>
-                            <div class="points">
-                                <label>10</label>
-                            </div>
-                        </div>
-
-                        <div class="question-top">
-                            <div class="question">
-                                <label>2 + 2 = ?</label>
-                            </div>
-                            <div class="answer">
-                                <label>Odpowiedź: 4</label>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="question-right">
-                        <div class="question-action" id="edit-question-btn">
-                            <button>Edytuj</button>
-                        </div>
-                        <div class="question-action"  id="delete-question-btn">
-                            <button>Usuń</button>
-                        </div>
-                    </div>
-                </div>
             </div>
-             Question card -->
-             
 
-        </div>
-    </main>    
-
+            <!-- Przycisk zapisu -->
+            <div class="d-grid">
+                <button type="submit" name="action" value="save" class="btn btn-outline-danger">Zapisz</button>
+            </div>
+        </form>
+    </div>
+</main>
 
     <!-- Plik javascript -->
     <script src="../../assets/js/modal_windows.js"></script> 
