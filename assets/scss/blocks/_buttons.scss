@@ -1,0 +1,9 @@
+.btn-outline-danger {
+    border-color: $button-color; // Sets the border color
+    color: $button-color; // Text color
+
+    &:hover, &:focus {
+        background-color: $button-color; // Fills background on hover/focus
+        color: #fff; // Changes text color for better contrast
+    }
+}

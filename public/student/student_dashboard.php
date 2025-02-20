@@ -79,54 +79,49 @@
 
    <?php include '../../includes/header.php'; ?>
 
-
-    <main class="main">
-    <div class="container">
+    <main>
+    <div class="container mt-5">
         <?php if (mysqli_num_rows($testInfo) > 0): ?>
-            <div class="tests-box">
-                <h1>Testy do wykonania</h1>
+            <h1 class="fs-2 fs-md-3 fs-lg-5 mb-4">Testy do wykonania</h1>
+            <div class="row">
                 <?php while ($row = mysqli_fetch_assoc($testInfo)): ?>
-                    <div class="test_card">
-                        <div class="test_title">
-                            <div>
-                                <label>
-                                    <?php 
-                                    // Pobieramy dane z bazy danych
-                                    $data_rozpoczecia = $row['data_rozpoczecia'];
-                                    $data_zakonczenia = $row['data_zakonczenia'];
-
-                                    // Sprawdzamy, czy jedna z dat jest NULL
-                                    if ($data_rozpoczecia == NULL || $data_zakonczenia == NULL) {
-                                        echo "Nieograniczona";
-                                    } else {
-                                        echo $data_rozpoczecia . " / " . $data_zakonczenia;
-                                    }
-                                    ?>
-                                </label>
-                                <h1><?= htmlspecialchars($row['nazwa_testu']) ?></h1>
+                    <div class="col-lg-4">
+                        <div class="card card-margin mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title fs-4 mt-2"><?= htmlspecialchars($row['nazwa_testu']) ?></h5> 
+                                <p class="card-title"><?= htmlspecialchars($row['nazwa_przedmiotu']) ?></p> 
                             </div>
-                            <div class="test_title-info">
-                                <h4><?= htmlspecialchars($row['nazwa_przedmiotu']) ?></h4>
-                                <p><?= htmlspecialchars($row['imie_wykladowcy']) . " " . htmlspecialchars($row['nazwisko_wykladowcy']) ?></p>
-                            </div>
-                        </div>
-                        <div class="test-info">
-                            <label>Liczba pytań: <?= $row['liczba_pytan'] ?></label>
-                            <label>Czas trwania: <?= $row['czas_trwania'] ?> min</label>
+                            <div class="card-body pt-0">
+                                <div class="widget-49">
+                                    <div class="widget-49-title-wrapper d-flex flex-column">
+                                        <div class="widget-49-meeting-info mt-3">
+                                            <p class="mb-1"><strong>Liczba pytań:</strong> <?= $row['liczba_pytan'] ?></p>
+                                            <p class="mb-1"><strong>Czas trwania:</strong> <?= $row['czas_trwania'] ?> min</p>
+                                            
+                                            <?php 
+                                                $liczbaProbStudenta = getStudentTestCount($conn, $student_id, $row['ID']);
+                                                $pozostale_proby = $row['ilosc_prob'] - $liczbaProbStudenta;
+                                            ?>
+                                            <p class="mb-1"><strong>Liczba prób:</strong> <?= $pozostale_proby >= 0 ? $pozostale_proby : 'Nieokreślona' ?></p>
 
+                                            <p class="mb-1">
+                                                <strong>Data ważności:</strong> 
+                                                <?php 
+                                                    $data_zakonczenia = $row['data_zakonczenia'];
+                                                    echo htmlspecialchars($data_zakonczenia);
+                                                ?>
+                                            </p>
 
-                            <?php 
-                                    $liczbaProbStudenta = getStudentTestCount($conn, $student_id, $row['ID']);
-                                    $pozostale_proby = $row['ilosc_prob'] - $liczbaProbStudenta;
-                                ?>
-
-                                <label>Liczba prób: <?= $pozostale_proby ?></label>
-
-                            <div class="test-buttons">
-                                <form action="../../includes/student/add_attempt.php" method="POST">
-                                    <input type="hidden" name="id_testu" value="<?= $row['ID'] ?>">
-                                    <button type="submit" class="start-btn">Rozpocznij test</button>
-                                </form>
+                                            <p class="mb-1"><strong>Nauczyciel:</strong> <?= htmlspecialchars($row['imie_wykladowcy']) . " " . htmlspecialchars($row['nazwisko_wykladowcy']) ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="widget-49-meeting-action mt-3">
+                                        <form action="../../includes/student/add_attempt.php" method="POST">
+                                            <input type="hidden" name="id_testu" value="<?= $row['ID'] ?>">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Rozpocznij test</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -134,26 +129,12 @@
             </div>
         <?php endif; ?>
 
-        <div class="tests-box">
-            <h1>Twoje wyniki i postępy</h1>
-        </div>
+        <h1 class="fs-2 fs-md-3 fs-lg-5 mb-4">Wyniki i postępy</h1>
     </div>
-</main>
-
+    </main>
 
 
     <!-- Plik JavaScript --> 
     <script src="../../assets/js/modal_windows.js"></script> 
-
-    <script>
-        function myFunction() {
-        var x = document.getElementById("myLinks");
-            if (x.style.display === "block") {
-                x.style.display = "none";
-            } else {
-                x.style.display = "block";
-            }
-        }
-    </script>
 </body>
 </html>

@@ -27,6 +27,7 @@ Ten system to aplikacja webowa przeznaczona dla administratorów, nauczycieli i 
 ---
 
 ## Technologie
+<!-- https://github.com/marwin1991/profile-technology-icons -->
 
 - <img src="https://user-images.githubusercontent.com/25181517/192158954-f88b5814-d510-4564-b285-dff7d6400dad.png" alt="HTML" style="width:30px; vertical-align:middle;"> <span>HTML</span>
 - <img src="https://user-images.githubusercontent.com/25181517/183898674-75a4a1b1-f960-4ea9-abcb-637170a00a75.png" alt="CSS" style="width:30px; vertical-align:middle;"> <span>CSS</span>

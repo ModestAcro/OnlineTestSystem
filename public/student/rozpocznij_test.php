@@ -112,45 +112,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <!-- Bootstrap 5.3 css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../assets/css/main.css">
+
     <title>Rozpocznij test</title>
 </head>
 <body>
     <main class="main">
-        <div class="container">
+        <div class="container mt-5">
             <form action="../../includes/student/submit_test.php" method="POST">
-            <input type="hidden" name="id_proby" value="<?= htmlspecialchars($id_proby) ?>">
-         
+                <input type="hidden" name="id_proby" value="<?= htmlspecialchars($id_proby) ?>">
+
                 <div class="tests-box">
-                    <div class="timer" id="timer"></div>
-                    <?php foreach ($testQuestions as $pytanie_id => $pytanie): ?>
-                    
-                    <div class="test_card">
-                        <div class="test_title">
-                            <div>
-                                <h1><?= htmlspecialchars($pytanie['tresc_pytania']) ?></h1>
-                            </div>
-                            <div>   
-                                <label><?= htmlspecialchars($pytanie['typ_pytania']) ?></label>
-                            </div>
-                        </div>
-                        <div class="test-questions">
-                            <?php foreach ($pytanie['odpowiedzi'] as $odpowiedz): ?>
-                                <label class="answer-option">
-                                    <input type="checkbox" name="odpowiedzi[<?= $pytanie_id ?>][]" value="<?= $odpowiedz['id'] ?>">
-                                    <?= htmlspecialchars($odpowiedz['tresc_odpowiedzi']) ?>
-                                </label>
-                            <?php endforeach; ?>
-                        </div>
+                    <!-- Timer -->
+                    <div class="d-flex justify-content-end mb-4">
+                        <div class="timer" id="timer"></div>
                     </div>
+
+                    <!-- Test Questions -->
+                    <?php foreach ($testQuestions as $pytanie_id => $pytanie): ?>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title"><?= htmlspecialchars($pytanie['tresc_pytania']) ?></h5>
+                                <label class="card-subtitle text-muted"><?= htmlspecialchars($pytanie['typ_pytania']) ?></label>
+                            </div>
+                            <div class="card-body">
+                                <?php foreach ($pytanie['odpowiedzi'] as $odpowiedz): ?>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="odpowiedzi[<?= $pytanie_id ?>][]" value="<?= $odpowiedz['id'] ?>">
+                                        <label class="form-check-label"><?= htmlspecialchars($odpowiedz['tresc_odpowiedzi']) ?></label>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
                 </div>
-                <div class="tests-box">
-                    <button type="submit" class="submit-btn">Zakończ test</button>
+
+                <!-- Submit Button -->
+                <div class=" mt-4 mb-5">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Zakończ test</button>
                 </div>
             </form>
         </div>
     </main>
+
     
     <script>
     // Pobierz czas zakończenia z PHP

@@ -58,59 +58,62 @@
     <?php include '../../includes/header.php'; ?>
 
     <main class="main">
-        <div class="container">
-            <div class="info">
-                 <!-- Informacja o testach -->
-                 <div class="teachers">
-                    <a href="tests.php" style="color: black;">
-                        <div class="card">
-                            <img src="../../assets/images/icons/online-test.svg" alt="Teacher Avatar" class="card-avatar">
-                            <h3 class="card-title">Testy</h3>
-                            <p class="card-count"><?php echo $testCount; ?></p>
+    <div class="container py-4">
+        <div class="row g-3">
+            <!-- Testy -->
+            <div class="col-md-6 col-lg-3">
+                <a href="tests.php" class="text-decoration-none text-dark">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <img src="../../assets/images/icons/online-test.svg" alt="Test Icon" class="img-fluid mb-2" style="width: 50px;">
+                            <h5 class="card-title">Testy</h5>
+                            <p class="card-text"><?php echo $testCount; ?></p>
                         </div>
-                    </a>
-                </div>
-                <!-- Informacja o testach -->
-
-                <!-- Informacja o pytania -->
-                <div class="students">
-                    <a href="questions.php" style="color: black;">
-                        <div class="card">
-                            <img src="../../assets/images/icons/question.svg" alt="Students Avatar" class="card-avatar">
-                            <h3 class="card-title">Pytania</h3>
-                            <p class="card-count"><?php echo $questionCount; ?></p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Pytania -->
+            <div class="col-md-6 col-lg-3">
+                <a href="questions.php" class="text-decoration-none text-dark">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <img src="../../assets/images/icons/question.svg" alt="Question Icon" class="img-fluid mb-2" style="width: 50px;">
+                            <h5 class="card-title">Pytania</h5>
+                            <p class="card-text"><?php echo $questionCount; ?></p>
                         </div>
-                    </a>
-                </div>
-                <!-- Informacja o pytania -->
-
-                <!-- Informacja o grupy -->
-                <div class="subjects">
-                    <a href="student_groups.php" style="color: black;">
-                        <div class="card">
-                            <img src="../../assets/images/icons/group.svg" alt="Book" class="card-avatar">
-                            <h3 class="card-title">Grupy studentów</h3>
-                            <p class="card-count"><?php echo $groupCount; ?></p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Grupy studentów -->
+            <div class="col-md-6 col-lg-3">
+                <a href="student_groups.php" class="text-decoration-none text-dark">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <img src="../../assets/images/icons/group.svg" alt="Group Icon" class="img-fluid mb-2" style="width: 50px;">
+                            <h5 class="card-title">Grupy studentów</h5>
+                            <p class="card-text"><?php echo $groupCount; ?></p>
                         </div>
-                    </a>
-                </div>
-                <!-- Informacja o grupy -->
-
-
-                <!-- Informacja o wykonanych testach -->
-                <div class="subjects">
-                    <a href="completed_tests.php" style="color: black;">
-                        <div class="card">
-                            <img src="../../assets/images/icons/checked.svg" alt="Book" class="card-avatar">
-                            <h3 class="card-title">Wyniki testów</h3>
-                            <p class="card-count"><?php echo $completedTestCount; ?></p>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Wyniki testów -->
+            <div class="col-md-6 col-lg-3">
+                <a href="completed_tests.php" class="text-decoration-none text-dark">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <img src="../../assets/images/icons/checked.svg" alt="Results Icon" class="img-fluid mb-2" style="width: 50px;">
+                            <h5 class="card-title">Wyniki testów</h5>
+                            <p class="card-text"><?php echo $completedTestCount; ?></p>
                         </div>
-                    </a>
-                </div>
-                <!-- Informacja o wykonanych testach -->
+                    </div>
+                </a>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
     <!-- Plik JavaScript --> 
     <script src="../../assets/js/modal_windows.js"></script> 

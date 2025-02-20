@@ -31,7 +31,7 @@ if (!isset($_SESSION['user_role'])) {
                             <li class="nav-item">
                                 <a class="nav-link active" href="../../public/student/student_dashboard.php">Panel główny</a>
                             </li>
-                    <?php endif; ?>
+                        <?php endif; ?>
                     <!-- TEACHER -->
                     <?php elseif ($_SESSION['user_role'] == 'teacher') : ?>
                         <?php if (basename($_SERVER['PHP_SELF']) == 'teacher_dashboard.php') : ?>
@@ -75,7 +75,7 @@ if (!isset($_SESSION['user_role'])) {
                             <li class="nav-item">
                                 <a class="nav-link active" href="../../public/teacher/teacher_dashboard.php">Panel główny</a>
                             </li>
-                    <?php endif; ?>
+                        <?php endif; ?>
                     <!-- ADMIN -->
                     <?php elseif ($_SESSION['user_role'] == 'administrator') : ?>
                         <?php if (basename($_SERVER['PHP_SELF']) == 'admin_dashboard.php') : ?>
@@ -111,11 +111,7 @@ if (!isset($_SESSION['user_role'])) {
                             <li class="nav-item">
                                 <a class="nav-link active" href="../../public/admin/admin_dashboard.php">Panel główny</a>
                             </li>
-                    <?php endif; ?>
-
-
-                        
-                     
+                        <?php endif; ?>
                     <?php endif; ?>
                 </ul>
                 <form class="d-flex">

@@ -1,20 +1,20 @@
 header {
-    background-color: #962328 !important;
+    background-color: $header-background-color !important;
     padding: 0px 30px 0px 30px;
 }
 
 .navbar {
     padding-top: 20px;
     padding-bottom: 20px;
-    background-color: #962328 !important;
+    background-color: $header-background-color !important;
 }
 
 .nav-link {
-    color: #FFDAB9 !important;
+    color: $nav-button !important;
     
 
     &:hover {
-        color: #FFD700 !important;
+        color: $nav-button-active !important;
     }
 }
 

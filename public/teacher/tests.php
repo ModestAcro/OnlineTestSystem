@@ -100,6 +100,7 @@
     <!-- Bootstrap 5.3 css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
 
     <title>Lista testów</title>
@@ -109,75 +110,29 @@
     <?php include '../../includes/header.php'; ?>
 
     <main class="main">
-        <div class="container">
-            <div class="title">
-                <h1>Lista testów</h1>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mt-5">
+            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista testów</h1>
+            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addTestModal">
+                <i class="bi bi-plus-circle"></i> Utwórz test
+            </button>
+        </div>
+        <p>Ilość: <?php echo $testCount; ?></p>
 
 
-                <!-- Przycisk "Dodaj Test" -->
-                <button class="add-btn" onclick="addEntity()">
-                    <img src="../../assets/images/icons/plus.svg" alt="Plus icon" class="add-icon">
-                </button>
-                <!-- Przycisk "Dodaj Test" -->
 
-
-                <!-- Okno modalne dodaj test-->
-                <div id="openModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close-btn" id="closeModal">&times;</span>
-                        <h1 class="modal-header">Dodaj Test</h1>
-                        <form action="add_test.php" method="POST">
-
-
-                        <label>Nazwa</label>
-                        <input type="text" name="nazwa" required>
-
-
-                        <!-- Lista kierunków do przypisania -->
-                        <label>Kierunek</label>
-                        <select name="kierunek" required>
-                            <option disabled selected>Wybierz kierunek</option>
-                            <?php while ($courses = mysqli_fetch_assoc($courseByTeacher)): ?>
-                                <option value="<?php echo $courses['ID']; ?>">
-                                    <?php echo $courses['nazwa']; ?>
-                                </option>
-                            <?php endwhile; ?>
-                        </select>
-                        <!-- Lista kierunków do przypisania -->
-
-
-                        <!-- Lista przedmiotów do przypisania -->
-                        <label>Przedmiot</label>
-                        <select name="przedmiot" required>
-                            <option disabled selected>Wybierz kierunek</option>
-                            <?php while ($subjects = mysqli_fetch_assoc($subjectsByTeacher)): ?>
-                                <option value="<?php echo $subjects['ID']; ?>">
-                                    <?php echo $subjects['nazwa']; ?>
-                                </option>
-                            <?php endwhile; ?>
-                        </select>
-                        <!-- Lista przedmiotów do przypisania -->
-
-                            <button type="submit" class="submit-btn">Wybierz</button>
-                        </form>
-                    </div>
-                </div>
-                <!-- Okno modalne dodaj test-->
-            </div>
-
-            <p>Ilość: <?php echo $testCount; ?></p>
-            <table>
-                <thead>
+        <div class="table-responsive mt-5">
+            <table class="table">
+                <thead class="table-active">
                     <tr>
                         <th>Nazwa</th>
                         <th>Przedmiot</th>
                         <th>Grupa</th>
                         <th>Data utworzenia</th>
-                        <th>Data</th>
                         <th>Czas trwania (min.)</th>
                         <th>Ilość prób</th>
                         <th>Ilość pytań</th>
-                        <th></th>
+                        <th>Akcje</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -185,66 +140,76 @@
                         <?php $test_id = $testData['ID']; ?>
                         <tr>
                             <td><?php echo $testData['nazwa']; ?></td>
-
-                            <td>
-                                <?php 
-                                     $testDetails = getTestDetails($conn, $test_id);
-                                     echo ($testDetails['nazwa_przedmiotu'] ?? 'Brak danych') . "<br>";
-                                ?>
-                            </td>
-
+                            <td><?php echo getTestDetails($conn, $test_id)['nazwa_przedmiotu'] ?? 'Brak danych'; ?></td>
                             <td>
                                 <?php
                                     $groupDetails = getGroupDetails($conn, $test_id);
                                     if ($groupDetails && $group = mysqli_fetch_assoc($groupDetails)) {
-                                        $studentList = $group['studenci']; // Lista studentów z funkcji getGroupDetails
-                                        echo "<span class='group-name' data-students='$studentList'>{$group['nazwa_grupy']}</span>"; 
+                                        echo "<span class='badge bg-secondary'>{$group['nazwa_grupy']}</span>";
                                     } else {
                                         echo 'Brak grupy';
                                     }
                                 ?>
                             </td>
-
                             <td><?php echo date('Y-m-d', strtotime($testData['data_utworzenia'])); ?></td>
-                            
-
-                            <td>
-                                <?php
-                                    $start = $testData['data_rozpoczecia'] ? date('Y-m-d', strtotime($testData['data_rozpoczecia'])) : 'Brak';
-                                    $end = $testData['data_zakonczenia'] ? date('Y-m-d', strtotime($testData['data_zakonczenia'])) : 'Brak';
-                                    echo "$start / $end";
-                                ?>
-                            </td>
-
                             <td><?php echo $testData['czas_trwania']; ?></td>
+                            <td><?php echo $testData['ilosc_prob'] == -1 ? 'Nieograniczona' : $testData['ilosc_prob']; ?></td>
+                            <td><?php echo getTestDetails($conn, $test_id)['liczba_pytan']; ?></td>
                             <td>
-                                <?php 
-                                    echo $testData['ilosc_prob'] == -1 ? 'Nieograniczona' : $testData['ilosc_prob'];
-                                ?>
-                            </td>
-                            <td>
-                                <?php
-                                    $testDetails = getTestDetails($conn, $test_id);
-                                    echo $testDetails['liczba_pytan'];
-                                ?>
-                            </td>
-
-
-                    
-                            <!-- Przyciski "Modyfikuj" -->
-                            <td>
-                                <a href="edit_test.php?test_id=<?php echo $testData['ID']; ?>" class="btn-edit">
-                                    <img src="../../assets/images/icons/edit.svg" class="edit-icon">
+                                <a href="edit_test.php?test_id=<?php echo $testData['ID']; ?>" class="btn">
+                                    <i class="bi bi-pencil-square"></i>
                                 </a>
                             </td>
-                            <!-- Przyciski "Modyfikuj" -->
-                             
                         </tr>
-                    <?php endwhile; ?> 
+                    <?php endwhile; ?>
                 </tbody>
             </table>
         </div>
-    </main>    
+    </div>
+
+    <!-- Modal Dodaj Test -->
+    <div class="modal fade" id="addTestModal" tabindex="-1" aria-labelledby="addTestModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTestModalLabel">Dodaj Test</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="add_test.php" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Nazwa</label>
+                            <input type="text" name="nazwa" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kierunek</label>
+                            <select name="kierunek" class="form-select" required>
+                                <option disabled selected>Wybierz kierunek</option>
+                                <?php while ($courses = mysqli_fetch_assoc($courseByTeacher)): ?>
+                                    <option value="<?php echo $courses['ID']; ?>">
+                                        <?php echo $courses['nazwa']; ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Przedmiot</label>
+                            <select name="przedmiot" class="form-select" required>
+                                <option disabled selected>Wybierz przedmiot</option>
+                                <?php while ($subjects = mysqli_fetch_assoc($subjectsByTeacher)): ?>
+                                    <option value="<?php echo $subjects['ID']; ?>">
+                                        <?php echo $subjects['nazwa']; ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-outline-danger w-100">Dodaj</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
 
     
     <script src="../../assets/js/modal_windows.js"></script>  

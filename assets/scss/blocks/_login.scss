@@ -1,83 +1,19 @@
-#login-body {
-    background-image: url('../images/wallpapers/login_wallpaper_HD.jpg');
-    width: 100vw;
-    height: 100vh;
-    background-size: cover;
-    background-position: center center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.login {
+min-height: 100vh;
 }
 
-.login-box {
-    background-color: rgba(211, 211, 211, 0.3);
-    backdrop-filter: blur(25px);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding: 30px;
-    width: 90%;
+.bg-image {
+background-image: url('../images/wallpapers/UWB_wallpapper.jpg');
+background-size: cover;
+background-position: center;
 }
 
-.login-header {
-    text-align: center;
-    margin: 20px 0 40px 0;
+.login-heading {
+font-weight: 300;
 }
 
-/* Styl inputów */
-.input-box {
-    width: 100%;
-    height: 40px;
-    border-radius: 15px;
-    border: none;
-    background-color: #fff;
-    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.05);
+.btn-login {
+font-size: 0.9rem;
+letter-spacing: 0.05rem;
+padding: 0.75rem 1rem;
 }
-
-.login-submit-btn {
-    width: 100%;
-    height: 60px;
-    background: $button-submit-color;
-    border-radius: 15px;
-    cursor: pointer;
-    color: #fff;
-    margin-top: 20px;
-}
-
-.error-message {
-    margin-top: 10px;
-}
-
-/* Media Queries dla różnych ekranów */
-
-/* Extra small devices (telefony) */
-@media only screen and (max-width: 600px) {
-    .login-box {
-        max-width: 80%;
-    }
-}
-
-/* Small devices (większe telefony, małe tablety) */
-@media only screen and (min-width: 601px) and (max-width: 768px) {
-    .login-box {
-        max-width: 80%;
-    }
-}
-
-/* Medium devices (tablety w pionie i poziomie) */
-@media only screen and (min-width: 769px) and (max-width: 1024px) {
-    .login-box {
-        max-width: 50%;
-    }
-}
-
-/* Large devices (laptopy i duże ekrany) */
-@media only screen and (min-width: 1025px) {
-    .login-box {
-        max-width: 35%;
-    }
-}
-
-

@@ -45,6 +45,7 @@
     <!-- Bootstrap 5.3 css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
 
     <title>Pytania</title>
@@ -53,85 +54,83 @@
 
     <?php include '../../includes/header.php'; ?>
 
+   
     <main class="main">
-        <div class="container">
-            <div class="title">
-                <h1>Lista Pytań</h1>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mt-5">
+            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista pytań</h1>
+            <a class="btn btn-outline-danger" href="add_multichoice.php">
+                <i class="bi bi-plus-circle"></i> Utwórz pytanie
+            </a>
+        </div>
+        <p>Ilość: <?php echo $QuestionCount; ?></p>
 
-                <!-- Przycisk "Dodaj pytanie" -->
-                <div class="questions">
-                    <a class="" style="background: #45a049; color: white; padding: 10px; border-radius: 10px;" href="add_multichoice.php">Dodaj pytanie</a>
-                </div>
-                <!-- Przycisk "Dodaj pytanie" -->
 
-            </div>
 
-            <p>Ilość: <?php echo $QuestionCount; ?></p>
-            <table>
-                <thead>
+        <div class="table-responsive mt-5">
+            <table class="table">
+                <thead class="table-active">
                     <tr>
-                        <th style="width: 20%;">Przedmiot</th> <!-- Najwięcej miejsca dla dłuższego tekstu -->
-                        <th style="width: 25%;">Pytanie</th>   <!-- Średnio dużo miejsca -->
-                        <th style="width: 10%;">Typ</th>       <!-- Krótki tekst -->
-                        <th style="width: 30%;">Odpowiedzi</th> <!-- Dłuższy tekst -->
-                        <th style="width: 10%;">Całkowita liczba punktów</th> <!-- Liczby -->
-                        <th style="width: 5%;"></th> <!-- Pusta kolumna -->
+                        <th>Przedmiot</th>
+                        <th>Pytanie</th>
+                        <th>Typ</th>
+                        <th>Odpowiedzi</th>
+                        <th>Całkowita liczba punktów</th>
+                        <th>Akcje</th>
                     </tr>
-
                 </thead>
                 <tbody>
                     <?php while ($QuestionData = mysqli_fetch_assoc($QuestionInfo)): ?>
                         <tr>
-                        <?php
-                            // Pobierz nazwę przedmiotu na podstawie id_przedmiotu
-                            $subjectId = $QuestionData['id_przedmiotu'];
-                            $subjectName = getSubjectNameById($conn, $subjectId);
-                        ?>
+                            <?php
+                                $subjectId = $QuestionData['id_przedmiotu'];
+                                $subjectName = getSubjectNameById($conn, $subjectId);
+                            ?>
+
                             <td><?php echo $subjectName; ?></td>
                             <td><?php echo $QuestionData['tresc']; ?></td>
                             <td><?php echo $QuestionData['typ']; ?></td>
+
                             <td>
-                                <ul>
+                                <ul class="list-group">
                                     <?php
-                                    // Pobierz odpowiedzi dla pytania
                                     $answers = getAnswersByQuestionId($conn, $QuestionData['ID']);
-                                    $totalPoints = 0; // Zmienna do sumowania punktów
-                                    $questionNumber = 1; // Numer pytania
+                                    $totalPoints = 0;
+                                    $questionNumber = 1;
 
                                     while ($answer = $answers->fetch_assoc()): 
-                                        $totalPoints += $answer['punkty']; // Dodaj punkty z bieżącej odpowiedzi
+                                        $totalPoints += $answer['punkty'];
                                     ?>
-                                        <li>
+                                        <li class="list-group-item <?php echo ($answer['correct'] == 1) ? 'list-group-item-success' : 'list-group-item-light'; ?>">
                                             Odpowiedź <?php echo $questionNumber; ?> 
                                             (Punkty: <?php echo number_format($answer['punkty'], 2); ?>)
                                             <?php if ($answer['correct'] == 1): ?>
-                                                <strong>(Poprawna)</strong>
+                                                <span class="badge bg-success">Poprawna</span>
                                             <?php endif; ?>
                                         </li>
                                     <?php 
-                                        $questionNumber++; // Zwiększ numer pytania
+                                        $questionNumber++;
                                     endwhile; 
                                     ?>
                                 </ul>
                             </td>
+
                             <!-- Kolumna z całkowitą liczbą punktów -->
                             <td>
                                 <strong><?php echo $totalPoints; ?></strong>
                             </td>
-                            <!-- Przyciski "Modyfikuj" -->
                             <td>
-                                <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>" class="btn-edit">
-                                    <img src="../../assets/images/icons/edit.svg" class="edit-icon">
+                                <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>" class="btn">
+                                    <i class="bi bi-pencil-square"></i>
                                 </a>
                             </td>
-                            <!-- Przyciski "Modyfikuj" -->
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
-
         </div>
-    </main>    
+    </div>
+    </main>
 
 
     <!-- Plik JavaScript --> 
