@@ -30,62 +30,67 @@
     <?php include '../../includes/header.php'; ?>
 
     <main class="main">
-        <div class="container">
-            <div class="info">
-                <!-- Informacja o wykładowcach -->
-                <div class="teachers">
-                    <a href="teachers.php" style="color: black;">
-                        <div class="card">
-                            <img src="../../assets/images/icons/teacher-icon.png" alt="Teacher Avatar" class="card-avatar">
-                            <h3 class="card-title">Wykładowcy</h3>
-                            <p class="card-count"><?php echo $teacherCount; ?></p>
+        <div class="container py-4">
+            <div class="row g-3">
+                <!-- Wykładowcy -->
+                <div class="col-md-6 col-lg-3">
+                    <a href="teachers.php" class="text-decoration-none text-dark">
+                        <div class="card text-center shadow-sm">
+                            <div class="card-body">
+                                <img src="../../assets/images/icons/teacher-icon.png" alt="Teacher Icon" class="img-fluid mb-2" style="width: 50px;">
+                                <h3 class="card-title">Wykładowcy</h3>
+                                <p class="card-text"><?php echo $teacherCount; ?></p>
+                            </div>
                         </div>
                     </a>
                 </div>
-                <!-- Informacja o wykładowcach -->
+                <!-- Wykładowcy -->
 
-                <!-- Informacja o studentach -->
-                <div class="students">
-                    <a href="students.php" style="color: black;">
-                        <div class="card">
-                            <img src="../../assets/images/icons/student-avatar.svg" alt="Students Avatar" class="card-avatar">
-                            <h3 class="card-title">Studeńci</h3>
-                            <p class="card-count"><?php echo $studentCount; ?></p>
+                <!-- Studeńci-->
+                <div class="col-md-6 col-lg-3">
+                    <a href="students.php" class="text-decoration-none text-dark">
+                        <div class="card text-center shadow-sm">
+                            <div class="card-body">
+                                <img src="../../assets/images/icons/student-avatar.svg" alt="Student Icon" class="img-fluid mb-2" style="width: 50px;">
+                                <h3 class="card-title">Studeńci</h3>
+                                <p class="card-text"><?php echo $studentCount; ?></p>
+                            </div>
                         </div>
                     </a>
                 </div>
-                <!-- Informacja o studentach -->
+                <!-- Studeńci -->
+              
+                <!-- Przedmioty -->
+                <div class="col-md-6 col-lg-3">
+                    <a href="subjects.php" class="text-decoration-none text-dark">
+                        <div class="card text-center shadow-sm">
+                            <div class="card-body">
+                                <img src="../../assets/images/icons/book.svg" alt="Subject Icon" class="img-fluid mb-2" style="width: 50px;">
+                                <h3 class="card-title">Przedmioty</h3>
+                                <p class="card-text"><?php echo $subjectCount; ?></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Przedmioty -->
 
-                <!-- Informacja o przedmiotach -->
-                <div class="subjects">
-                    <a href="subjects.php" style="color: black;">
-                        <div class="card">
-                            <img src="../../assets/images/icons/book.svg" alt="Book" class="card-avatar">
-                            <h3 class="card-title">Przedmioty</h3>
-                            <p class="card-count"><?php echo $subjectCount; ?></p>
+                <!-- Kierunki -->
+                <div class="col-md-6 col-lg-3">
+                    <a href="courses.php" class="text-decoration-none text-dark">
+                        <div class="card text-center shadow-sm">
+                            <div class="card-body">
+                                <img src="../../assets/images/icons/map-signs.svg" alt="Course Icon" class="img-fluid mb-2" style="width: 50px;">
+                                <h3 class="card-title">Kierunki</h3>
+                                <p class="card-text"><?php echo $coursesCount; ?></p>
+                            </div>
                         </div>
                     </a>
                 </div>
-                <!-- Informacja o przedmiotach -->
-
-                <!-- Informacja o kierunkach -->
-                <div class="subjects">
-                    <a href="courses.php" style="color: black;">
-                        <div class="card">
-                            <img src="../../assets/images/icons/building.svg" alt="Book" class="card-avatar">
-                            <h3 class="card-title">Kierunki</h3>
-                            <p class="card-count"><?php echo $coursesCount; ?></p>
-                        </div>
-                    </a>
-                </div>
-                <!-- Informacja o kierunkach -->
+                <!-- Kierunki -->
             </div>  
         </div>
     </main>
-</main>
 
 
-    <!-- Plik JavaScript --> 
-    <script src="../../assets/js/modal_windows.js"></script>  
 </body>
 </html>

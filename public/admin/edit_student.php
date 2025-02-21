@@ -30,71 +30,94 @@
 
     <?php include '../../includes/header.php'; ?>
     
-    <main class="main">
-        <div class="container">
-            <h1>Edytuj Studenta</h1>
+    <main class="main my-5">
+        <div class="container card shadow p-4">
+            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Edytuj Studenta</h1>
             <form action="../../includes/admin/update_student.php" method="POST">
                 <input type="hidden" name="idStudenta" value="<?php echo $student['ID']; ?>">
 
-                <label for="nrAlbumu">Nr. albumu</label>
-                <input type="text" name="nrAlbumuStudenta" value="<?php echo $student['nr_albumu']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Nr. albumu</h5>
+                <div class="mb-3">
+                    <input type="text" name="nrAlbumuStudenta" class="form-control" value="<?php echo $student['nr_albumu']; ?>" required>
+                </div>
 
-                <!-- Lista kierunków do przypisania -->
-                <label>Kierunek</label>
-                <select name="kierunekStudenta" required>
-                    <option value="" disabled>Wybierz kierunek</option>
-                    <?php while ($course = mysqli_fetch_assoc($courseInfo)): ?>
-                        <option value="<?php echo $course['ID']; ?>" 
-                            <?php echo $course['ID'] == $student['id_kierunku'] ? 'selected' : ''; ?>>
-                            <?php echo $course['nazwa']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-                <!-- Lista kierunków do przypisania -->
+                <div class="mb-3">
+                    <h5 class="card-title fs-4 mt-2">Kierunek</h5>
+                    <select name="kierunekStudenta" class="form-select" required>
+                        <option disabled selected>Wybierz kierunek</option>
+                        <?php while ($course = mysqli_fetch_assoc($courseInfo)): ?>
+                            <option value="<?php echo $course['ID']; ?>"
+                                <?php echo $course['ID'] == $student['id_kierunku'] ? 'selected' : ''; ?>>
+                                <?php echo $course['nazwa']; ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
-                <label for="rok">Rok</label>
-                <input type="number" name="rokStudenta" value="<?php echo $student['rok']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Rok</h5>
+                <div class="mb-3">
+                    <input type="number" name="rokStudenta" class="form-control" value="<?php echo $student['rok']; ?>" required>
+                </div>
 
-                <label for="rok">Rocznik</label>
-                <input type="number" name="rocznikStudenta" value="<?php echo $student['rocznik']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Rocznik</h5>
+                <div class="mb-3">
+                    <input type="number" name="rocznikStudenta" class="form-control"  value="<?php echo $student['rocznik']; ?>" required>
+                </div>
 
-                <label for="imie">Imię</label>
-                <input type="text" name="imieStudenta" value="<?php echo $student['imie']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Imię</h5>
+                <div class="mb-3">
+                    <input type="text" name="imieStudenta" class="form-control"  value="<?php echo $student['imie']; ?>"  required>
+                </div>
 
-                <label for="nazwisko">Nazwisko</label>
-                <input type="text" name="nazwiskoStudenta" value="<?php echo $student['nazwisko']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Nazwisko</h5>
+                <div class="mb-3">
+                    <input type="text" name="nazwiskoStudenta" class="form-control"  value="<?php echo $student['nazwisko']; ?>"  required>
+                </div>
 
-                <label for="email">Email</label>
-                <input type="email" name="emailStudenta" value="<?php echo $student['email']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Email</h5>
+                <div class="mb-3">
+                    <input type="email" name="emailStudenta" class="form-control"  value="<?php echo $student['email']; ?>"  required>
+                </div>
 
-                <label for="haslo">Hasło</label>
-                <input type="password" name="hasloStudenta" value="<?php echo $student['haslo']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Hasło</h5>
+                <div class="mb-3">
+                    <input type="password" name="hasloStudenta" class="form-control"  value="<?php echo $student['haslo']; ?>"  required>
+                </div>
 
-                <label for="uwagi">Uwagi</label>
-                <textarea name="uwagiStudenta"><?php echo $student['uwagi']; ?></textarea>
+                <h5 class="card-title fs-4 mt-2">Uwagi</h5>
+                <div class="mb-3">
+                    <input type="text" name="uwagiStudenta" class="form-control"  value="<?php echo $student['uwagi']; ?>"  required>
+                </div>
 
-                <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
-                <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
+                <button type="submit" name="action" value="update"  class="btn btn-outline-danger">Zapisz Zmiany</button>
+                <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Usuń</a>
             </form>
 
-            <!-- Okno modalne do potwierdzenia usunięcia Studenta-->
-            <div id="deleteCharacterModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
-                    <h2>Czy na pewno chcesz usunąć tego studenta?</h2>
-                    <form action="../../includes/admin/update_student.php" method="POST">
-                        <input type="hidden" name="idStudenta" value="<?php echo $student['ID']; ?>">
-                        <input type="hidden" name="action" value="delete">
-                        <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
-                    </form>
+            <!-- Modal potwierdzenia usunięcia grupy -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Potwierdzenie usunięcia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Czy na pewno chcesz usunąć tego studenta?
+                    </div>
+                    <div class="modal-footer">
+                        <form action="../../includes/admin/update_student.php" method="POST">
+                            <input type="hidden" name="idStudenta" value="<?php echo $student['ID']; ?>">
+                            <input type="hidden" name="action" value="delete">
+                            <button type="submit" class="btn btn-outline-danger">Usuń</button>
+                        </form>
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+                    </div>
+                    </div>
                 </div>
             </div>
-            <!-- Okno modalne do potwierdzenia usunięcia -->
 
         </div>
     </main>
 
-    <!-- Plik JavaScript --> 
-    <script src="../../assets/js/modal_windows.js"></script>  
 </body>
 </html>

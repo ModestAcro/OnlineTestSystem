@@ -30,74 +30,93 @@
 
     <?php include '../../includes/header.php'; ?>
     
-    <main class="main">
-        <div class="container">
-            <h1>Edytuj Wykładowcę</h1>
+    <main class="main my-5">
+        <div class="container card shadow p-4">
+            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Edytuj Wykładowcę</h1>
             <form action="../../includes/admin/update_teacher.php" method="POST">
                 <input type="hidden" name="idWykladowcy" value="<?php echo $teacher['ID']; ?>">
 
-                <label>Imię</label>
-                <input type="text" name="imieWykladowcy" value="<?php echo $teacher['imie']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Imię</h5>
+                <div class="mb-3">
+                    <input type="text" name="imieWykladowcy" class="form-control" value="<?php echo $teacher['imie']; ?>" required>
+                </div>
 
-                <label>Nazwisko</label>
-                <input type="text" name="nazwiskoWykladowcy" value="<?php echo $teacher['nazwisko']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Nazwisko</h5>
+                <div class="mb-3">
+                    <input type="text" name="nazwiskoWykladowcy" class="form-control" value="<?php echo $teacher['nazwisko']; ?>" required>
+                </div>
 
-                <label>Stopień</label>
-                <input type="text" name="stopienWykladowcy" value="<?php echo $teacher['stopien']; ?>" required>
 
-                <label>Email</label>
-                <input type="email" name="emailWykladowcy" value="<?php echo $teacher['email']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Stopień</h5>
+                <div class="mb-3">
+                    <input type="text" name="stopienWykladowcy" class="form-control" value="<?php echo $teacher['stopien']; ?>" required>
+                </div>
 
-                <label>Hasło</label>
-                <input type="password" name="hasloWykladowcy" value="<?php echo $teacher['haslo']; ?>" required>
 
-                <!-- Lista kierunków -->
-                <label>Wybierz kierunki</label>
-                <select id="kierunki" name="kierunki[]" multiple>
-                    <?php
-                    // Przechodzimy przez wszystkie kierunki
-                    while ($courses = mysqli_fetch_assoc($CoursesInfo)): 
-                        // Pobranie listy ID przypisanych kierunków
-                        $assignetCoursesIds = array_column($assignetCourses, 'id_kierunku');
-                        
-                        // Sprawdzenie, czy kierunek jest już przypisany do wykładowcy
-                        $czyZaznaczony = in_array($courses['ID'], $assignetCoursesIds) ? 'selected' : '';
-                    ?>
-                        <option value="<?php echo $courses['ID']; ?>" <?php echo $czyZaznaczony; ?>>
-                            <?php echo $courses['nazwa']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-                <!-- Lista kierunków -->
+                <h5 class="card-title fs-4 mt-2">Email</h5>
+                <div class="mb-3">
+                    <input type="email" name="emailWykladowcy" class="form-control" value="<?php echo $teacher['email']; ?>" required>
+                </div>
 
-                <label>Uwagi</label>
-                <textarea name="uwagiWykladowcy"><?php echo $teacher['uwagi']; ?></textarea>
 
-                <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
-                <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
+                <h5 class="card-title fs-4 mt-2">Hasło</h5>
+                <div class="mb-3">
+                    <input type="password" name="hasloWykladowcy" class="form-control" value="<?php echo $teacher['haslo']; ?>" required>
+                </div>
+
+                <div class="mb-3">
+                    <h5 class="card-title fs-4 mt-2">Kierunki</h5>
+                    <select id="kierunki" name="kierunki[]" class="form-select"  multiple>
+                        <?php 
+                        while ($courses = mysqli_fetch_assoc($CoursesInfo)): 
+                            $assignetCoursesIds = array_column($assignetCourses, 'id_kierunku');
+                            
+                            $czyZaznaczony = in_array($courses['ID'], $assignetCoursesIds) ? 'selected' : '';
+                        ?>
+                            <option value="<?php echo $courses['ID']; ?>" <?php echo $czyZaznaczony; ?>>
+                                <?php echo $courses['nazwa']; ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
+
+                <h5 class="card-title fs-4 mt-2">Uwagi</h5>
+                <div class="mb-3">
+                    <textarea name="uwagiWykladowcy" class="form-control"><?php echo $teacher['uwagi']; ?></textarea>
+                </div>
+
+                <button type="submit" name="action" value="update"  class="btn btn-outline-danger">Zapisz Zmiany</button>
+                <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Usuń</a>
             </form>
 
-            <!-- Okno modalne do potwierdzenia usunięcia wykładowcy -->
-            <div id="deleteCharacterModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
-                    <h2>Czy na pewno chcesz usunąć tego wykładowcę?</h2>
-                    <form action="../../includes/admin/update_teacher.php" method="POST">
-                        <input type="hidden" name="idWykladowcy" value="<?php echo $teacher['ID']; ?>">
-                        <input type="hidden" name="action" value="delete">
-                        <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
-                    </form>
+
+            <!-- Modal potwierdzenia usunięcia grupy -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Potwierdzenie usunięcia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Czy na pewno chcesz usunąć tego wykładowcę?
+                    </div>
+                    <div class="modal-footer">
+                        <form action="../../includes/admin/update_teacher.php" method="POST">
+                            <input type="hidden" name="idWykladowcy" value="<?php echo $teacher['ID']; ?>">
+                            <input type="hidden" name="action" value="delete">
+                            <button type="submit" class="btn btn-outline-danger">Usuń</button>
+                        </form>
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+                    </div>
+                    </div>
                 </div>
             </div>
-            <!-- Okno modalne do potwierdzenia usunięcia wykładowcy -->
-
         </div>
     </main>
 
     <!-- Pliki JavaScript --> 
     <script src="../../assets/js/multi_select.js"></script>  
-    <script src="../../assets/js/modal_windows.js"></script>  
-
 
     <!-- multi_select.js --> 
     <script>
