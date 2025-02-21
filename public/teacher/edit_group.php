@@ -52,18 +52,21 @@
 
     <?php include '../../includes/header.php'; ?>
     
-    <main class="main">
-        <div class="container">
-            <h1>Edytuj grupę</h1>
-            <form action="../../includes/teacher/update_group.php" method="POST">
-                <input type="hidden" name="group_id" value="<?php echo $group['ID']; ?>">
+    <main class="main my-5">
+    <div class="container card shadow p-4">
+        <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Edytuj grupę</h1>
+        <form action="../../includes/teacher/update_group.php" method="POST">
+            <input type="hidden" name="group_id" value="<?php echo $group['ID']; ?>">
 
-                <label>Rok</label>
-                <input type="text" name="rok" value="<?php echo $group['rok']; ?>">
+            <h5 class="card-title fs-4 mt-2">Rok</h5>
+            <div class="mb-3">
+                <input type="text" name="rok" class="form-control" value="<?php echo $group['rok']; ?>">
+            </div>
 
-                <!-- Lista uczelni -->
-                <label>Uczelnia</label>
-                <select name="uczelnia" required>
+
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Kierunek</h5>
+                <select name="uczelnia" class="form-select" required>
                     <option value="<?php echo $assignedUniversityID; ?>" selected>
                         <?php echo $assignedUniversityName; ?>
                     </option>
@@ -73,11 +76,11 @@
                         </option>
                     <?php endwhile; ?>
                 </select>
-                <!-- Lista uczelni -->
-
-                <!-- Lista przedmiotów -->
-                <label>Przedmiot</label>
-                <select name="przedmiot" required>
+            </div>
+            
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Przedmiot</h5>
+                <select name="przedmiot" class="form-select" required>
                     <option value="<?php echo $assignedSubjectID; ?>" selected>
                         <?php echo $assignedSubjectName; ?>
                     </option>
@@ -87,11 +90,11 @@
                         </option>
                     <?php endwhile; ?>
                 </select>
-                <!-- Lista przedmiotów -->
+            </div>
 
-                <!-- Lista studentów -->
-                <label>Wybierz studentów</label>
-                <select id="studenci" name="studenci[]" multiple>
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Studeńci</h5>
+                <select id="studenci" name="studenci[]" class="form-select"  multiple>
                     <?php 
                     // Przechodzimy przez wszystkich studentów
                     while ($student = mysqli_fetch_assoc($studentInfo)): 
@@ -106,31 +109,40 @@
                         </option>
                     <?php endwhile; ?>
                 </select>
-                <!-- Lista studentów -->
+            </div>
 
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Nazwa</h5>
+                <input type="text" name="nazwa" class="form-control" value="<?php echo htmlspecialchars($group['nazwa']); ?>">
+            </div>
+            
+            <button type="submit" name="action" value="update"  class="btn btn-outline-danger">Zapisz Zmiany</button>
+            <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Usuń</a>
+        </form>
 
-                <label>Nazwa</label>
-                <input type="text" name="nazwa" value="<?php echo htmlspecialchars($group['nazwa']); ?>">
-
-                <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
-                <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
-            </form>
-
-            <!-- Okno modalne do potwierdzenia usunięcia Wykładowcy-->
-            <div id="deleteCharacterModal" class="modal">
+        <!-- Modal potwierdzenia usunięcia grupy -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
-                    <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
-                    <h2>Czy na pewno chcesz usunąć tę grupę?</h2>
+                <div class="modal-header">
+                    <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Potwierdzenie usunięcia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Czy na pewno chcesz usunąć tę grupę?
+                </div>
+                <div class="modal-footer">
                     <form action="../../includes/teacher/update_group.php" method="POST">
                         <input type="hidden" name="group_id" value="<?php echo $group['ID']; ?>">
                         <input type="hidden" name="action" value="delete">
-                        <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
+                        <button type="submit" class="btn btn-outline-danger">Usuń</button>
                     </form>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+                </div>
                 </div>
             </div>
-            <!-- Okno modalne do potwierdzenia usunięcia -->
-
         </div>
+    </div>
     </main>
 
     <!-- Pliki JavaScript --> 

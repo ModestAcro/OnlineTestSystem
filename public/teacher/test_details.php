@@ -64,6 +64,11 @@ function checkNull($value, $isPercentage = false) {
 }
 
 $previous_student = null;
+
+
+$colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'dark'];
+$student_colors = [];
+
 ?>
 
 <!DOCTYPE html>
@@ -84,62 +89,35 @@ $previous_student = null;
     
     <?php include '../../includes/header.php'; ?>
 
-    <main class="main">
-        <div class="container">
-            <h1>Wyniki testu</h1>
-            
+    <main class="container my-5">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Wyniki testu</h1>
+        </div>
+        
+        <div class="row mt-5">
             <?php while ($row = mysqli_fetch_assoc($results)): ?>
-                <?php
-                // Jeśli zmienia się student, generuj nową tabelę
-                if ($previous_student !== $row['numer_albumu']):
-                    if ($previous_student !== null): ?>
-                        </tbody>
-                    </table>
-                    <hr> <!-- Oddziela tabele różnych studentów -->
-                    <?php endif; ?>
-
-                 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Imię</th>
-                                <th>Nazwisko</th>
-                                <th>Nr Albumu</th>
-                                <th>Punkty</th>
-                                <th>Max Punkty</th>
-                                <th>Ocena</th>
-                                <th>Wynik (%)</th>
-                                <th>Data rozpoczęcia</th>
-                                <th>Data zakończenia</th>
-                                <th>Numer próby</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                <?php endif; ?>
-
-                <tr>
-                    <td><?php echo checkNull($row['imie_studenta']); ?></td>
-                    <td><?php echo checkNull($row['nazwisko_studenta']); ?></td>
-                    <td><?php echo checkNull($row['numer_albumu']); ?></td>
-                    <td><?php echo checkNull($row['zdobyto_punktow']); ?></td>
-                    <td><?php echo checkNull($row['max_punktow']); ?></td>
-                    <td><?php echo checkNull($row['ocena_studenta']); ?></td>
-                    <td><?php echo checkNull($row['wynik_procentowy'], true); ?></td>
-                    <td><?php echo checkNull($row['data_rozpoczecia']); ?></td>
-                    <td><?php echo checkNull($row['data_zakonczenia']); ?></td>
-                    <td><?php echo checkNull($row['numer_proby']); ?></td>
-                </tr>
-
-                <?php 
-                // Zapisz numer albumu dla następnego porównania
-                $previous_student = $row['numer_albumu']; 
-                endwhile; ?>
-            </tbody>
-        </table>
-        <a href="export_excel.php?test_id=<?php echo $test_id; ?>" class="submit-btn" style="display: block; width: 220px;">Pobierz wyniki (Excel)<img src="../../assets/images/icons/download.svg" class="edit-icon" style="margin-left: 10px;"></a>
-
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0">Student: <?php echo $row['imie_studenta'] . ' ' . $row['nazwisko_studenta']; ?></h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Nr Albumu:</strong> <?php echo checkNull($row['numer_albumu']); ?></p>
+                            <p><strong>Punkty:</strong> <?php echo checkNull($row['zdobyto_punktow']); ?> / <?php echo checkNull($row['max_punktow']); ?></p>
+                            <p><strong>Ocena:</strong> <?php echo checkNull($row['ocena_studenta']); ?></p>
+                            <p><strong>Wynik:</strong> <?php echo checkNull($row['wynik_procentowy'], true); ?></p>
+                            <p><strong>Data rozpoczęcia:</strong> <?php echo checkNull($row['data_rozpoczecia']); ?></p>
+                            <p><strong>Data zakończenia:</strong> <?php echo checkNull($row['data_zakonczenia']); ?></p>
+                            <p><strong>Numer próby:</strong> <?php echo checkNull($row['numer_proby']); ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        </div>
+        
+        <a href="export_excel.php?test_id=<?php echo $test_id; ?>" class="btn btn-outline-danger mt-3">
+            Pobierz wyniki (Excel)
+        </a>
     </main>
-
-    <script src="../../assets/js/modal_windows.js"></script>
 </body>
 </html>

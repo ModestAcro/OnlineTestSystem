@@ -52,7 +52,7 @@
                 </button>
              </div>
 
-            <textarea type="text" class="form-control mb-3 mt-5 " rows="4" name="question_text" id="question_text" placeholder="Wpisz treść pytania" required></textarea>
+            <textarea type="text" class="form-control mb-3 mt-5" rows="4" name="question_text" id="question_text" placeholder="Wpisz treść pytania" required></textarea>
 
             <div id="answers-container"></div>
 
@@ -82,7 +82,7 @@ document.getElementById('add-answer-btn').addEventListener('click', function () 
     const answerIndex = answersContainer.children.length + 1;
 
     const newAnswerDiv = document.createElement('div');
-    newAnswerDiv.className = 'answer-options d-flex flex-wrap align-items-center gap-3 mt-3 p-2 border rounded';
+    newAnswerDiv.className = 'answer-options d-flex flex-wrap align-items-center gap-3 mt-3 p-2 border rounded shadow-sm';
 
     newAnswerDiv.innerHTML = `
         <div class="flex-grow-1">

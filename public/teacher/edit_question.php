@@ -91,7 +91,7 @@ while ($attachmentData = mysqli_fetch_assoc($attachmentResult)) {
                 <div id="answers-container">
                     <?php $counter = 1; ?>
                     <?php while ($answer = mysqli_fetch_assoc($answers)): ?>
-                        <div class="answer-options d-flex flex-wrap align-items-center gap-3 mt-3 p-2 border rounded">
+                        <div class="answer-options d-flex flex-wrap align-items-center gap-3 mt-3 p-2 border rounded shadow-sm">
                             <div class="flex-grow-1">
                                 <label class="form-label">Odpowiedź <?php echo $counter++; ?></label>
                                 <textarea type="text" class="form-control" name="answers[<?php echo $answer['ID']; ?>][text]" required><?php echo $answer['tresc']; ?></textarea>
@@ -165,9 +165,9 @@ while ($attachmentData = mysqli_fetch_assoc($attachmentResult)) {
                     <form action="../../includes/teacher/update_question.php" method="POST">
                         <input type="hidden" name="question_id" value="<?php echo $questionData['ID']; ?>">
                         <input type="hidden" name="action" value="delete">
-                        <button type="submit" class="btn btn-danger">Tak, usuń</button>
+                        <button type="submit" class="btn btn-outline-danger">Tak, usuń</button>
                     </form>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                    <button type="button"class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
                 </div>
             </div>
         </div>

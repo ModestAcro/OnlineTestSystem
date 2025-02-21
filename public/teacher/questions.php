@@ -68,7 +68,7 @@
 
 
         <div class="table-responsive mt-5">
-            <table class="table  table-striped">
+            <table class="table">
                 <thead class="table-active">
                     <tr>
                         <th>Przedmiot</th>
