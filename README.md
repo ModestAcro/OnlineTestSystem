@@ -48,7 +48,7 @@ Ten system to aplikacja webowa przeznaczona dla administratorów, nauczycieli i 
 
 - <img src="assets/images/icons/README/jQuery.png" alt="jQuery" style="width:30px; vertical-align:middle;"> <span>jQuery<span>
 
-- <img src="assets/images/icons/README/phpspreadsheet.png" alt="jQuery" style="width:30px; vertical-align:middle;"> <span>phpSpreadSheet<span>
+- <img src="assets/images/icons/README/phpspreadsheet.png" alt="jQuery" style="width:30px; vertical-align:middle;"> <span>PhpSpreadSheet<span>
 
 - <img src="assets/images/icons/README/Composer.png" alt="jQuery" style="width:30px; vertical-align:middle;"> <span>Composer<span>
 
