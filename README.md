@@ -29,6 +29,7 @@ Ten system to aplikacja webowa przeznaczona dla administratorów, nauczycieli i 
 ## Technologie
 <!-- https://github.com/marwin1991/profile-technology-icons -->
 
+
 - <img src="assets/images/icons/README/HTML5.png" alt="HTML" style="width:30px; vertical-align:middle;"> <span>HTML</span>
 
 - <img src="assets/images/icons/README/CSS3.png" alt="CSS" style="width:30px; vertical-align:middle;"> <span>CSS</span>
@@ -46,6 +47,8 @@ Ten system to aplikacja webowa przeznaczona dla administratorów, nauczycieli i 
 - <img src="assets/images/icons/README/Bootstrap.png" alt="Bootstrap" style="width:30px; vertical-align:middle;"> <span>Bootstrap</span>
 
 - <img src="assets/images/icons/README/jQuery.png" alt="jQuery" style="width:30px; vertical-align:middle;"> <span>jQuery<span>
+
+- <img src="assets/images/icons/README/phpspreadsheet.png" alt="jQuery" style="width:30px; vertical-align:middle;"> <span>phpSpreadSheet<span>
 
 - <img src="assets/images/icons/README/Composer.png" alt="jQuery" style="width:30px; vertical-align:middle;"> <span>Composer<span>
 
