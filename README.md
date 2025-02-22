@@ -37,6 +37,7 @@ Ten system to aplikacja webowa przeznaczona dla administratorów, nauczycieli i 
 - <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/git.png" alt="Git" style="width:30px; vertical-align:middle;"> <span>Git</span>
 - <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/sass.png" alt="Sass" style="width:30px; vertical-align:middle;"> <span>Sass</span>
 - <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/bootstrap.png" alt="Bootstrap" style="width:30px; vertical-align:middle;"> <span>Bootstrap</span>
+- <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fworldvectorlogo.com%2Flogo%2Fjquery-1&psig=AOvVaw3A8xmIf0W9JSpCiBswWReV&ust=1740319024607000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCICHqO2314sDFQAAAAAdAAAAABAQ" alt="HTML" style="width:30px; vertical-align:middle;"> <span>jQuery</span>
 
 
 

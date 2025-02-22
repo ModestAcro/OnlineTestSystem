@@ -46,6 +46,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/main.css">
 
     <title>Pytania</title>
@@ -66,9 +67,11 @@
             </div>
             <p>Ilość: <?php echo $QuestionCount; ?></p>
 
+            <!-- SEARCH -->
+            <input class="form-control" id="myInput" type="text" placeholder="Szukaj...">
+            <!-- SEARCH -->
 
-
-            <div class="table-responsive mt-5">
+            <div class="table-responsive mt-4">
                 <table class="table d-none d-md-table">
                     <thead class="table-active">
                         <tr>
@@ -78,7 +81,7 @@
                             <th>Akcje</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="myTable">
                         <?php while ($QuestionData = mysqli_fetch_assoc($QuestionInfo)): ?>
                             <tr>
                                 <?php
@@ -109,7 +112,7 @@
                         $subjectId = $QuestionData['id_przedmiotu'];
                         $subjectName = getSubjectNameById($conn, $subjectId);
                     ?>
-                    <div class="card mb-3 shadow-sm">
+                    <div class="card mb-3 shadow-sm card-item">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $subjectName ?></h5>
                             <p class="card-text"><strong>Treść:</strong> <?php echo  $QuestionData['tresc']; ?></p>
@@ -127,8 +130,25 @@
     </main>
 
 
-    <!-- Plik JavaScript --> 
-    <script src="../../assets/js/modal_windows.js"></script> 
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
 
+                // Check if on small screen (card view)
+                if ($(window).width() < 768) {
+                    // Filtering cards on small screens
+                    $(".card-item").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+                } else {
+                    // Filtering table rows on larger screens
+                    $("#myTable tr").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
