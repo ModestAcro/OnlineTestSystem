@@ -109,61 +109,55 @@
     <?php include '../../includes/header.php'; ?>
 
     <main class="main">
-    <div class="container mt-5">
-        <div class="title mb-5">
-            <h1 class="fs-2 fs-md-3 fs-lg-5">Rozwiązane testy</h1>
-            <p>Ilość: <?php echo $testCount; ?></p>
-        </div>
+        <div class="container mt-5">
+            <div class="title mb-5">
+                <h1 class="fs-2 fs-md-3 fs-lg-5">Rozwiązane testy</h1>
+                <p>Ilość: <?php echo $testCount; ?></p>
+            </div>
 
-        <div class="row">
-            <?php while ($testData = mysqli_fetch_assoc($testInfo)): ?>
-                <?php 
-                    $test_id = $testData['ID']; 
-                    $start_time = strtotime($testData['data_prob']);
-                    $end_time = strtotime($testData['data_zakonczenia']);
-                    
-                    $startDateTime = new DateTime();
-                    $startDateTime->setTimestamp($start_time);
-                    
-                    $endDateTime = new DateTime();
-                    $endDateTime->setTimestamp($end_time);
-                    
-                    $interval = $startDateTime->diff($endDateTime);
+            <div class="row">
+                <?php while ($testData = mysqli_fetch_assoc($testInfo)): ?>
+                    <?php 
+                        $test_id = $testData['ID']; 
+                        $start_time = strtotime($testData['data_prob']);
+                        $end_time = strtotime($testData['data_zakonczenia']);
+                        
+                        $startDateTime = new DateTime();
+                        $startDateTime->setTimestamp($start_time);
+                        
+                        $endDateTime = new DateTime();
+                        $endDateTime->setTimestamp($end_time);
+                        
+                        $interval = $startDateTime->diff($endDateTime);
 
-                    $wynikProcentowy = $testData['wynik_procentowy'];
-                ?>
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title fs-4 mt-2"><?php echo $testData['nazwa_testu']; ?></h5>
-                            <h6 class="card-subtitle mb-2 text-muted"><?php echo $testData['nazwa_przedmiotu']; ?></h6>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Czas rozwiązania:</strong> <?php echo $interval->format('%h godzin %i minut %s sekund'); ?></p>
-                            <p><strong>Wynik:</strong> <?php echo $wynikProcentowy . "%"; ?></p>
-                            <p><strong>Ocena:</strong> <?php echo $testData['ocena']; ?></p>
-                            <p><strong>Status:</strong> 
-                                <?php 
-                                    if($wynikProcentowy >= 51){
-                                        echo "<span class='badge bg-success'>Zaliczony</span>";
-                                    } else {
-                                        echo "<span class='badge bg-danger'>Niezaliczony</span>";
-                                    }
-                                ?>
-                            </p>
-                          
+                        $wynikProcentowy = $testData['wynik_procentowy'];
+                    ?>
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title fs-4 mt-2"><?php echo $testData['nazwa_testu']; ?></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $testData['nazwa_przedmiotu']; ?></h6>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Czas rozwiązania:</strong> <?php echo $interval->format('%h godzin %i minut %s sekund'); ?></p>
+                                <p><strong>Wynik:</strong> <?php echo $wynikProcentowy . "%"; ?></p>
+                                <p><strong>Ocena:</strong> <?php echo $testData['ocena']; ?></p>
+                                <p><strong>Status:</strong> 
+                                    <?php 
+                                        if($wynikProcentowy >= 51){
+                                            echo "<span class='badge bg-success'>Zaliczony</span>";
+                                        } else {
+                                            echo "<span class='badge bg-danger'>Niezaliczony</span>";
+                                        }
+                                    ?>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endwhile; ?>
+                <?php endwhile; ?>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
-
-
-
-
-    <script src="../../assets/js/modal_windows.js"></script>  
 </body>
 </html>

@@ -40,14 +40,14 @@ if (!$row) {
 </head>
 <body>
     <main class="main">
-        <div class="container mt-5 text-center">
-            <h1 class="display-4">Test zakończony!</h1>
+        <div class="container card shadow mt-5 text-center">
+            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2 mt-5 mb-5">Test zakończony!</h1>
             <p class="lead">Czas trwania testu: <?= htmlspecialchars($czas_trwania) ?></p>
             <p class="lead">Zdobyłeś: <?= htmlspecialchars($row['zdobyto_punktow']) ?>/<?= htmlspecialchars($row['max_punktow']) ?> punktów</p>
             <p class="lead">Wynik procentowy: <?= round(htmlspecialchars($row['wynik_procentowy'])) ?>%</p>
             <p class="lead">Twoja ocena: <?= htmlspecialchars($row['ocena']) ?></p>
             <br>
-            <a class="btn btn-outline-danger" href="student_dashboard.php">Dalej</a>
+            <a class="btn btn-outline-danger mb-5" href="student_dashboard.php">Dalej</a>
         </div>
     </main>
 </body>

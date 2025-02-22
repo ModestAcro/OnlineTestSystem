@@ -123,66 +123,152 @@
 <body>
     <main class="main">
         <div class="container mt-5">
-            <form action="../../includes/student/submit_test.php" method="POST">
+            <form action="../../includes/student/submit_test.php" method="POST" id="test-form">
                 <input type="hidden" name="id_proby" value="<?= htmlspecialchars($id_proby) ?>">
 
                 <div class="tests-box">
-                    <!-- Timer -->
-                    <div class="d-flex justify-content-end mb-4">
-                        <div class="timer" id="timer"></div>
-                    </div>
-
-                    <!-- Test Questions -->
-                    <?php foreach ($testQuestions as $pytanie_id => $pytanie): ?>
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5 class="card-title"><?= htmlspecialchars($pytanie['tresc_pytania']) ?></h5>
-                                <label class="card-subtitle text-muted"><?= htmlspecialchars($pytanie['typ_pytania']) ?></label>
-                            </div>
-                            <div class="card-body">
-                                <?php foreach ($pytanie['odpowiedzi'] as $odpowiedz): ?>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="odpowiedzi[<?= $pytanie_id ?>][]" value="<?= $odpowiedz['id'] ?>">
-                                        <label class="form-check-label"><?= htmlspecialchars($odpowiedz['tresc_odpowiedzi']) ?></label>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4 mb-5">
+                        <!-- Licznik pytań -->
+                        <div class="text-left">
+                            <span id="question-counter"></span>
                         </div>
-                    <?php endforeach; ?>
-                </div>
-
-                <!-- Submit Button -->
-                <div class=" mt-4 mb-5">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Zakończ test</button>
+                        <!-- Timer -->
+                        <div class="text-right">
+                            <div class="timer" id="timer"></div>
+                        </div>
+                    </div>
+                    <!-- Test Questions -->
+                    <div id="questions-container">
+                        <?php $i = 0; ?>
+                        <?php foreach ($testQuestions as $pytanie_id => $pytanie): ?>
+                            <div class="question-card card mb-4" data-question="<?= $i ?>" style="<?= $i === 0 ? '' : 'display: none;' ?>">
+                                <div class="card-header">
+                                    <h5 class="card-title"><?= htmlspecialchars($pytanie['tresc_pytania']) ?></h5>
+                                    <label class="card-subtitle text-muted"><?= htmlspecialchars($pytanie['typ_pytania']) ?></label>
+                                </div>
+                                <div class="card-body">
+                                    <?php foreach ($pytanie['odpowiedzi'] as $odpowiedz): ?>
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" name="odpowiedzi[<?= $pytanie_id ?>][]" value="<?= $odpowiedz['id'] ?>">
+                                            <label class="form-check-label"><?= htmlspecialchars($odpowiedz['tresc_odpowiedzi']) ?></label>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                            <?php $i++; ?>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Pagination -->
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item">
+                                    <button type="button" class="btn btn-outline-danger" id="prev-btn" disabled>Poprzednie</button>
+                                </li>
+                                <li class="page-item mx-2">
+                                    <button type="button" class="btn btn-outline-danger" id="next-btn">Następne</button>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- Submit Button -->
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                            Zakończ test
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
+        <!-- Modal potwierdzenia zakończenia testu -->
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Potwierdzenie zakończenia testu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Czy na pewno chcesz zakończyć test? Nie będzie już można wprowadzić zmian.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+                        <!-- Wysłanie formularza -->
+                        <button type="submit" class="btn btn-outline-danger" form="test-form">Zakończ test</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
+
+
+
+    <!-- JavaScript do paginacji -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        let currentQuestion = 0;
+        const questions = document.querySelectorAll(".question-card");
+        const totalQuestions = questions.length;
+        
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const questionCounter = document.getElementById("question-counter"); // Dodane
+
+        function updatePagination() {
+            questions.forEach((q, index) => {
+                q.style.display = index === currentQuestion ? "block" : "none";
+            });
+
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.disabled = currentQuestion === totalQuestions - 1;
+
+            // Aktualizacja licznika pytań
+            questionCounter.textContent = `Pytanie ${currentQuestion + 1} z ${totalQuestions}`;
+        }
+
+        prevBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                updatePagination();
+            }
+        });
+
+        nextBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (currentQuestion < totalQuestions - 1) {
+                currentQuestion++;
+                updatePagination();
+            }
+        });
+
+            updatePagination();
+        });
+    </script>
+
 
     
     <script>
-    // Pobierz czas zakończenia z PHP
-    var czasZakonczenia = <?= $czas_zakonczenia ?> * 1000; // w milisekundach
+        // Pobierz czas zakończenia z PHP
+        var czasZakonczenia = <?= $czas_zakonczenia ?> * 1000; // w milisekundach
 
-    function odliczanie() {
-        var teraz = new Date().getTime();
-        var roznica = czasZakonczenia - teraz;
+        function odliczanie() {
+            var teraz = new Date().getTime();
+            var roznica = czasZakonczenia - teraz;
 
-        var minuty = Math.floor((roznica % (1000 * 60 * 60)) / (1000 * 60));
-        var sekundy = Math.floor((roznica % (1000 * 60)) / 1000);
+            var minuty = Math.floor((roznica % (1000 * 60 * 60)) / (1000 * 60));
+            var sekundy = Math.floor((roznica % (1000 * 60)) / 1000);
 
-        document.getElementById("timer").innerHTML = minuty + "m " + sekundy + "s ";
+            document.getElementById("timer").innerHTML = minuty + "m " + sekundy + "s ";
 
-        if (roznica < 0) {
-            clearInterval(x);
-            document.getElementById("timer").innerHTML = "KONIEC CZASU";
-            // Automatyczne wysłanie formularza po upływie czasu
-            document.querySelector('form').submit();
+            if (roznica < 0) {
+                clearInterval(x);
+                document.getElementById("timer").innerHTML = "KONIEC CZASU";
+                // Automatyczne wysłanie formularza po upływie czasu
+                document.querySelector('form').submit();
+            }
         }
-    }
 
-    var x = setInterval(odliczanie, 1000);
-</script>
+        var x = setInterval(odliczanie, 1000);
+    </script>
 
 </body>
 </html>
