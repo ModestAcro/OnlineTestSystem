@@ -29,25 +29,19 @@ Ten system to aplikacja webowa przeznaczona dla administratorów, nauczycieli i 
 ## Technologie
 <!-- https://github.com/marwin1991/profile-technology-icons -->
 
-- <img src="assets/images/icons/README/HTML5.png" alt="HTML" style="width:30px; vertical-align:middle;">
-<span>HTML</span>
+- <img src="assets/images/icons/README/HTML5.png" alt="HTML" style="width:30px; vertical-align:middle;"> <span>HTML</span>
 
-- <img src="assets/images/icons/README/CSS3.png" alt="CSS" style="width:30px; vertical-align:middle;">
-<span>CSS</span>
+- <img src="assets/images/icons/README/CSS3.png" alt="CSS" style="width:30px; vertical-align:middle;"> <span>CSS</span>
 
 - <img src="assets/images/icons/README/JavaScript.png" alt="JavaScript" style="width:30px; vertical-align:middle;"> <span>JavaScript</span>
 
-- <img src="assets/images/icons/README/PHP.png" alt="PHP" style="width:30px; vertical-align:middle;">
-<span>PHP</span>
+- <img src="assets/images/icons/README/PHP.png" alt="PHP" style="width:30px; vertical-align:middle;"> <span>PHP</span>
 
-- <img src="assets/images/icons/README/MySQL.png" alt="MySQL" style="width:30px; vertical-align:middle;">
-<span>MySQL</span>
+- <img src="assets/images/icons/README/MySQL.png" alt="MySQL" style="width:30px; vertical-align:middle;"> <span>MySQL</span>
 
-- <img src="assets/images/icons/README/Git.png" alt="Git" style="width:30px; vertical-align:middle;">
-<span>Git</span>
+- <img src="assets/images/icons/README/Git.png" alt="Git" style="width:30px; vertical-align:middle;"> <span>Git</span>
 
-- <img src="assets/images/icons/README/Sass.png" alt="Sass" style="width:30px; vertical-align:middle;"> 
-<span>Sass</span>
+- <img src="assets/images/icons/README/Sass.png" alt="Sass" style="width:30px; vertical-align:middle;"> <span>Sass</span>
 
 - <img src="assets/images/icons/README/Bootstrap.png" alt="Bootstrap" style="width:30px; vertical-align:middle;"> <span>Bootstrap</span>
 
