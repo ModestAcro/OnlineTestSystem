@@ -114,7 +114,8 @@
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista testów</h1>
             <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addTestModal">
-                <i class="bi bi-plus-circle"></i> Utwórz test
+                <i class="bi bi-plus-circle"></i>
+                <span class="d-none d-sm-inline">Utwórz test</span>
             </button>
         </div>
         <p>Ilość: <?php echo $testCount; ?></p>
@@ -122,7 +123,7 @@
 
 
         <div class="table-responsive mt-5">
-            <table class="table">
+            <table class="table d-none d-md-table">
                 <thead class="table-active">
                     <tr>
                         <th>Nazwa</th>
@@ -165,6 +166,39 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- RESETOWANIE WSKAŹNIKA WYNIKÓW -->
+        <?php mysqli_data_seek($tTestInfo, 0); ?>
+        <!-- Widok kartowy dla małych ekranów -->
+        <div class="d-block d-md-none mt-4">
+            <?php while ($testData = mysqli_fetch_assoc($tTestInfo)): ?>
+                <?php $test_id = $testData['ID']; ?>
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $testData['nazwa']; ?></h5>
+                        <p class="card-text"><strong>Przedmiot:</strong> <?php echo getTestDetails($conn, $test_id)['nazwa_przedmiotu'] ?? 'Brak danych'; ?></p>
+                        <p class="card-text"><strong>Grupa:</strong> 
+                            <?php
+                                $groupDetails = getGroupDetails($conn, $test_id);
+                                if ($groupDetails && $group = mysqli_fetch_assoc($groupDetails)) {
+                                    echo "<span class='badge bg-secondary'>{$group['nazwa_grupy']}</span>";
+                                } else {
+                                    echo 'Brak grupy';
+                                }
+                            ?>
+                        </p>
+                        <p class="card-text"><strong>Data:</strong> <?php echo date('Y-m-d', strtotime($testData['data_utworzenia'])); ?></p>
+                        <p class="card-text"><strong>Czas trwania:</strong> <?php echo $testData['czas_trwania']; ?> min</p>
+                        <p class="card-text"><strong>Ilość prób:</strong> <?php echo $testData['ilosc_prob'] == -1 ? 'Nieograniczona' : $testData['ilosc_prob']; ?></p>
+                        <p class="card-text"><strong>Ilość pytań:</strong> <?php echo getTestDetails($conn, $test_id)['liczba_pytan']; ?></p>
+                        <a href="edit_test.php?test_id=<?php echo $testData['ID']; ?>" class="btn btn-outline-danger">
+                            <i class="bi bi-pencil-square"></i> Edytuj
+                        </a>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        </div>
+
     </div>
 
     <!-- Modal Dodaj Test -->

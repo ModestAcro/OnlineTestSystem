@@ -56,49 +56,74 @@
 
    
     <main class="container my-5">
-    <div class="container card shadow p-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista pytań</h1>
-            <a class="btn btn-outline-danger" href="add_multichoice.php">
-                <i class="bi bi-plus-circle"></i> Utwórz pytanie
-            </a>
-        </div>
-        <p>Ilość: <?php echo $QuestionCount; ?></p>
+        <div class="container card shadow p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista pytań</h1>
+                <a class="btn btn-outline-danger" href="add_multichoice.php">
+                    <i class="bi bi-plus-circle"></i>
+                    <span class="d-none d-sm-inline">Utwórz pytanie</span> 
+                </a>
+            </div>
+            <p>Ilość: <?php echo $QuestionCount; ?></p>
 
 
 
-        <div class="table-responsive mt-5">
-            <table class="table">
-                <thead class="table-active">
-                    <tr>
-                        <th>Przedmiot</th>
-                        <th>Pytanie</th>
-                        <th>Typ</th>
-                        <th>Akcje</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($QuestionData = mysqli_fetch_assoc($QuestionInfo)): ?>
+            <div class="table-responsive mt-5">
+                <table class="table d-none d-md-table">
+                    <thead class="table-active">
                         <tr>
-                            <?php
-                                $subjectId = $QuestionData['id_przedmiotu'];
-                                $subjectName = getSubjectNameById($conn, $subjectId);
-                            ?>
-
-                            <td><?php echo $subjectName; ?></td>
-                            <td><?php echo $QuestionData['tresc']; ?></td>
-                            <td><?php echo $QuestionData['typ']; ?></td>
-                            <td>
-                                <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>" class="btn">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                            </td>
+                            <th>Przedmiot</th>
+                            <th>Pytanie</th>
+                            <th>Typ</th>
+                            <th>Akcje</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php while ($QuestionData = mysqli_fetch_assoc($QuestionInfo)): ?>
+                            <tr>
+                                <?php
+                                    $subjectId = $QuestionData['id_przedmiotu'];
+                                    $subjectName = getSubjectNameById($conn, $subjectId);
+                                ?>
+
+                                <td><?php echo $subjectName; ?></td>
+                                <td><?php echo $QuestionData['tresc']; ?></td>
+                                <td><?php echo $QuestionData['typ']; ?></td>
+                                <td>
+                                    <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>" class="btn">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- RESETOWANIE WSKAŹNIKA WYNIKÓW -->
+            <?php mysqli_data_seek($QuestionInfo, 0); ?>
+            <!-- Widok kartowy dla małych ekranów -->
+            <div class="d-block d-md-none mt-4">
+                <?php while ($QuestionData = mysqli_fetch_assoc($QuestionInfo)): ?>
+                    <?php
+                        $subjectId = $QuestionData['id_przedmiotu'];
+                        $subjectName = getSubjectNameById($conn, $subjectId);
+                    ?>
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $subjectName ?></h5>
+                            <p class="card-text"><strong>Treść:</strong> <?php echo  $QuestionData['tresc']; ?></p>
+                            <p class="card-text"><strong>Typ:</strong> <?php echo $QuestionData['typ']; ?></p>
+                        
+                            <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>"  class="btn btn-outline-danger">
+                                <i class="bi bi-pencil-square"></i> Edytuj
+                            </a>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+
         </div>
-    </div>
     </main>
 
 

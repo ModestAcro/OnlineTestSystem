@@ -34,7 +34,8 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista wykładowców</h1>
                 <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
-                    <i class="bi bi-plus-circle"></i> Utwórz wykładowcę
+                    <i class="bi bi-plus-circle"></i> 
+                    <span class="d-none d-sm-inline">Utwórz wykładowcę</span>
                 </button>
             </div>
             <p>Ilość: <?php echo $teacherCount; ?></p>

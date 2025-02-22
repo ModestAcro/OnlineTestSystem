@@ -90,34 +90,36 @@ $student_colors = [];
     <?php include '../../includes/header.php'; ?>
 
     <main class="container my-5">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Wyniki testu</h1>
-        </div>
-        
-        <div class="row mt-5">
-            <?php while ($row = mysqli_fetch_assoc($results)): ?>
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card shadow">
-                        <div class="card-header bg-danger text-white">
-                            <h5 class="mb-0">Student: <?php echo $row['imie_studenta'] . ' ' . $row['nazwisko_studenta']; ?></h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Nr Albumu:</strong> <?php echo checkNull($row['numer_albumu']); ?></p>
-                            <p><strong>Punkty:</strong> <?php echo checkNull($row['zdobyto_punktow']); ?> / <?php echo checkNull($row['max_punktow']); ?></p>
-                            <p><strong>Ocena:</strong> <?php echo checkNull($row['ocena_studenta']); ?></p>
-                            <p><strong>Wynik:</strong> <?php echo checkNull($row['wynik_procentowy'], true); ?></p>
-                            <p><strong>Data rozpoczęcia:</strong> <?php echo checkNull($row['data_rozpoczecia']); ?></p>
-                            <p><strong>Data zakończenia:</strong> <?php echo checkNull($row['data_zakonczenia']); ?></p>
-                            <p><strong>Numer próby:</strong> <?php echo checkNull($row['numer_proby']); ?></p>
+        <div class="container card shadow p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Wyniki testu</h1>
+            </div>
+            
+            <div class="row mt-5">
+                <?php while ($row = mysqli_fetch_assoc($results)): ?>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card shadow">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0">Student: <?php echo $row['imie_studenta'] . ' ' . $row['nazwisko_studenta']; ?></h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Nr Albumu:</strong> <?php echo checkNull($row['numer_albumu']); ?></p>
+                                <p><strong>Punkty:</strong> <?php echo checkNull($row['zdobyto_punktow']); ?> / <?php echo checkNull($row['max_punktow']); ?></p>
+                                <p><strong>Ocena:</strong> <?php echo checkNull($row['ocena_studenta']); ?></p>
+                                <p><strong>Wynik:</strong> <?php echo checkNull($row['wynik_procentowy'], true); ?></p>
+                                <p><strong>Data rozpoczęcia:</strong> <?php echo checkNull($row['data_rozpoczecia']); ?></p>
+                                <p><strong>Data zakończenia:</strong> <?php echo checkNull($row['data_zakonczenia']); ?></p>
+                                <p><strong>Numer próby:</strong> <?php echo checkNull($row['numer_proby']); ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endwhile; ?>
+                <?php endwhile; ?>
+            </div>
+            
+            <a href="export_excel.php?test_id=<?php echo $test_id; ?>" class="btn btn-outline-danger">
+                Pobierz wyniki (Excel)
+            </a>
         </div>
-        
-        <a href="export_excel.php?test_id=<?php echo $test_id; ?>" class="btn btn-outline-danger mt-3">
-            Pobierz wyniki (Excel)
-        </a>
     </main>
 </body>
 </html>

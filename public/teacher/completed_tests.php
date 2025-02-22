@@ -93,7 +93,7 @@
 
 
             <div class="table-responsive mt-5">
-                <table class="table">
+                <table class="table d-none d-md-table">
                     <thead class="table-active">
                         <tr>
                             <th>Nazwa</th> 
@@ -134,6 +134,41 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- RESETOWANIE WSKAŹNIKA WYNIKÓW -->
+            <?php mysqli_data_seek($testInfo, 0); ?>
+            <!-- Widok kartowy dla małych ekranów -->
+            <div class="d-block d-md-none mt-4">
+                <?php while ($testData = mysqli_fetch_assoc($testInfo)): ?>
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $testData['nazwa']; ?></h5>
+                            <p class="card-text"><strong>Kierunek:</strong> <?php echo $testData['nazwa_kierunku']; ?></p>
+                            <p class="card-text"><strong>Przedmiot:</strong> <?php echo $testData['nazwa_przedmiotu']; ?></p>
+                            <p class="card-text"><strong>Grupa:</strong>
+                                <?php
+                                    $test_id = $testData['ID'];
+                                    $groupDetails = getGroupDetails($conn, $test_id);
+                                    if ($groupDetails && $group = mysqli_fetch_assoc($groupDetails)) {
+                                        $studentList = $group['studenci']; // Lista studentów z funkcji getGroupDetails
+                                        echo "<span class='group-name' data-students='$studentList'>{$group['nazwa_grupy']}</span>"; 
+                                    } else {
+                                        echo 'Brak grupy';
+                                    }
+                                ?>
+                            </p>
+                            <p class="card-text"><strong>Termin:</strong>
+                                <?php echo $testData['data_rozpoczecia'] . " / " .  $testData['data_zakonczenia']; ?>
+                            </p>
+                            
+                            <a href="test_details.php?test_id=<?php echo $testData['ID']; ?>"  class="btn btn-outline-danger">
+                                <i class="bi bi-pencil-square"></i> Edytuj
+                            </a>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+
         </div>
     </main>    
 </body>

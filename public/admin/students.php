@@ -35,7 +35,8 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista studentów</h1>
                 <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addStudentModal">
-                    <i class="bi bi-plus-circle"></i> Utwórz studenta
+                    <i class="bi bi-plus-circle"></i> 
+                    <span class="d-none d-sm-inline">Utwórz studenta</span>
                 </button>
             </div>
             <p>Ilość: <?php echo $studentCount; ?></p>

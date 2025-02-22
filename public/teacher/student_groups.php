@@ -87,121 +87,149 @@
     <?php include '../../includes/header.php'; ?>
 
     <main class="main my-5">
-    <div class="container card shadow p-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista grup studentów</h1>
-            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addStudentGroupModal">
-                <i class="bi bi-plus-circle"></i> Utwórz grupę
-            </button>
-        </div>
-        <p>Ilość: <?php echo $studentGroupCount; ?></p>
+        <div class="container card shadow p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista grup studentów</h1>
+                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addStudentGroupModal">
+                    <i class="bi bi-plus-circle"></i> 
+                    <span class="d-none d-sm-inline">Utwórz grupę</span>
+                </button>
+            </div>
+            <p>Ilość: <?php echo $studentGroupCount; ?></p>
 
-        <div class="table-responsive mt-5">
-            <table class="table">
-                <thead class="table-active">
-                    <tr>
-                        <th>Rok</th>
-                        <th>Kierunek</th>
-                        <th>Przedmiot</th>
-                        <th>Nazwa</th>
-                        <th>Liczba studentów</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($groupData = mysqli_fetch_assoc($studentGroupInfo)): ?>
+            <div class="table-responsive mt-5">
+                <table class="table d-none d-md-table">
+                    <thead class="table-active">
                         <tr>
-                            <td><?php echo $groupData['rok']; ?></td>
-                            <td><?php echo $groupData['nazwa_kierunku']; ?></td>
-                            <td><?php echo $groupData['przedmiot']; ?></td>
-                            <td><?php echo $groupData['nazwa_grupy']; ?></td>
-                            <td>
-                            <?php 
-                                // Wyświetlanie liczby studentów przypisanych do danej grupy
-                                $groupId = $groupData['ID'];
-                                echo $studentCountAtGroup[$groupId] ?? 0;
-                            ?>
-                            </td>
-
-                            <!-- Przyciski "Modyfikuj" -->
-                            <td>
-                                <a href="edit_group.php?group_id=<?php echo $groupData['ID']; ?>" class="btn">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                            </td>
-                            <!-- Przyciski "Modyfikuj" -->
-                             
+                            <th>Rok</th>
+                            <th>Kierunek</th>
+                            <th>Przedmiot</th>
+                            <th>Nazwa</th>
+                            <th>Liczba studentów</th>
+                            <th></th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Modal Dodaj Grupę -->
-    <div class="modal fade" id="addStudentGroupModal" tabindex="-1" aria-labelledby="addTestModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="card-title fs-4 mt-2" id="addTestModalLabel">Dodaj grupę</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="../../includes/teacher/save_group.php" method="POST">
-
-                        <div class="mb-3">
-                            <label class="form-label">Rok</label>
-                            <input type="text" pattern="\d{4}" id="rok" name="rok" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Kierunek</label>
-                            <select name="uczelnia" class="form-select" required>
-                                <option disabled selected>Wybierz kierunek</option>
-                                <?php while ($kierunek = mysqli_fetch_assoc($kierunekInfo)): ?>
-                                    <option value="<?php echo $kierunek['ID']; ?>">
-                                        <?php echo $kierunek['nazwa']; ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Przedmiot</label>
-                            <select name="przedmiot" class="form-select" required>
-                                <option disabled selected>Wybierz przedmiot</option>
-                                <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
-                                    <option value="<?php echo $subject['ID']; ?>">
-                                        <?php echo $subject['nazwa']; ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Wybierz studentów</label>
-                            <select id="studenci" name="studenci[]" multiple>
+                    </thead>
+                    <tbody>
+                        <?php while ($groupData = mysqli_fetch_assoc($studentGroupInfo)): ?>
+                            <tr>
+                                <td><?php echo $groupData['rok']; ?></td>
+                                <td><?php echo $groupData['nazwa_kierunku']; ?></td>
+                                <td><?php echo $groupData['przedmiot']; ?></td>
+                                <td><?php echo $groupData['nazwa_grupy']; ?></td>
+                                <td>
                                 <?php 
-                                // Przechodzimy przez listę studentów
-                                while ($student = mysqli_fetch_assoc($studentInfo)): ?>
-                                    <option value="<?php echo $student['nr_albumu']; ?>">
-                                        <?php echo $student['nr_albumu'] . ' - ' . $student['imie'] . ' ' . $student['nazwisko']; ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                        </div>
+                                    // Wyświetlanie liczby studentów przypisanych do danej grupy
+                                    $groupId = $groupData['ID'];
+                                    echo $studentCountAtGroup[$groupId] ?? 0;
+                                ?>
+                                </td>
 
-                        <div class="mb-3">
-                            <label class="form-label">Nazwa</label>
-                            <input type="text" name="nazwa" class="form-control" required>
-                        </div>
+                                <!-- Przyciski "Modyfikuj" -->
+                                <td>
+                                    <a href="edit_group.php?group_id=<?php echo $groupData['ID']; ?>" class="btn">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+                                <!-- Przyciski "Modyfikuj" -->
+                                
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
 
-                        <button type="submit" class="btn btn-outline-danger w-100">Dodaj</button>
-                    </form>
+            <!-- RESETOWANIE WSKAŹNIKA WYNIKÓW -->
+            <?php mysqli_data_seek($studentGroupInfo, 0); ?>
+            <!-- Widok kartowy dla małych ekranów -->
+            <div class="d-block d-md-none mt-4">
+                <?php while ($groupData = mysqli_fetch_assoc($studentGroupInfo)): ?>
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $groupData['nazwa_grupy']; ?></h5>
+                            <p class="card-text"><strong>Rok:</strong> <?php echo $groupData['rok']; ?></p>
+                            <p class="card-text"><strong>Kierunek:</strong> <?php echo $groupData['nazwa_kierunku']; ?></p>
+                            <p class="card-text"><strong>Przedmiot:</strong> <?php echo $groupData['przedmiot']; ?></p>
+                            <p class="card-text"><strong>Liczba studentów:</strong> 
+                                <?php 
+                                    // Wyświetlanie liczby studentów przypisanych do danej grupy
+                                    $groupId = $groupData['ID'];
+                                    echo $studentCountAtGroup[$groupId] ?? 0;
+                                ?>
+                            </p>
+                            
+                            <a  href="edit_group.php?group_id=<?php echo $groupData['ID']; ?>" class="btn btn-outline-danger">
+                                <i class="bi bi-pencil-square"></i> Edytuj
+                            </a>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+
+            <!-- Modal Dodaj Grupę -->
+            <div class="modal fade" id="addStudentGroupModal" tabindex="-1" aria-labelledby="addTestModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="card-title fs-4 mt-2" id="addTestModalLabel">Dodaj grupę</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../includes/teacher/save_group.php" method="POST">
+
+                                <div class="mb-3">
+                                    <label class="form-label">Rok</label>
+                                    <input type="text" pattern="\d{4}" id="rok" name="rok" class="form-control" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Kierunek</label>
+                                    <select name="uczelnia" class="form-select" required>
+                                        <option disabled selected>Wybierz kierunek</option>
+                                        <?php while ($kierunek = mysqli_fetch_assoc($kierunekInfo)): ?>
+                                            <option value="<?php echo $kierunek['ID']; ?>">
+                                                <?php echo $kierunek['nazwa']; ?>
+                                            </option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Przedmiot</label>
+                                    <select name="przedmiot" class="form-select" required>
+                                        <option disabled selected>Wybierz przedmiot</option>
+                                        <?php while ($subject = mysqli_fetch_assoc($subjectInfo)): ?>
+                                            <option value="<?php echo $subject['ID']; ?>">
+                                                <?php echo $subject['nazwa']; ?>
+                                            </option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Wybierz studentów</label>
+                                    <select id="studenci" name="studenci[]" multiple>
+                                        <?php 
+                                        // Przechodzimy przez listę studentów
+                                        while ($student = mysqli_fetch_assoc($studentInfo)): ?>
+                                            <option value="<?php echo $student['nr_albumu']; ?>">
+                                                <?php echo $student['nr_albumu'] . ' - ' . $student['imie'] . ' ' . $student['nazwisko']; ?>
+                                            </option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Nazwa</label>
+                                    <input type="text" name="nazwa" class="form-control" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-outline-danger w-100">Dodaj</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </main>    
 
     
