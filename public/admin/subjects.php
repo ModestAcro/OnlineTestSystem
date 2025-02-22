@@ -18,6 +18,7 @@
     <!-- Bootstrap 5.3 css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
 
     <title>Przedmioty</title>
@@ -26,67 +27,67 @@
   
     <?php include '../../includes/header.php'; ?>
 
-    <main class="main">
-        <div class="container">
-            <div class="title">
-                <h1>Lista przedmiotów</h1>
-
-                <!-- Przycisk "Dodaj Przedmiot" -->
-                <button class="add-btn" onclick="addEntity()">
-                    <img src="../../assets/images/icons/plus.svg" class="add-icon">
+    <main class="main my-5">
+        <div class="container card shadow p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Lista przedmiotów</h1>
+                <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#addSucjectModal">
+                    <i class="bi bi-plus-circle"></i> Utwórz przedmiot
                 </button>
-                <!-- Przycisk "Dodaj Przedmiot" -->
+            </div>
+            <p>Ilość: <?php echo $subjectCount; ?></p>
 
-                <!-- Okno modalne dodaj Przedmiot-->
-                <div id="openModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close-btn" id="closeModal">&times;</span>
-                        <h1 class="modal-header">Dodaj przedmiot</h1>
+            <div class="table-responsive mt-5">
+                <table class="table">
+                    <thead class="table-active">
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Uwagi</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($subjectData = mysqli_fetch_assoc($subjectInfo)): ?>
+                            <tr>
+                                <td><?php echo $subjectData['nazwa']; ?></td>
+                                <td><?php echo $subjectData['uwagi']; ?></td>
+                    
+                                <td>
+                                    <a href="edit_subject.php?subject_id=<?php echo $subjectData['ID']; ?>" class="btn">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal Dodaj Przedmiot -->
+        <div class="modal fade" id="addSucjectModal" tabindex="-1" aria-labelledby="addTestModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="card-title fs-4 mt-2" id="addTestModalLabel">Utwórz przedmiot</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
                         <form action="../../includes/admin/save_subject.php" method="POST">
-
-                            <label for="nazwa">Nazwa</label>
-                            <input type="text" id="nazwa" name="nazwa" required>
-
-                            <label for="uwagi">Uwagi</label>
-                            <input type="text" id="uwagi" name="uwagi" required>
-
-                            <button type="submit" class="submit-btn">Dodaj przedmiot</button>
+                            <div class="mb-3">
+                                <label class="form-label">Nazwa</label>
+                                <input type="text" name="nazwa" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Uwagi</label>
+                                <input type="text" name="uwagi" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-outline-danger w-100">Dodaj</button>
                         </form>
                     </div>
                 </div>
-                <!-- Okno modalne dodaj Studenta-->
             </div>
-
-            <p>Ilość: <?php echo $subjectCount; ?></p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nazwa</th>
-                        <th>Uwagi</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($subjectData = mysqli_fetch_assoc($subjectInfo)): ?>
-                        <tr>
-                            <td><?php echo $subjectData['nazwa']; ?></td>
-                            <td><?php echo $subjectData['uwagi']; ?></td>
-                  
-                            <!-- Przyciski "Modyfikuj" -->
-                            <td>
-                                <a href="edit_subject.php?subject_id=<?php echo $subjectData['ID']; ?>" class="btn-edit">
-                                    <img src="../../assets/images/icons/edit.svg" class="edit-icon">
-                                </a>
-                            </td>
-                            <!-- Przyciski "Modyfikuj" -->
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
         </div>
     </main>    
-    
-    <!-- Plik JavaScript --> 
-    <script src="../../assets/js/modal_windows.js"></script>  
 </body>
 </html>

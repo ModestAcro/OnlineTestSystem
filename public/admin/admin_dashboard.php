@@ -37,7 +37,7 @@
                     <a href="teachers.php" class="text-decoration-none text-dark">
                         <div class="card text-center shadow-sm">
                             <div class="card-body">
-                                <img src="../../assets/images/icons/teacher-icon.png" alt="Teacher Icon" class="img-fluid mb-2" style="width: 50px;">
+                                <img src="../../assets/images/icons/teacher-icon.svg" alt="Teacher Icon" class="img-fluid mb-2" style="width: 50px;">
                                 <h3 class="card-title">Wykładowcy</h3>
                                 <p class="card-text"><?php echo $teacherCount; ?></p>
                             </div>

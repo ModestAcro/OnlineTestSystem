@@ -32,62 +32,69 @@
 
     <?php include '../../includes/header.php'; ?>
     
-    <main class="main">
-        <div class="container">
-            <h1>Edytuj kierunek</h1>
+    <main class="main my-5">
+        <div class="container card shadow p-4">
+            <h1 class="fs-2 fs-md-3 fs-lg-5 pt-2">Edytuj kierunek</h1>
             <form action="../../includes/admin/update_course.php" method="POST">
                 <input type="hidden" name="idKierunku" value="<?php echo $kierunek['ID']; ?>">
 
-                <label>Nazwa</label>
-                <input type="text" name="nazwaKierunku" value="<?php echo $kierunek['nazwa']; ?>" required>
+                <h5 class="card-title fs-4 mt-2">Nazwa</h5>
+                <div class="mb-3">
+                    <input type="text" name="nazwaKierunku" class="form-control" value="<?php echo $kierunek['nazwa']; ?>" required>
+                </div>
 
-                <!-- Lista przedmiotów -->
-                <label>Wybierz przedmioty</label>
-                <select id="przedmioty" name="przedmioty[]" multiple>
-                    <?php
-                    // Przechodzimy przez wszystkie przedmioty
-                    while ($subject = mysqli_fetch_assoc($subjectInfo)): 
-                        // Pobranie listy ID przypisanych studentów
-                        $assignetSubjectsIds = array_column($assignetSubjects, 'id_przedmiotu');
-                        
-                        // Sprawdzenie, czy przedmiot jest już przypisany do kierunku
-                        $czyZaznaczony = in_array($subject['ID'], $assignetSubjectsIds) ? 'selected' : '';
-                    ?>
-                        <option value="<?php echo $subject['ID']; ?>" <?php echo $czyZaznaczony; ?>>
-                            <?php echo $subject['nazwa']; ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-                <!-- Lista przedmiotów -->
+                <div class="mb-3">
+                    <h5 class="card-title fs-4 mt-2">Przedmioty</h5>
+                    <select id="przedmioty" name="przedmioty[]" class="form-select"  multiple>
+                        <?php 
+                        while ($subject = mysqli_fetch_assoc($subjectInfo)): 
+                            $assignetSubjectsIds = array_column($assignetSubjects, 'id_przedmiotu');
+                            
+                            $czyZaznaczony = in_array($subject['ID'], $assignetSubjectsIds) ? 'selected' : '';
+                        ?>
+                            <option value="<?php echo $subject['ID']; ?>" <?php echo $czyZaznaczony; ?>>
+                                <?php echo $subject['nazwa']; ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
-                <label>Uwagi</label>
-                <textarea name="uwagiKierunku"><?php echo $kierunek['uwagi']; ?></textarea>
+                <h5 class="card-title fs-4 mt-2">Uwagi</h5>
+                <div class="mb-3">
+                    <textarea type="text" name="uwagiKierunku" class="form-control"><?php echo $kierunek['nazwa']; ?></textarea>
+                </div>
 
-                <button type="submit" name="action" value="update" class="submit-btn">Zapisz Zmiany</button>
-                <button type="submit" name="action" value="delete" class="submit-btn" id="delete-btn">Usuń</button>
+                <button type="submit" name="action" value="update"  class="btn btn-outline-danger">Zapisz Zmiany</button>
+                <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Usuń</a>
             </form>
 
-            <!-- Okno modalne do potwierdzenia usunięcia Studenta-->
-            <div id="deleteCharacterModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" id="deleteCharacterModalClose">&times;</span>
-                    <h2>Czy na pewno chcesz usunąć ten kierunek?</h2>
-                    <form action="../../includes/admin/update_course.php" method="POST">
-                        <input type="hidden" name="idKierunku" value="<?php echo $kierunek['ID']; ?>">
-                        <input type="hidden" name="action" value="delete">
-                        <button type="submit" class="submit-btn" id="delete-btn">Tak, usuń</button>
-                    </form>
+            <!-- Modal potwierdzenia usunięcia Kierunku -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Potwierdzenie usunięcia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Czy na pewno chcesz usunąć ten kierunek?
+                    </div>
+                    <div class="modal-footer">
+                        <form action="../../includes/admin/update_course.php" method="POST">
+                            <input type="hidden" name="idKierunku" value="<?php echo $kierunek['ID']; ?>">
+                            <input type="hidden" name="action" value="delete">
+                            <button type="submit" class="btn btn-outline-danger">Usuń</button>
+                        </form>
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+                    </div>
+                    </div>
                 </div>
             </div>
-            <!-- Okno modalne do potwierdzenia usunięcia -->
-
         </div>
     </main>
 
-     <!-- Pliki JavaScript --> 
-     <script src="../../assets/js/multi_select.js"></script>  
-    <script src="../../assets/js/modal_windows.js"></script>  
-
+    <!-- Pliki JavaScript --> 
+    <script src="../../assets/js/multi_select.js"></script>  
 
     <!-- multi_select.js --> 
     <script>

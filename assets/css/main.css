@@ -303,20 +303,4 @@ header {
 
 .mult-select-tag .rounded {
   border-radius: 0.375rem;
-}
-
-/*
-@import "./base/reset";
-@import "./base/globals";
-@import "./base/variables";
-
-@import "./blocks/header";
-@import "./blocks/login";
-@import "./blocks/dashboard";
-@import "./blocks/teachers";
-@import "./blocks/modal";
-@import "./blocks/multi-select";
-@import "./blocks/radio";
-@import "./blocks/tests";
-
-*//*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=main.css.map */

@@ -125,7 +125,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Kierunki</label>
-                                <select id="kierunki" name="kierunki[]" class="form-select" required>
+                                <select id="kierunki" name="kierunki[]" class="form-select" required multiple>
                                     <?php while ($courses = mysqli_fetch_assoc($coursesInfo)): ?>
                                         <option value="<?php echo $courses['ID']; ?>">
                                             <?php echo $courses['nazwa']; ?>

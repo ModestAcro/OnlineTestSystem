@@ -90,7 +90,7 @@
             </form>
 
 
-            <!-- Modal potwierdzenia usunięcia grupy -->
+            <!-- Modal potwierdzenia usunięcia Wykladowcy -->
             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
