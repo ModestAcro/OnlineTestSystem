@@ -260,21 +260,20 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div class="d-flex justify-content-between">
-                                    <label class="d-block"><?php echo $index; ?>/<?php echo count($questions); ?></label>
-                                    <label class="d-block ms-3 text-end"><?php echo ucfirst($pytanie['typ']); ?></label>
+                                    <h5 class="d-block"><?php echo $index; ?>/<?php echo count($questions); ?></h5>
+                                    <h5 class="d-block ms-3 text-end"><?php echo ucfirst($pytanie['typ']); ?></h5>
                                 </div>
                                 <div>
-                                    <label class="d-block">Punkty: <?php echo isset($pytanie['suma_punktow']) ? $pytanie['suma_punktow'] : 0; ?></label>
+                                    <h5 class="d-block">Punkty: <?php echo isset($pytanie['suma_punktow']) ? $pytanie['suma_punktow'] : 0; ?></h5>
                                 </div>
                             </div>
 
                             <div class="mt-3">
-                                <label class="d-block"><?php echo htmlspecialchars($pytanie['tresc']); ?></label>
+                                <pre><label class="d-block"><?php echo htmlspecialchars($pytanie['tresc']); ?></label></pre>
                                 <div class="mt-2">
                                     <?php foreach ($pytanie['odpowiedzi'] as $odpowiedz): ?>
                                         <?php if ($odpowiedz['czy_poprawna'] == 1): ?>
-                                            <label>Odpowiedź: <?php echo htmlspecialchars($odpowiedz['tresc']); ?> 
-                                                (<?php echo "✔"; ?>)</label><br>
+                                                <h5>Odpowiedź:(<?php echo "✔"; ?>)</h5><br></label><pre><?php echo htmlspecialchars($odpowiedz['tresc']); ?></pre>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
                                 </div>

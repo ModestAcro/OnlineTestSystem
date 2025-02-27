@@ -53,7 +53,8 @@
                 </button>
              </div>
 
-            <textarea type="text" class="form-control mb-3 mt-5" rows="4" name="question_text" id="question_text" placeholder="Wpisz treść pytania" required></textarea>
+            <h1 class="mt-5">Treść</h1>
+            <textarea class="form-control mb-3" rows="4" name="question_text" id="question_text" placeholder="Wpisz treść pytania" ></textarea>
 
             <div id="answers-container"></div>
 

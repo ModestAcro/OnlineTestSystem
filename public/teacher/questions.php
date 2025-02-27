@@ -90,7 +90,7 @@
                                 ?>
 
                                 <td><?php echo $subjectName; ?></td>
-                                <td><?php echo $QuestionData['tresc']; ?></td>
+                                <td><pre><?php echo $QuestionData['tresc']; ?></pre></td>
                                 <td><?php echo $QuestionData['typ']; ?></td>
                                 <td>
                                     <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>" class="btn">
@@ -115,7 +115,7 @@
                     <div class="card mb-3 shadow-sm card-item">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $subjectName ?></h5>
-                            <p class="card-text"><strong>Treść:</strong> <?php echo  $QuestionData['tresc']; ?></p>
+                            <pre><p class="card-text"><strong>Treść:</strong> <?php echo  $QuestionData['tresc']; ?></p></pre>
                             <p class="card-text"><strong>Typ:</strong> <?php echo $QuestionData['typ']; ?></p>
                         
                             <a href="edit_question.php?question_id=<?php echo $QuestionData['ID']; ?>"  class="btn btn-outline-danger">

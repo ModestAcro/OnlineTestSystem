@@ -94,6 +94,29 @@
     $questionsInfo = getQuestionsByTeacherAndSubject($conn, $user_id, $subject_id);
 
 
+    // Zapytanie o nazwę kierunku
+    $courseQuery = "SELECT nazwa FROM tKierunki WHERE ID = $course_id";
+    $courseResult = mysqli_query($conn, $courseQuery);
+
+    // Jeśli zapytanie się powiodło, pobierz nazwę kierunku
+    if ($courseResult) {
+        $courseData = mysqli_fetch_assoc($courseResult);
+        $courseName = $courseData['nazwa'];
+    } else {
+        $courseName = null;  // Jeśli nie znaleziono, ustaw null
+    }
+
+    // Zapytanie o nazwę predmiotu
+    $subjectQuery = "SELECT nazwa FROM tPrzedmioty WHERE ID = $subject_id";
+    $subjectResult = mysqli_query($conn, $subjectQuery);
+
+    // Jeśli zapytanie się powiodło, pobierz nazwę kierunku
+    if ($subjectResult) {
+        $subjectData = mysqli_fetch_assoc($subjectResult);
+        $subjectName = $subjectData['nazwa'];
+    } else {
+        $subjectName = null;  // Jeśli nie znaleziono, ustaw null
+    }
 ?>
 
 <!DOCTYPE html>
@@ -122,15 +145,29 @@
             <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
             <input type="hidden" name="subject_id" value="<?php echo $subject_id; ?>">
 
+            <h1 class="fs-2 fs-md-3 fs-lg-5 mb-5">Utwórz test</h1>
+
+            <!-- Kierunek testu -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Kierunek</h5>
+                <input type="text" class="form-control" value="<?php echo $courseName?>" readonly>
+            </div>
+
+            <!-- Przedmiot testu -->
+            <div class="mb-3">
+                <h5 class="card-title fs-4 mt-2">Przedmiot</h5>
+                <input type="text" class="form-control" value="<?php echo $subjectName?>" readonly>
+            </div>
+
             <!-- Nazwa testu -->
             <div class="mb-3">
-                <h5 class="card-title fs-4 mt-2">Nazwa testu</h5>
+                <h5 class="card-title fs-4 mt-2">Nazwa</h5>
                 <input type="text" class="form-control" name="nazwa" value="<?php echo isset($nazwa) ? $nazwa : ''; ?>" required>
             </div>
 
             <!-- Limit czasowy -->
             <div class="mb-3">
-                <h5 class="card-title fs-4 mt-2">Okres dostępności testu</h5>
+                <h5 class="card-title fs-4 mt-2">Okres dostępności</h5>
 
                 <!-- Przełącznik (switch) do włączania/wyłączania limitu czasowego -->
                 <div class="form-check form-switch">
@@ -166,7 +203,7 @@
 
             <!-- Czas trwania -->
             <div class="mb-3">
-                <h5 class="card-title fs-4 mt-2">Czas trwania testu (w minutach)</h5>
+                <h5 class="card-title fs-4 mt-2">Czas trwania (w minutach)</h5>
                 <input type="number" class="form-control" name="test-time" placeholder="Wpisz liczbę minut">
             </div>
 
@@ -248,7 +285,6 @@
 </main>
 
     <!-- Plik javascript -->
-    <script src="../../assets/js/modal_windows.js"></script> 
     <script src="../../assets/js/multi_select.js"></script>
 
 

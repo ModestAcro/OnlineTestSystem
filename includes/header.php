@@ -127,14 +127,17 @@ if (!isset($_SESSION['user_role'])) {
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Czy na pewno chcesz się wylogować?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
-        <a href="../../config/logout.php" type="button" class="btn btn-outline-danger">Wyloguj</a>
-      </div>
+        <div class="modal-header">
+            <h5 class="card-title fs-4 mt-2" id="logoutModalLabel">Potwierdź wylogowanie</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Czy na pewno chcesz się wylogować?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+            <a href="../../config/logout.php" type="button" class="btn btn-outline-danger">Wyloguj</a>
+        </div>
     </div>
   </div>
 </div>

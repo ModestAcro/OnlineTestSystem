@@ -143,14 +143,15 @@
                         <?php foreach ($testQuestions as $pytanie_id => $pytanie): ?>
                             <div class="question-card card mb-4" data-question="<?= $i ?>" style="<?= $i === 0 ? '' : 'display: none;' ?>">
                                 <div class="card-header">
-                                    <h5 class="card-title"><?= htmlspecialchars($pytanie['tresc_pytania']) ?></h5>
+                                    <pre><h5><?= htmlspecialchars($pytanie['tresc_pytania']) ?></h5></pre>
                                     <label class="card-subtitle text-muted"><?= htmlspecialchars($pytanie['typ_pytania']) ?></label>
                                 </div>
                                 <div class="card-body">
                                     <?php foreach ($pytanie['odpowiedzi'] as $odpowiedz): ?>
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input" name="odpowiedzi[<?= $pytanie_id ?>][]" value="<?= $odpowiedz['id'] ?>">
-                                            <label class="form-check-label"><?= htmlspecialchars($odpowiedz['tresc_odpowiedzi']) ?></label>
+                                            <pre><label class="form-check-label"><?= htmlspecialchars($odpowiedz['tresc_odpowiedzi']) ?></label></pre>
+                                            <hr>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>

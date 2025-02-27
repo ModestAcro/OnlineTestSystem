@@ -149,12 +149,14 @@
                                 <?php
                                     $groupDetails = getGroupDetails($conn, $test_id);
                                     if ($groupDetails && $group = mysqli_fetch_assoc($groupDetails)) {
-                                        echo "<span class='badge bg-secondary'>{$group['nazwa_grupy']}</span>";
+                                        echo "<a href='edit_group.php?group_id={$group['id_grupy']}' class='badge bg-secondary' target='_blank'>{$group['nazwa_grupy']}</a>"; 
                                     } else {
                                         echo 'Brak grupy';
                                     }
                                 ?>
                             </td>
+
+                        
                             <td><?php echo date('Y-m-d', strtotime($testData['data_utworzenia'])); ?></td>
                             <td><?php echo $testData['czas_trwania']; ?></td>
                             <td><?php echo $testData['ilosc_prob'] == -1 ? 'Nieograniczona' : $testData['ilosc_prob']; ?></td>
@@ -184,7 +186,7 @@
                             <?php
                                 $groupDetails = getGroupDetails($conn, $test_id);
                                 if ($groupDetails && $group = mysqli_fetch_assoc($groupDetails)) {
-                                    echo "<span class='badge bg-secondary'>{$group['nazwa_grupy']}</span>";
+                                    echo "<a href='edit_group.php?group_id={$group['id_grupy']}' class='badge bg-secondary' target='_blank'>{$group['nazwa_grupy']}</a>"; 
                                 } else {
                                     echo 'Brak grupy';
                                 }

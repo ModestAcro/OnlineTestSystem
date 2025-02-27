@@ -83,11 +83,13 @@ while ($attachmentData = mysqli_fetch_assoc($attachmentResult)) {
 
                 <!-- Treść pytania -->
                 <div>
-                    <label class="form-label fw-bold">Treść pytania</label>
+                    <h1 class="mt-5">Treść</h1>
                     <textarea type="text" class="form-control" name="question_text" rows="4" required><?php echo $questionData['tresc']; ?></textarea>
                 </div>
 
+
                 <!-- Odpowiedzi -->
+                <h1 class="mt-5">Odpowiedzi</h1>
                 <div id="answers-container">
                     <?php $counter = 1; ?>
                     <?php while ($answer = mysqli_fetch_assoc($answers)): ?>
